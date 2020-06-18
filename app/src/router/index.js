@@ -25,6 +25,12 @@ export default new Router({
           name: '首页',
           meta: { title: '首页', icon: 'chart', affix: true }
         },
+        {
+          path: 'life',
+          component: () => import('@/views/life'),
+          name: '生活',
+          meta: { title: '生活', icon: 'chart', affix: true }
+        },
 
       ]
     },
