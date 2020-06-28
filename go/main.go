@@ -3,16 +3,14 @@
 package main
 
 import (
-	"blog/config"
+	"blog/model"
 	"fmt"
 )
-
-
 
 func main() {
 	//r := route.Initroute()
 	//r.Run()
-	conf := config.GetConf()
-	fmt.Println(conf.DB_username)
+	 data := model.GetList()
+	fmt.Println(data)
 
 }

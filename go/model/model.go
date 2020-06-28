@@ -6,7 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
-
+var db *gorm.DB
 func init() {
 	fmt.Printf("model_init")
 	conf := config.GetConf()
