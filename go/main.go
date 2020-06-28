@@ -2,12 +2,17 @@
 // main.go
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"blog/config"
+	"fmt"
+)
+
+
 
 func main() {
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.String(200, "Hello, Geektutu")
-	})
-	r.Run() // listen and serve on 0.0.0.0:8080
+	//r := route.Initroute()
+	//r.Run()
+	conf := config.GetConf()
+	fmt.Println(conf.DB_username)
+
 }
