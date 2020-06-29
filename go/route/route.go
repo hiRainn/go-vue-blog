@@ -23,6 +23,10 @@ func Initroute() *gin.Engine {
 			c.String(200,"like")
 		})
 	}
+	article_group := r.Group("article")
+	{
+		article_group.GET("/",controller.GetArticles)
+	}
 
 	return r
 }
