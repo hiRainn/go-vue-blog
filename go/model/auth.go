@@ -1,24 +1,35 @@
 package model
 
 import (
+	_"blog/config"
 	"fmt"
-	"github.com/jinzhu/gorm"
+	_"github.com/jinzhu/gorm"
 )
 
-type AUTH struct{
-	gorm.Model
-	Id int `json:"id"`
+type BlogAuth struct{
+	Id uint `json:"id"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
-func GetList() AUTH {
-	var auth AUTH
-	db.First(&auth)
+func CheckAuth(auth BlogAuth) bool {
+	res := db.Where(&auth).First(&auth)
+	fmt.Println(res)
+	result := true
+	if res.RecordNotFound()  {
+		result = false
+	}
+	return result
+}
+
+func GetList()  BlogAuth {
+	var auth BlogAuth
+	db.Find(&auth)
 	return auth
 }
 
-func init()  {
-	fmt.Println("123")
+func InsertAuth(auth BlogAuth) {
+	db.Create(&auth)
 }
+
 

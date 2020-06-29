@@ -1,23 +1,28 @@
 package route
 
 import (
+	"blog/controller"
+	v1 "blog/route/v1"
 	"github.com/gin-gonic/gin"
 )
 
+var r *gin.Engine
 func Initroute() *gin.Engine {
-	r := gin.Default()
+	r = v1.InitrouteV1()
+
 	r.Static("/static","static")
 	r.GET("/", func(c *gin.Context) {
-		c.String(200,"hello heihei")
+		c.String(200,"hello ///")
 	})
-	v1group := r.Group("v1")
+
+	//配置auth group
+	auth_group := r.Group("auth")
 	{
-		v1group.GET("todo", func(c *gin.Context) {
-			c.String(200,"todo")
-		})
-		v1group.GET("like", func(c *gin.Context) {
+		auth_group.GET("check_pass",controller.CheckPass )
+		auth_group.GET("like", func(c *gin.Context) {
 			c.String(200,"like")
 		})
 	}
+
 	return r
 }

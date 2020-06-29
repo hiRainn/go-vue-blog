@@ -4,13 +4,14 @@ package main
 
 import (
 	"blog/model"
-	"fmt"
+	"blog/route"
 )
 
 func main() {
-	//r := route.Initroute()
-	//r.Run()
-	 data := model.GetList()
-	fmt.Println(data)
+	car :=route.Initroute()
+	car.Run()
+}
 
+func init() {
+	model.InitDb()
 }

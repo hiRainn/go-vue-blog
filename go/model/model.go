@@ -2,20 +2,25 @@ package model
 
 import (
 	"blog/config"
-	"fmt"
+	_"blog/config"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 var db *gorm.DB
-func init() {
-	fmt.Printf("model_init")
+
+func InitDb() *gorm.DB {
 	conf := config.GetConf()
-	conn := conf.DB_username + conf.DB_password + "@/" + conf.DB_dbname + "?charset=utf8&parseTime=True&loc=Local"
-	db, err := gorm.Open("mysql",conn)
+	var err error
+	conn := conf.DB_username + ":" + conf.DB_password + "@/" + conf.DB_dbname + "?charset=utf8&parseTime=True&loc=Local"
+	db, err = gorm.Open("mysql",conn)
 	if err != nil {
-		defer db.Close()
+		panic("failed to connect database")
+
 	} else {
-		fmt.Println(err)
+		db.SingularTable(true)
+		db.LogMode(true)
 	}
+
+	return db
 }
 
