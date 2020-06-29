@@ -8,6 +8,12 @@ import (
 )
 var db *gorm.DB
 
+type Model struct{
+	Id uint `json:"id";gorm:"PRIMARY_KEY;AUTO_INCREMENT;NOT NULL"`
+	Status uint `json:"status";gorm:"DEFAULT:0;type:tinyint;NOT NULL"`
+	CreateAt uint `json:"create_at";gorm:"DEFAULT:0;NOT NULL"`
+}
+
 func InitDb() *gorm.DB {
 	conf := config.GetConf()
 	var err error
