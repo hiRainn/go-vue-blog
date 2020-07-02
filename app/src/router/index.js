@@ -23,7 +23,7 @@ export default new Router({
           path: 'index',
           component: () => import('@/views/index'),
           name: '首页',
-          meta: { title: '首页', icon: 'chart', affix: true }
+          meta: { title: '首页', icon: 'chart', affix: true } 
         },
         {
           path: 'life',

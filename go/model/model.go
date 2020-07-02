@@ -11,7 +11,7 @@ var db *gorm.DB
 type Model struct{
 	Id uint `json:"id";gorm:"PRIMARY_KEY;AUTO_INCREMENT;NOT NULL"`
 	Status uint `json:"status";gorm:"DEFAULT:0;type:tinyint;NOT NULL"`
-	CreateAt uint `json:"create_at";gorm:"DEFAULT:0;NOT NULL"`
+	CreatedAt int64 `json:"create_at";gorm:"DEFAULT:0;NOT NULL;type:int(10)"`
 }
 
 func InitDb() *gorm.DB {
@@ -24,9 +24,11 @@ func InitDb() *gorm.DB {
 
 	} else {
 		db.SingularTable(true)
+		db.AutoMigrate(&BlogArticle{})
 		db.LogMode(true)
 	}
 
 	return db
 }
+
 

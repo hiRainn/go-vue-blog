@@ -1,8 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
+type Link struct{
+	ele interface{}
+	link *Link
+}
 
 func main() {
-	var err error
-	fmt.Println(err == nil)
+	star := time.Now()
+	fmt.Println("hello world")
+	end := time.Since(star)
+	fmt.Println(end)
+
 }
