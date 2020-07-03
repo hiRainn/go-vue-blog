@@ -1,4 +1,4 @@
-package controller
+package bac
 
 import (
 	"blog/model"
@@ -7,7 +7,8 @@ import (
 	"time"
 )
 
-func AddArticle(context *gin.Context) {
+//增加、修改
+func AddComment(context *gin.Context) {
 	model1 :=model.Model{
 		Id: 2,
 		CreatedAt: time.Now().Unix(),
@@ -31,17 +32,10 @@ func AddArticle(context *gin.Context) {
 
 }
 
-func GetArticles(context *gin.Context) {
-	page := context.DefaultQuery("page","1")
-	query := context.DefaultQuery("s","")
-	fmt.Println(page,query)
-	data,err := model.GetArticleListByPage(1)
-	if err != nil {
-		ErrReturn(200,gin.H{"code":200,"msg":"未知错误","data":data},context)
-	} else {
-		ErrReturn(201,gin.H{"code":201,"msg":"未知错误","data":data},context)
-	}
+func DelComment(ctx *gin.Context) {
 
+}
 
+func GetComments(ctx *gin.Context) {
 
 }

@@ -1,18 +1,7 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
-type Link struct{
-	ele interface{}
-	link *Link
-}
+import "fmt"
 
 func main() {
-	star := time.Now()
-	fmt.Println("hello world")
-	end := time.Since(star)
-	fmt.Println(end)
-
+	fmt.Println("test")
 }
