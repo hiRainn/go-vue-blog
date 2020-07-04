@@ -11,6 +11,14 @@ func InitrouteBac() *gin.Engine {
 	//all route in bac group
 	bac_group := r.Group("bac")
 	{
+		//------------auth && password ----------------
+		//log in
+		bac_group.POST("auth",bac.Auth)
+		//add admin
+		bac_group.POST("init_admin",bac.InitAdmin)
+		//change pass
+		bac_group.POST("change_pass",bac.ChangePass)
+
 		//------------article -------------
 		//get bac article list
 		bac_group.GET("article",bac.GetArticles)
