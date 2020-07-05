@@ -2,7 +2,6 @@ package bac
 
 import (
 	"blog/model"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -37,14 +36,6 @@ func DelArticle(ctx *gin.Context) {
 }
 
 func GetArticles(ctx *gin.Context) {
-	page := ctx.DefaultQuery("page","1")
-	query := ctx.DefaultQuery("s","")
-	fmt.Println(page,query)
-	data,err := model.GetArticleListByPage(1)
-	if err != nil {
-		ErrReturn(200,gin.H{"code":200,"msg":"未知错误","data":data},ctx)
-	} else {
-		ErrReturn(201,gin.H{"code":201,"msg":"未知错误","data":data},ctx)
-	}
+
 
 }

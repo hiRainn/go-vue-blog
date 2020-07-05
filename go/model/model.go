@@ -24,7 +24,7 @@ func InitDb() *gorm.DB {
 
 	} else {
 		db.SingularTable(true)
-		db.AutoMigrate(&BlogArticle{})
+		db.AutoMigrate(&BlogArticle{},&BlogAuth{},&BlogConfig{})
 		db.LogMode(true)
 	}
 

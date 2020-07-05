@@ -2,7 +2,6 @@ package bac
 
 import (
 	"blog/model"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"time"
 )

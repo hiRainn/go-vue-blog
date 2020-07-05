@@ -11,5 +11,5 @@ func InitAdmin(ctx *gin.Context)  {
 }
 
 func ChangePass(ctx *gin.Context)  {
-
+	
 }

@@ -9,7 +9,7 @@
 						<el-input type="password" v-model="loginForm.password"  />
 					</el-form-item>
 					<el-form-item>
-						<el-button type="primary" @click="submitForm('loginForm')">立即创建</el-button>
+						<el-button type="primary" @click="submitForm('loginForm')">log in</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
