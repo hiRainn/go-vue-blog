@@ -3,7 +3,7 @@ package model
 type BlogConfig struct {
 	Id uint8 `json:"id";gorm:"PRIMARY_KEY;AUTO_INCREMENT;NOT NULL;type:tinyint;UNSIGNED"`
 	Key string `json:"key";gorm:"type:varchar(32);NOT NULL;DEFAULT:''"`
-	Value string `json:"value";gorm:"type:varvhar(64);NOT NULL;DEFAULT:''"`
+	Value string `json:"value";gorm:"type:varchar(64);NOT NULL;DEFAULT:''"`
 }
 
 func (conf *BlogConfig) Add() uint8 {
@@ -14,9 +14,15 @@ func (conf *BlogConfig) Add() uint8 {
 	return key
 }
 
-func (conf *BlogConfig) Find() (BlogConfig, error ) {
-	var config BlogConfig
-	res := db.Find(&config)
+func (conf *BlogConfig) Find() ([]BlogConfig, error ) {
+	var config []BlogConfig
+	res := db.First(&config)
 	return config, res.Error
 }
 
+//determine if there is date in table
+func (conf *BlogConfig) HasData() (bool,error) {
+	var config BlogConfig
+	res := db.First(&config)
+	return res.RecordNotFound(),res.Error
+}

@@ -32,9 +32,10 @@ func (err * ERRCODE) GetH() gin.H {
 3-一般功能错误
 4-调用外部api错误
 ----第二三位----
-01-article
-02-auth
-03-init
+01-init
+02-article
+03-auth
+
 ----第四五位----
 01-密码错误
 02-上传文件过大
@@ -44,12 +45,16 @@ func (err * ERRCODE) GetH() gin.H {
 //常用错误码举例
 var (
 	Ok = &ERRCODE{code: 0, msg: "ok"}
-	// ------------  系统错误  -----------
-	ErrParams = &ERRCODE{code: 10001, msg: "参数错误"}
-	FileOverMax = &ERRCODE{code: 10101, msg: "上传文件过大"}
+	// ------------  system error   -----------
+	ErrParams = &ERRCODE{code: 10001, msg: "error params"}
+	FileOverMax = &ERRCODE{code: 10101, msg: "over size"}
 
-	//------------- 一般功能错误  ------------
-	GetMenuError = &ERRCODE{code: 20303, msg: "获取菜单失败"}
+	// ------------- database error ------------
+	DataBaseError = &ERRCODE{code : 20101, msg: "初始化过程中数据库错误"}
+
+	//------------- functions error  ------------
+	GetMenuError = &ERRCODE{code: 30303, msg: "获取菜单失败"}
+	InitError = &ERRCODE{code:30101, msg:"初始化失败，数据库中已经存在数据"}
 )
 
 

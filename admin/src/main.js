@@ -11,18 +11,18 @@ Vue.config.productionTip = false
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })
-//判断是否登录
-router.beforeEach((to, from, next) => {
-  if (to.path == '/login') {
-    sessionStorage.removeItem('user');
-  }
-  let user = sessionStorage.getItem('user');
-  if (!user && to.path != '/login') {
-    next({ path: '/login' })
-  } else {
-    next()
-  }
-})
+//determine the page is init or not login
+// router.beforeEach((to, from, next) => {
+//   if (to.path == '/logout') {
+//     sessionStorage.removeItem('user');
+//   }
+//   let user = sessionStorage.getItem('user');
+//   if (!user && to.path != '/login') {
+//     next({ path: '/login' })
+//   } else {
+//     next()
+//   }
+// })
 
 new Vue({
     router,
