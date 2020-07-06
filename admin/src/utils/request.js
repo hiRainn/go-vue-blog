@@ -3,7 +3,7 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
-axios.defaults.baseURL = "http://localhost:8080"
+axios.defaults.baseURL = "http://localhost:8080/bac"
 
 // create an axios instance
 const service = axios.create({
@@ -47,16 +47,19 @@ service.interceptors.response.use(
   response => {
     const res = response.data
 
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 0) {
-      Message({
-        message: res.msg || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
+    // code 30101 is checkinit
+    if (res.code != 0 && res.code != 30101) {
+		
+		Message({
+		  message: res.msg || 'Error',
+		  type: 'error',
+		  duration: 5 * 1000
+		})
+		
+     
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      if (res.code == 50008 || res.code == 50012 || res.code == 50014) {
         // to re-login
         MessageBox.confirm('登录已超时,你可以点击取消以停留在当前页面,或者重新登录', '确认登出', {
           confirmButtonText: '重新登陆',
@@ -75,11 +78,11 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    // Message({
+    //   message: error.message,
+    //   type: 'error',
+    //   duration: 5 * 1000
+    // })
     return Promise.reject(error)
   }
 )

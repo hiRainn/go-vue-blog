@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getArticles() {
+export function getArticles(query) {
   return request({
-    url: '/articles/',
+    url: '/article',
     method: 'get',
     params: query
   })

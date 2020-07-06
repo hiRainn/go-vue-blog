@@ -24,10 +24,11 @@ const Routes = [
 	
 ]
 
+
+
 export default new VueRouter({
-	
+	mode:'hash',
 	routes:Routes
 })
-
 
 

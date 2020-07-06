@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import Cookies from 'js-cookie'
 import 'element-ui/lib/theme-chalk/index.css'
+import i18n from './i18n/i18n'
 
 import Element from 'element-ui'
 
@@ -23,8 +24,11 @@ Vue.use(Element, {
 //     next()
 //   }
 // })
+//select language
+i18n.locale = 'zh'
 
 new Vue({
+	i18n,
     router,
     render: h => h(App),
 }).$mount('#app')

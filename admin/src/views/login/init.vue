@@ -1,27 +1,33 @@
 <template>
-	<div>
-		<button @click="dian"></button>
+	<div class="login-container">
+		<div class="login">
+			<span> {{ $t('login.title') }}</span>
+		</div>
 	</div>
 </template>
 
 <script>
-	import {checkInit} from '@/api/init.js'
+	import {
+		checkInit
+	} from '@/api/init.js'
 	export default {
-		name :'init',
-		data () {
+		name: 'init',
+		data() {
 			return {
-				initForm:{
-					
+				initForm: {
+					username: '',
+					password: '',
+					password1: '',
 				}
 			}
 		},
-		methods:{
+		methods: {
 			checkInit() {
-				checkInit().then( response => {
+				checkInit().then(response => {
 					console.log(response)
 				}).catch(err => {
 					console.log(err)
-				}) 
+				})
 			},
 			dian() {
 				alert(1)
@@ -30,7 +36,7 @@
 		mounted() {
 			this.checkInit()
 		}
-		
+
 	}
 </script>
 

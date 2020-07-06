@@ -17,7 +17,8 @@
 </template>
 
 <script>
-
+	import {checkInit} from '@/api/init.js'
+	import {login} from '@/api/user.js'
 	export default {
 		name: 'Login',
 		data() {
@@ -26,6 +27,7 @@
 					username: '',
 					password: ''
 				},
+				init:false
 			}
 		},
 		watch: {
@@ -43,13 +45,21 @@
 		created() {
 			// window.addEventListener('storage', this.afterQRScan)
 		},
-		mounted() {
-			
-		},
+		
 		destroyed() {
 			// window.removeEventListener('storage', this.afterQRScan)
 		},
 		methods: {
+			checkInit() {
+				checkInit().then( response => {
+					if(!response.code) {
+						this.init = true
+						this.$router.push({path:'/init'})
+					} else {
+						return ;
+					}
+				})
+			},
 			checkCapslock({
 				shiftKey,
 				key
@@ -113,6 +123,9 @@
 			//     }
 			//   }
 			// }
+		},
+		mounted() {
+			this.checkInit()
 		}
 	}
 </script>
