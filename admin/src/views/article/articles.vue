@@ -53,7 +53,7 @@
 <script>
 	import {checkInit} from '@/api/article.js'
 	export default {
-		name :'init',
+		name :'article',
 		data () {
 			return {
 				list:[],
