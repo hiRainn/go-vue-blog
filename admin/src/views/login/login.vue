@@ -2,23 +2,27 @@
 	<div class="login-container">
 		<div class="login">
 			<el-form :model="loginForm" ref="loginForm" label-width="100px" class="demo-loginForm">
-					<el-form-item label="username" prop="region">
-						<el-input v-model="loginForm.username" />
-					</el-form-item>
-					<el-form-item label="password" prop="delivery">
-						<el-input type="password" v-model="loginForm.password"  />
-					</el-form-item>
-					<el-form-item>
-						<el-button type="primary" @click="submitForm('loginForm')">log in</el-button>
-					</el-form-item>
-				</el-form>
-			</div>
+				<el-form-item label="username" prop="region">
+					<el-input v-model="loginForm.username" />
+				</el-form-item>
+				<el-form-item label="password" prop="delivery">
+					<el-input type="password" v-model="loginForm.password" />
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" @click="submitForm('loginForm')">log in</el-button>
+				</el-form-item>
+			</el-form>
 		</div>
+	</div>
 </template>
 
 <script>
-	import {checkInit} from '@/api/init.js'
-	import {login} from '@/api/user.js'
+	import {
+		checkInit
+	} from '@/api/init.js'
+	import {
+		login
+	} from '@/api/user.js'
 	export default {
 		name: 'Login',
 		data() {
@@ -27,7 +31,7 @@
 					username: '',
 					password: ''
 				},
-				init:false
+				init: false
 			}
 		},
 		watch: {
@@ -45,18 +49,20 @@
 		created() {
 			// window.addEventListener('storage', this.afterQRScan)
 		},
-		
+
 		destroyed() {
 			// window.removeEventListener('storage', this.afterQRScan)
 		},
 		methods: {
 			checkInit() {
-				checkInit().then( response => {
-					if(!response.code) {
+				checkInit().then(response => {
+					if (!response.code) {
 						this.init = true
-						this.$router.push({path:'/init'})
+						this.$router.push({
+							path: '/init'
+						})
 					} else {
-						return ;
+						return;
 					}
 				})
 			},
@@ -132,7 +138,7 @@
 
 
 <style lang="scss" scoped>
-	.login{
+	.login {
 		margin: 0 auto;
 		width: 400px;
 		border: 1px solid #cef;

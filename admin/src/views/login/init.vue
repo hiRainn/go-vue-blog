@@ -1,7 +1,37 @@
 <template>
 	<div class="login-container">
 		<div class="login">
-			<span> {{ $t('login.title') }}</span>
+			<el-form :model="initForm" ref="Form" :rules="rules" label-width="100px" class="demo-loginForm">
+				<el-form-item :label="$t('login.language')" prop="region">
+					<el-select v-model="initForm.language" placeholder="请选择" @change="changeL">
+						<el-option v-for="item in language" :key="item.type" :label="item.value" :value="item.type">
+						</el-option>
+					</el-select>
+				</el-form-item>
+
+				<el-form-item :label="$t('login.username')" prop="region">
+					<el-input v-model="initForm.username" />
+				</el-form-item>
+				<el-form-item :label="$t('login.password')" prop="delivery">
+					<el-input type="password" v-model="initForm.password" />
+				</el-form-item>
+				<el-form-item :label="$t('login.repeat')" prop="delivery">
+					<el-input type="password" v-model="initForm.password1" />
+				</el-form-item>
+				<el-form-item :label="$t('login.nickname')" prop="region">
+					<el-input v-model="initForm.nickname" />
+				</el-form-item>
+				<el-form-item :label="$t('login.birthday')" prop="region">
+					<el-date-picker v-model="initForm.birthday" type="date" format="yyyy-MM-dd" value-format="yyyy-MM-dd">
+					</el-date-picker>
+				</el-form-item>
+				<el-form-item :label="$t('login.intro')" prop="region">
+					<el-input type="textarea" v-model="initForm.intro" />
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" @click="submitForm('Form')">{{ $t('login.init') }}</el-button>
+				</el-form-item>
+			</el-form>
 		</div>
 	</div>
 </template>
@@ -14,10 +44,30 @@
 		name: 'init',
 		data() {
 			return {
+				language: [{
+						type: 'en',
+						value: 'english'
+					},
+					{
+						type: 'zh',
+						value: '简体中文'
+					},
+				],
 				initForm: {
+					nickname: '',
+					intro: '',
+					birthday: '',
 					username: '',
 					password: '',
 					password1: '',
+					language: ''
+				},
+				rules: {
+					name: [{
+						required: true,
+						message: this.$i18n.t('login.username_rule'),
+						trigger: 'blur'
+					}, ]
 				}
 			}
 		},
@@ -29,16 +79,39 @@
 					console.log(err)
 				})
 			},
-			dian() {
-				alert(1)
+			submitForm(data) {
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						alert('submit!');
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
+			},
+			changeL(value) {
+				localStorage.setItem('locate', value)
+				this.$router.go(0)
 			}
 		},
 		mounted() {
+			var locate = localStorage.getItem('locate')
+			if (locate != false) {
+				this.initForm.language = locate
+			}
 			this.checkInit()
 		}
 
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+	.login {
+		margin: 0 auto;
+		width: 400px;
+		border: 1px solid #cef;
+		border-radius: 5px;
+		margin-top: 200px;
+		padding: 50px 80px;
+	}
 </style>

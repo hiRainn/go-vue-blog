@@ -10,7 +10,7 @@ func Initroute() *gin.Engine {
 	r = bac.InitrouteBac()
 
 	r.Static("/static","static")
-	r.GET("/", func(c *gin.Context) {
+	r.GET("/article", func(c *gin.Context) {
 		c.String(200,"hello ///")
 	})
 

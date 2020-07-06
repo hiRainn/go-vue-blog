@@ -36,6 +36,5 @@ func DelArticle(ctx *gin.Context) {
 }
 
 func GetArticles(ctx *gin.Context) {
-
-
+	ctx.JSON(200,gin.H{"msg":"dsads"})
 }

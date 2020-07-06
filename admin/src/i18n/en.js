@@ -1,10 +1,15 @@
 module.exports = {
     login:{
         'title' : 'Software system',
-        'username' : 'Please enter the user name',
-        'password' : 'Please enter your password',
-		'repeat':'Please enter you password again',
+        'username' : 'username',
+        'password' : 'password',
+		'repeat':'password again',
         'login' : 'Login',
-        'language' : 'Please select language'
+        'language' : 'language',
+		'nickname': 'nickname',
+		'birthday':'birthday',
+		'intro' : 'introduce you',
+		'init' : 'init',
+		'username_rule':'username is not allow empty'
     },
 }
