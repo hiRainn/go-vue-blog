@@ -5,7 +5,8 @@ import (
 	"blog/pkg/errcode"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	//"blog/pkg/errcode"
+	"blog/utils"
+	"time"
 )
 
 //if there is no data in config table,then init it
@@ -32,5 +33,25 @@ func CheckInit(ctx *gin.Context) {
 
 //init
 func BacInit(ctx *gin.Context) {
+	var auth model.BlogAuth
+	//get username
+	auth.Username = ctx.DefaultPostForm("username","")
 
+	//get birthday
+	date := ctx.DefaultPostForm("birthday","")
+	if date == "" {
+		auth.Birthday = 0
+	} else {
+		date = date + " 00:00:00"  //fomart
+		timeLayout := "2020-07-07 12:00:00"
+		loc, _ := time.LoadLocation("Local")
+		times ,_ := time.ParseInLocation(timeLayout,date,loc)
+		auth.Birthday = times.Unix()
+	}
+	//validate password
+	password := ctx.DefaultPostForm("password","")
+	repeat := ctx.DefaultPostForm("repeat","")
+	if password == "" {
+
+	}
 }
