@@ -1,8 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	//"strings"
+)
+
+type tt struct {
+	name string
+	age int
+}
 
 func main() {
-	str := ""
-	fmt.Println(str == false)
+	data := []tt{
+		{name: "heihei",age: 18},
+		{name: "heihei",age: 18},
+	}
+	test(data)
+}
+
+func test(data interface{}) {
+	fmt.Println(data)
 }

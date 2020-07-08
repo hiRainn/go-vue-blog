@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: 'login',
+    url: 'auth',
     method: 'post',
     data
   })
@@ -18,7 +18,7 @@ export function getInfo(token) {
 
 export function changePass(token,data) {
   return request({
-    url: 'changePass',
+    url: 'change_pass',
     method: 'post',
     params: { token },
     data:data

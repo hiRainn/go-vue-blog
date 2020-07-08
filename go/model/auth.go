@@ -1,9 +1,8 @@
 package model
 
 import (
-	_"blog/config"
-	"fmt"
-	_"github.com/jinzhu/gorm"
+	_ "blog/config"
+	_ "github.com/jinzhu/gorm"
 )
 
 type BlogAuth struct{
@@ -15,9 +14,8 @@ type BlogAuth struct{
 	Intro string `json:"intro";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
 }
 
-func CheckAuth(auth BlogAuth) bool {
+func (auth *BlogAuth) CheckAuth() bool {
 	res := db.Where(&auth).First(&auth)
-	fmt.Println(res)
 	result := true
 	if res.RecordNotFound()  {
 		result = false
@@ -25,14 +23,10 @@ func CheckAuth(auth BlogAuth) bool {
 	return result
 }
 
-func GetList()  BlogAuth {
-	var auth BlogAuth
-	db.Find(&auth)
-	return auth
-}
 
-func InsertAuth(auth BlogAuth) {
-	db.Create(&auth)
+func (auth *BlogAuth) InsertAuth() (uint, error)  {
+	res := db.Create(&auth)
+	return auth.Id,res.Error
 }
 
 

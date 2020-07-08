@@ -19,8 +19,6 @@ func InitrouteBac() *gin.Engine {
 		//------------auth && password ----------------
 		//log in
 		bac_group.POST("auth",bac.Auth)
-		//add admin
-		bac_group.POST("init_admin",bac.InitAdmin)
 		//change pass
 		bac_group.POST("change_pass",bac.ChangePass)
 

@@ -3,9 +3,10 @@ package bac
 import (
 	"blog/model"
 	"blog/pkg/errcode"
+	"blog/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"blog/utils"
+	"strings"
 	"time"
 )
 
@@ -33,25 +34,71 @@ func CheckInit(ctx *gin.Context) {
 
 //init
 func BacInit(ctx *gin.Context) {
+	params := map[string] interface{}{}
+	if err := ctx.BindJSON(&params); err != nil {
+		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
+		return ;
+	}
+
 	var auth model.BlogAuth
-	//get username
-	auth.Username = ctx.DefaultPostForm("username","")
+	//get username,nickname,intro
+	auth.Username, _  = params["username"].(string)
+	auth.Nickname, _  = params["nickname"].(string)
+	auth.Intro,_ = params["intro"].(string)
 
 	//get birthday
-	date := ctx.DefaultPostForm("birthday","")
+	date ,_:= params["birthday"].(string)
 	if date == "" {
 		auth.Birthday = 0
 	} else {
-		date = date + " 00:00:00"  //fomart
-		timeLayout := "2020-07-07 12:00:00"
-		loc, _ := time.LoadLocation("Local")
-		times ,_ := time.ParseInLocation(timeLayout,date,loc)
+		date = strings.Trim(date,"\r\n")
+		timeLayout := "2006-01-02"
+		times ,_ := time.ParseInLocation(timeLayout,date,time.Local)
 		auth.Birthday = times.Unix()
 	}
 	//validate password
-	password := ctx.DefaultPostForm("password","")
-	repeat := ctx.DefaultPostForm("repeat","")
-	if password == "" {
-
+	auth.Password,_ = params["password"].(string)
+	repeat,_ := params["repeat"].(string)
+	if auth.Password == "" {
+		ctx.JSON(http.StatusOK,errcode.EmptyPassError.GetH())
+		return ;
 	}
+	if auth.Password != repeat {
+		ctx.JSON(http.StatusOK,errcode.RepeatPassError.GetH())
+		return ;
+	}
+	auth.Password = utils.PassEncry(auth.Password)
+
+	title, _ := params["title"].(string)
+	subtitle , _ := params["subtitle"].(string)
+	lang := params["language"].(string)
+
+	conf := []model.BlogConfig{
+	 	model.BlogConfig{Key: "title",Value: title},
+	 	model.BlogConfig{Key: "subtitle", Value: subtitle},
+		model.BlogConfig{Key: "language", Value: lang},
+	}
+	if title == "" {
+		ctx.JSON(http.StatusOK,errcode.BlogNameEmpty.GetH())
+		return ;
+	}
+	//start translate
+	tx := model.DB().Begin()
+	if err1 := tx.Create(&auth).Error; err1 != nil {
+		tx.Rollback()
+		//ctx.JSON(http.StatusOK,gin.H{"data":date})
+		ctx.JSON(http.StatusOK,errcode.InsertAuthError.GetH())
+		return ;
+	}
+	for _ , v := range conf {
+		c := &model.BlogConfig{Key: v.Key,Value: v.Value}
+		if err2 := tx.Create(c).Error;err2 != nil {
+			tx.Rollback()
+			ctx.JSON(http.StatusOK,errcode.InsertConfError.GetH())
+			return ;
+		}
+	}
+	tx.Commit()
+
+	ctx.JSON(http.StatusOK,errcode.Ok.GetH())
 }

@@ -3,7 +3,6 @@
 package main
 
 import (
-	"blog/model"
 	"blog/route"
 )
 
@@ -12,7 +11,5 @@ func main() {
 	car.Run()
 }
 
-func init() {
-	model.InitDb()
-}
+
 

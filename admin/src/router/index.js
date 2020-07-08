@@ -16,6 +16,11 @@ const Routes = [
 		hidden: false,
 	},
 	{
+		path: '/index',
+		component: () => import('@/views/index/index'),
+		hidden: false,
+	},
+	{
 		path: '/article',
 		component: () => import('@/views/article/articles'),
 		hidden: false,

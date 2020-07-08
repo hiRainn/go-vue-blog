@@ -42,7 +42,7 @@
 </template>
 
 <script>
-	import Message from 'element-ui'
+	import { MessageBox, Message } from 'element-ui'
 	import {
 		checkInit,
 		init
@@ -108,16 +108,38 @@
 		methods: {
 			checkInit() {
 				checkInit().then(response => {
-					console.log(response)
+					if(response.code) {
+						this.$router.push({
+							path: 'login'
+						})
+					} else {
+						return false;
+					}
 				}).catch(err => {
 					console.log(err)
 				})
 			},
 			submitForm(formName) {
+				that = this
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						init(this.initForm).then( response => {
-							console.log('success',response)
+							if(response.code) {
+								Message({
+								  message: response.msg || 'Error',
+								  type: 'error',
+								  duration: 5 * 1000
+								})
+							} else {
+								MessageBox.confirm(that.$i18n.t('login.init_ok'), 'success', {
+								  confirmButtonText: 'ok',
+								  type: 'success'
+								}).then(() => {
+								  this.$router.push({
+								  	path: 'login'
+								  })
+								})
+							}
 						}).catch( err => {
 							console.log(err)
 						})

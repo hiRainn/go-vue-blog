@@ -16,6 +16,7 @@ module.exports = {
 		'password_again':'please input password again',
 		'repeat_rule':'Entered passwords differ',
 		'title_rule':'title is not allow empty',
+		'init_ok':"init success!click OK to login"
     },
 	select:{
 		'select':'select'

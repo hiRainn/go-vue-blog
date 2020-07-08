@@ -18,6 +18,7 @@ module.exports = {
 		'password_again':'请再次输入密码',
 		'repeat_rule':'两次输入密码不一致',
 		'title_rule':'标题不能为空',
+		'init_ok':"初始化成功!点击确定跳转登录"
     },
 	select:{
 		'select':'请选择'

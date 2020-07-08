@@ -7,6 +7,7 @@ type Conf struct {
 	DB_dbname string
 	DB_port string
 	DB_prefix string
+	Salt string
 }
 
 var conf Conf
@@ -17,6 +18,7 @@ func init() {
 	conf.DB_dbname = "blog"
 	conf.DB_port = "3306"
 	conf.DB_prefix = "blog"
+	conf.Salt = "@9d*1md103"
 }
 
 func SetConf(key string,val string) Conf {
@@ -26,6 +28,7 @@ func SetConf(key string,val string) Conf {
 	case "db_dbname" : conf.DB_dbname = val
 	case "db_port" : conf.DB_port = val
 	case "db_prefix" : conf.DB_prefix = val
+	case "salt" : conf.Salt = val
 	}
 
 	return conf

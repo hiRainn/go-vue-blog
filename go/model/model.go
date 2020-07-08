@@ -14,7 +14,7 @@ type Model struct{
 	CreatedAt int64 `json:"create_at";gorm:"DEFAULT:0;NOT NULL;type:int(10)"`
 }
 
-func InitDb() *gorm.DB {
+func init() {
 	conf := config.GetConf()
 	var err error
 	conn := conf.DB_username + ":" + conf.DB_password + "@/" + conf.DB_dbname + "?charset=utf8&parseTime=True&loc=Local"
@@ -27,7 +27,9 @@ func InitDb() *gorm.DB {
 		db.AutoMigrate(&BlogArticle{},&BlogAuth{},&BlogConfig{})
 		db.LogMode(true)
 	}
+}
 
+func DB() *gorm.DB {
 	return db
 }
 

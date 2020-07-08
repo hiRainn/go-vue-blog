@@ -6,6 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import i18n from './i18n/i18n'
 import locale1 from 'element-ui/lib/locale/lang/en'
 import locale2 from 'element-ui/lib/locale/lang/zh-CN'
+import store from './store'
 
 var language = localStorage.getItem('locate')?localStorage.getItem('locate'):'en'
 var locale;
@@ -44,5 +45,6 @@ i18n.locale = language
 new Vue({
 	i18n,
     router,
+	store,
     render: h => h(App),
 }).$mount('#app')
