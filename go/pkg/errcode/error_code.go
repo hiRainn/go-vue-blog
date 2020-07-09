@@ -63,11 +63,12 @@ var (
 	InsertConfError = &ERRCODE{code: 20401,msg: "insert conf error"}
 
 	//------------- functions error  ------------
+	AuthError = &ERRCODE{code: 300001,msg: "token is not exists"}
 	InitError = &ERRCODE{code:30101, msg:"init error"}
 	EmptyPassError = &ERRCODE{code:30301, msg: "empty password"}
 	RepeatPassError = &ERRCODE{code:30302, msg: "password repeat error"}
 	BlogNameEmpty = &ERRCODE{code: 30303, msg: "blog name not null"}
-	PasswordError = &ERRCODE{code: 30304,msg: "password error"}
+	PasswordError = &ERRCODE{code: 30304,msg: "username or pasword error"}
 )
 
 

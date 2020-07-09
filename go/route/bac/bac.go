@@ -2,6 +2,7 @@ package bac
 
 import (
 	"blog/controller/bac"
+	"blog/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,16 +10,8 @@ import (
 func InitrouteBac() *gin.Engine {
 	r := gin.Default()
 	//all route in bac group
-	bac_group := r.Group("bac")
+	bac_group := r.Group("bac",middleware.CheckLogin())
 	{
-		//------------- init ------------------------
-		//check init
-		bac_group.GET("check_init",bac.CheckInit)
-		//init
-		bac_group.POST("init",bac.BacInit)
-		//------------auth && password ----------------
-		//log in
-		bac_group.POST("auth",bac.Auth)
 		//change pass
 		bac_group.POST("change_pass",bac.ChangePass)
 
@@ -41,8 +34,7 @@ func InitrouteBac() *gin.Engine {
 		bac_group.PUT("comment/:id",bac.AddComment)
 		//delete comment
 		bac_group.DELETE("comment/:id",bac.DelComment)
-
-
 	}
+
 	return r
 }

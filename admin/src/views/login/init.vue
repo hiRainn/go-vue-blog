@@ -120,7 +120,7 @@
 				})
 			},
 			submitForm(formName) {
-				that = this
+		
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						init(this.initForm).then( response => {
@@ -131,7 +131,7 @@
 								  duration: 5 * 1000
 								})
 							} else {
-								MessageBox.confirm(that.$i18n.t('login.init_ok'), 'success', {
+								MessageBox.confirm(this.$i18n.t('login.init_ok'), 'success', {
 								  confirmButtonText: 'ok',
 								  type: 'success'
 								}).then(() => {

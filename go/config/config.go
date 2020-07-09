@@ -1,5 +1,7 @@
 package config
 
+import "time"
+
 type Conf struct {
 	//database config
 	DB_username string
@@ -8,6 +10,8 @@ type Conf struct {
 	DB_port string
 	DB_prefix string
 	Salt string
+	CacheExpireTime time.Duration
+	CacheFlashTime time.Duration
 }
 
 var conf Conf
@@ -19,6 +23,8 @@ func init() {
 	conf.DB_port = "3306"
 	conf.DB_prefix = "blog"
 	conf.Salt = "@9d*1md103"
+	conf.CacheExpireTime = 72*time.Hour
+	conf.CacheFlashTime = 10*time.Minute
 }
 
 func SetConf(key string,val string) Conf {

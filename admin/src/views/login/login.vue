@@ -53,6 +53,7 @@
 			handleLogin() {
 				this.$store.dispatch('user/login', this.loginForm)
 					.then(() => {
+						localStorage.setItem("user",true)
 						this.$router.push({
 							path: 'index'
 						})

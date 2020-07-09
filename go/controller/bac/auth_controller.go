@@ -6,8 +6,10 @@ import (
 	"blog/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/patrickmn/go-cache"
+	"math/rand"
 	"net/http"
 	"time"
+	"blog/middleware"
 )
 
 //log in
@@ -23,26 +25,36 @@ func Auth(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
 		return ;
 	}
-	auth := &model.BlogAuth{}
 
 	encry := utils.PassEncry(password)
-	if encry != password {
-		ctx.JSON(http.StatusOK,errcode.PasswordError.GetH())
+	auth := model.BlogAuth{Username: username,Password: encry}
+
+	//if auth fail ,return error
+	if err := auth.CheckAuth();err != nil {
+		ctx.JSON(http.StatusOK,err.GetH())
 		return ;
 	}
 
-	c := cache.New(72*time.Hour, 10*time.Minute)
-	token := setToken()
-	c.Set("token",token,cache.DefaultExpiration)
+	//cache token for 3 days
 
-	var data map[string] interface{}
+	token := getToken(32)
+	middleware.Cache.Set("token",token,cache.DefaultExpiration)
+	data := map[string] interface{}{}
 	data["token"] = token
 
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(data))
 }
 
-func setToken() string {
-	return "dsadsacdakdsakdsadsa"
+//set token
+func getToken(l int) string {
+	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRXTUVWXZY"
+	bytes := []byte(str)
+	result := []byte{}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < l; i++ {
+		result = append(result, bytes[r.Intn(len(bytes))])
+	}
+	return string(result)
 }
 
 

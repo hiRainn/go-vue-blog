@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	//"strings"
+	"github.com/patrickmn/go-cache"
 )
 
 type tt struct {
@@ -11,11 +14,13 @@ type tt struct {
 }
 
 func main() {
-	data := []tt{
-		{name: "heihei",age: 18},
-		{name: "heihei",age: 18},
-	}
-	test(data)
+	c1 := cache.New(72*time.Hour,10*time.Minute)
+	c1.Set("name","heihei",cache.DefaultExpiration)
+
+	c2 := cache.New(72*time.Hour,10*time.Minute)
+	v,_ :=c2.Get("name")
+	v1,_ := c1.Get("name")
+	println(v.(string),v1.(string))
 }
 
 func test(data interface{}) {

@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import i18n from '../i18n/i18n.js'
 
 axios.defaults.baseURL = "http://localhost:8080/bac"
 
@@ -18,9 +19,7 @@ service.interceptors.request.use(
     // do something before request is sent
 
     if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
+      
       config.headers['X-Token'] = getToken()
     }
     return config
@@ -59,14 +58,17 @@ service.interceptors.response.use(
      
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code == 50008 || res.code == 50012 || res.code == 50014) {
+      if (res.code == 300001 || res.code == 50012 || res.code == 50014) {
         // to re-login
-        MessageBox.confirm('登录已超时,你可以点击取消以停留在当前页面,或者重新登录', '确认登出', {
-          confirmButtonText: '重新登陆',
-          cancelButtonText: '取消',
+		
+	
+        MessageBox.confirm(i18n.t('login.login_timeout'),i18n.t('login.tips') , {
+          confirmButtonText: i18n.t('login.login'),
+          cancelButtonText: i18n.t('login.cancle'),
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
+			localStorage.removeItem("user")
             location.reload()
           })
         })

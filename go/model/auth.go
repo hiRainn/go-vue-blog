@@ -2,6 +2,7 @@ package model
 
 import (
 	_ "blog/config"
+	"blog/pkg/errcode"
 	_ "github.com/jinzhu/gorm"
 )
 
@@ -14,11 +15,18 @@ type BlogAuth struct{
 	Intro string `json:"intro";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
 }
 
-func (auth *BlogAuth) CheckAuth() bool {
+//check auth
+func (auth *BlogAuth) CheckAuth() *errcode.ERRCODE {
 	res := db.Where(&auth).First(&auth)
-	result := true
-	if res.RecordNotFound()  {
-		result = false
+	result := &errcode.ERRCODE{}
+	if res.Error != nil  {
+		if res.RecordNotFound() {
+			result = errcode.PasswordError
+		} else {
+			result = errcode.DataBaseError
+		}
+	} else {
+		result = nil
 	}
 	return result
 }
