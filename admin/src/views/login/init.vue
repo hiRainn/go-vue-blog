@@ -34,7 +34,7 @@
 					<el-input type="textarea" v-model="initForm.intro" />
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="submitForm('Form')">{{ $t('login.init') }}</el-button>
+					<el-button type="primary" :disabled="disabled"  @click="submitForm('Form')">{{ $t('login.init') }}</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -61,7 +61,7 @@
 				}
 			};
 			return {
-
+				disabled : false,
 				language: [{
 						type: 'en',
 						value: 'english'
@@ -116,7 +116,8 @@
 						return false;
 					}
 				}).catch(err => {
-					console.log(err)
+					this.$message.error(this.$i18n.t('os.network_error'));
+					this.disabled = true
 				})
 			},
 			submitForm(formName) {

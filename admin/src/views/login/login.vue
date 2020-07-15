@@ -47,6 +47,8 @@
 					} else {
 						return;
 					}
+				}).catch(err => {
+					 this.$message.error(this.$i18n.t('os.network_error'));
 				})
 			},
 			

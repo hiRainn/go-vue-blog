@@ -14,13 +14,13 @@ import (
 
 //log in
 func Auth(ctx *gin.Context) {
-	params := map[string] interface{}{}
+	var params map[string] interface{}
 	if err := ctx.BindJSON(&params); err != nil {
 		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
 		return ;
 	}
-	username := params["username"].(string)
-	password := params["password"].(string)
+	username , _:= params["username"].(string)
+	password ,_ := params["password"].(string)
 	if username == "" || password == "" {
 		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
 		return ;
@@ -59,5 +59,5 @@ func getToken(l int) string {
 
 
 func ChangePass(ctx *gin.Context)  {
-	
+
 }

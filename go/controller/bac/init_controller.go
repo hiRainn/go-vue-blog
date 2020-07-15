@@ -34,18 +34,18 @@ func CheckInit(ctx *gin.Context) {
 
 //init
 func BacInit(ctx *gin.Context) {
-	params := map[string] interface{}{}
+
+	var auth model.BlogAuth
+
+	var params map[string] interface{}
 	if err := ctx.BindJSON(&params); err != nil {
 		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
 		return ;
 	}
-
-	var auth model.BlogAuth
 	//get username,nickname,intro
 	auth.Username, _  = params["username"].(string)
 	auth.Nickname, _  = params["nickname"].(string)
 	auth.Intro,_ = params["intro"].(string)
-
 	//get birthday
 	date ,_:= params["birthday"].(string)
 	if date == "" {
@@ -57,8 +57,9 @@ func BacInit(ctx *gin.Context) {
 		auth.Birthday = times.Unix()
 	}
 	//validate password
-	auth.Password,_ = params["password"].(string)
+	auth.Password, _ = params["password"].(string)
 	repeat,_ := params["repeat"].(string)
+
 	if auth.Password == "" {
 		ctx.JSON(http.StatusOK,errcode.EmptyPassError.GetH())
 		return ;

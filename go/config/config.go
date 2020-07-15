@@ -12,6 +12,7 @@ type Conf struct {
 	Salt string
 	CacheExpireTime time.Duration
 	CacheFlashTime time.Duration
+	Debug bool
 }
 
 var conf Conf
@@ -25,6 +26,7 @@ func init() {
 	conf.Salt = "@9d*1md103"
 	conf.CacheExpireTime = 72*time.Hour
 	conf.CacheFlashTime = 10*time.Minute
+	conf.Debug = true
 }
 
 func SetConf(key string,val string) Conf {

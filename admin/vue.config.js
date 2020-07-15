@@ -16,6 +16,17 @@ module.exports = {
   filenameHashing:false,
   pages:undefined,
   runtimeCompiler:false,
+  chainWebpack: config =>  {
+    config.module
+      .rule('vue')
+      .use('vue-loader')
+      .loader('vue-loader')
+      .tap(options => {
+        options.compilerOptions.preserveWhitespace = true
+        return options
+      })
+      .end()
+   },
   
   /*css: {
     loaderOptions: {

@@ -1,4 +1,7 @@
 module.exports = {
+	os : {
+		'network_error':'network error'
+	},
     login:{
         'title' : 'blog name',
 		'subtitle' : 'subtitle',

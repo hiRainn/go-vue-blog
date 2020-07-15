@@ -2,7 +2,9 @@ package bac
 
 import (
 	"blog/model"
+	"blog/pkg/errcode"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"time"
 )
 
@@ -31,11 +33,14 @@ func AddArticle(context *gin.Context) {
 
 }
 
-func DelArticle(ctx *gin.Context) {
-
-}
 
 //articles list
 func GetArticles(ctx *gin.Context) {
+
+	ctx.JSON(http.StatusOK,errcode.Ok.GetH())
+}
+
+
+func DelArticle(ctx *gin.Context) {
 
 }

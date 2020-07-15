@@ -1,6 +1,9 @@
   /* 国际化zh_cn */
 
 module.exports = {
+	os : {
+		'network_error':'网络连接失败'
+	},
     login:{
         'title' : '博客标题',
 		'subtitle':'副标题',

@@ -21,7 +21,7 @@ func (err *ERRCODE) SetData(data interface{}) gin.H {
 	return gin.H{"code":err.code,"msg":err.msg,"data":err.data}
 }
 
-//返回gin.H格式
+// return gin.H
 func (err * ERRCODE) GetH() gin.H {
 	return gin.H{"code":err.code, "msg":err.msg}
 }
