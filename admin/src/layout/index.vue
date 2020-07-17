@@ -1,6 +1,6 @@
 <template>
 	<div class="" style="margin-top: 0px;padding-top: 0px;">
-		<cl-row>
+		<el-row>
 			<el-col :span="3">
 				<div class="sideBar">
 					<el-menu default-active="2" class="el-menu-vertical-demo" background-color="#d9f6ff">
@@ -38,10 +38,10 @@
 				</div>
 				
 			</el-col>
-			<el-col :offset="1" :span="19">
+			<el-col :offset="1" :span="19" style="padding-top: 20px;">
 				<app-main />
 			</el-col>
-		</cl-row>
+		</el-row>
 
 	</div>
 </template>
@@ -66,7 +66,7 @@
 			}
 		},
 		mounted() {
-			alert(this.style)
+			// alert(this.style)
 		}
 	}
 </script>

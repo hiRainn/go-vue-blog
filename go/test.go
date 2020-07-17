@@ -10,7 +10,9 @@ type tt struct {
 }
 
 func main() {
-	s := []byte{'a','s'}
+	var d uint = 10
+	x,_ := d.(int)
+	fmt.Println(x)
 }
 
 func test(data interface{}) {

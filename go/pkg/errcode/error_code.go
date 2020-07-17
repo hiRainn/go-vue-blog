@@ -69,6 +69,9 @@ var (
 	RepeatPassError = &ERRCODE{code:30302, msg: "password repeat error"}
 	BlogNameEmpty = &ERRCODE{code: 30303, msg: "blog name not null"}
 	PasswordError = &ERRCODE{code: 30304,msg: "username or pasword error"}
+	AddCateGoryNameError = &ERRCODE{code : 30305, msg: "catagory's name is null"}
+	AddCateGoryRepeat = &ERRCODE{code: 30306,msg: "name is repaet"}
+	AddCateGoryError = &ERRCODE{code : 30307, msg: "add category error"}
 )
 
 

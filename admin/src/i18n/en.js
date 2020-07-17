@@ -1,6 +1,8 @@
 module.exports = {
 	os : {
-		'network_error':'network error'
+		'network_error':'network error',
+		'cancle' : 'cancle',
+		'confirm' : 'comfirm'
 	},
     login:{
         'title' : 'blog name',
@@ -24,6 +26,17 @@ module.exports = {
 		'tips':'tips',
 		'cancle' : 'cancle'
     },
+	article:{
+		'title':'title',
+		'cate':'category',
+		'cate_name':'category name',
+		'tags':'tags',
+		'edit':'start to edit',
+		'title_rule':'please enter title',
+		'content_rule':'content is empty',
+		'cate_rule':'cate is empty',
+		'quick_add_cate':'quick add cate'
+	},
 	select:{
 		'select':'select'
 	}

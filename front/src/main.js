@@ -25,6 +25,9 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'medium' ,// set element-ui default size,
   locale
 })
+router.beforeEach((to, from, next) => {
+  window.document.title = to.meta.title == undefined?'heihei is smiling':to.meta.title
+});
 //determine the page is init or not login
 // router.beforeEach((to, from, next) => {
 //   if (to.path == '/logout') {

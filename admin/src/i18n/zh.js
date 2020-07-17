@@ -26,6 +26,14 @@ module.exports = {
 		'tips':'提示',
 		'cancle':'取消'
     },
+	article:{
+		'title':'标题',
+		'cate':'所属分类',
+		'tags':'标签',
+		'title_rule':'请输入标题',
+		'content_rule':'内容不能为空',
+		'cate_rule':'分类不能为空',
+	},
 	select:{
 		'select':'请选择'
 	}

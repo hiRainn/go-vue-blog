@@ -25,15 +25,16 @@ const Routes = [{
 		hidden: false,
 		children: [
 			{
-				path: 'index',
-				component: () => import('@/views/article/articles'),
-				hidden: false
-			},
-			{
 			path: 'add',
 			component: () => import('@/views/article/add'),
 			hidden: false
-		}, ]
+		}, 
+		{
+			path: '/',
+			component: () => import('@/views/article/articles'),
+			hidden: false
+		},
+		]
 	},
 
 
