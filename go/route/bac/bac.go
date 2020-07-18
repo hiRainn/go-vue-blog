@@ -26,10 +26,19 @@ func InitrouteBac() *gin.Engine {
 		bac_group.DELETE("article/:id",bac.DelArticle)
 
 		//-----------category-----------------------
-		//get category list
+		//get category list,category admin page
 		bac_group.GET("cate",bac.GetCategory)
+		//get all categories for select
+		bac_group.GET("cate_for_select",bac.CateForSelect)
 		//add category
 		bac_group.POST("cate",bac.AddCategory)
+
+		//-------------tags -------------------------
+		//get category list,category admin page
+		bac_group.GET("tags",bac.GetTags)
+		//get all categories for select
+		bac_group.GET("tags_for_select",bac.TagsForSelect)
+
 
 
 		//-----------comment ---------------

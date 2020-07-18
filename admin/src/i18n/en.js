@@ -2,7 +2,8 @@ module.exports = {
 	os : {
 		'network_error':'network error',
 		'cancle' : 'cancle',
-		'confirm' : 'comfirm'
+		'confirm' : 'comfirm',
+		'success':'success'
 	},
     login:{
         'title' : 'blog name',
@@ -29,13 +30,17 @@ module.exports = {
 	article:{
 		'title':'title',
 		'cate':'category',
+		'select_cate':'select category',
 		'cate_name':'category name',
 		'tags':'tags',
-		'edit':'start to edit',
+		'edit':'start to edit...',
+		'create_tags':'enter to create new tag, up to 5 tags',
 		'title_rule':'please enter title',
 		'content_rule':'content is empty',
-		'cate_rule':'cate is empty',
-		'quick_add_cate':'quick add cate'
+		'cate_rule':'catename is empty',
+		'quick_add_cate':'quick add cate',
+		'post':'Post',
+		'save':'Save',
 	},
 	select:{
 		'select':'select'

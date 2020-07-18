@@ -58,7 +58,8 @@ var (
 	ParamError = &ERRCODE{code: 10301,msg: "params error"}
 
 	// ------------- database error ------------
-	DataBaseError = &ERRCODE{code : 20101, msg: "database error"}
+	DataBaseError = &ERRCODE{code : 20101, msg: "database conect error"}
+	DataNotExists = &ERRCODE{code: 20102,msg: "data is not exists"}
 	InsertAuthError = &ERRCODE{code: 20301,msg: "insert auth error"}
 	InsertConfError = &ERRCODE{code: 20401,msg: "insert conf error"}
 
@@ -72,6 +73,13 @@ var (
 	AddCateGoryNameError = &ERRCODE{code : 30305, msg: "catagory's name is null"}
 	AddCateGoryRepeat = &ERRCODE{code: 30306,msg: "name is repaet"}
 	AddCateGoryError = &ERRCODE{code : 30307, msg: "add category error"}
+	AddTagNameError = &ERRCODE{code: 30308,msg: "tag's name is null"}
+	AddTagError = &ERRCODE{code: 30309,msg: "add tag error"}
+	AddArticleError = &ERRCODE{code: 30310,msg: "add article error"}
+	ArticleTitleEmpty = &ERRCODE{code: 30311,msg: "title is empty"}
+	ArticleCateEmpty = &ERRCODE{code: 30312, msg:"category is empty"}
+	ArticleContentEmpty = &ERRCODE{code: 30313,msg: "content is empty"}
+	SetIncTagsError = &ERRCODE{code: 30314,msg: "tag setInc error"}
 )
 
 

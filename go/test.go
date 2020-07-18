@@ -10,13 +10,12 @@ type tt struct {
 }
 
 func main() {
-	var d uint = 10
-	x,_ := d.(int)
-	fmt.Println(x)
+	test := []int{1,2,3,4}
+	fmt.Println(string.)
 }
 
-func test(data interface{}) {
-	fmt.Println(data)
+func test(args ...interface{}) {
+	fmt.Println(len(args))
 }
 
 func reverseString(s []byte)  []byte {

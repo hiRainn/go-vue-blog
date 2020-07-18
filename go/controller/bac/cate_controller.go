@@ -11,13 +11,26 @@ func GetCategory(ctx *gin.Context) {
 
 }
 
+func CateForSelect(ctx *gin.Context) {
+	var cate *model.BlogCate
+	list , err := cate.GetSelectList()
+
+	if err != nil {
+		ctx.JSON(http.StatusOK,err.GetH())
+		return ;
+	}
+	var data = errcode.Ok
+
+	ctx.JSON(http.StatusOK,data.SetData(map[string]interface{}{"list":list}))
+}
+
 func AddCategory(ctx *gin.Context) {
 	var params map[string] interface{}
 	if err := ctx.BindJSON(&params); err != nil {
 		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
 		return ;
 	}
-	var cate model.BlogCate
+	cate := new(model.BlogCate)
 	cate.CateName = params["name"].(string)
 	//determine whether the name is empty
 	if cate.CateName == "" {
@@ -32,10 +45,9 @@ func AddCategory(ctx *gin.Context) {
 	//add cate
 	res := cate.AddCate(cate)
 	if res == 0 {
-		if cate.CheckNameRepeat() {
-			ctx.JSON(http.StatusOK,errcode.AddCateGoryRepeat.GetH())
-			return ;
-		}
+		ctx.JSON(http.StatusOK,errcode.AddCateGoryError.GetH())
+		return ;
 	}
-	ctx.JSON(http.StatusOK,errcode.Ok.GetH())
+
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"id":res}))
 }
