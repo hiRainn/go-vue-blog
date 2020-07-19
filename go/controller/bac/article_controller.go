@@ -18,12 +18,14 @@ func AddArticle(ctx *gin.Context) {
 	}
 	//determine params
 	art := new(model.BlogArticle)
+	cate := new(model.BlogCate)
 	art.Title = params["title"].(string)
 	if art.Title == "" {
 		ctx.JSON(http.StatusOK,errcode.ArticleTitleEmpty.GetH())
 		return ;
 	}
 	art.CateId = params["cate_id"].(int)
+	cate.Id = params["cate_id"].(int)
 	if art.CateId == 0 {
 		ctx.JSON(http.StatusOK,errcode.ArticleCateEmpty.GetH())
 		return ;
@@ -78,9 +80,26 @@ func AddArticle(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK,errcode.SetIncTagsError.GetH())
 		return ;
 	}
-	// set atricle tag_ids
+	//set struct article's tags, id,id,id ...    todo
+	//determine if tags is []
 
+	//add category's num + 1
+	if cate.SetIncNum(tx) == false {
+		tx.Rollback()
+		ctx.JSON(http.StatusOK,errcode.SetIncCateError.GetH())
+		return ;
+	}
 
+	//add article
+	article_id, err := art.AddArticle(tx)
+	if err != nil {
+		tx.Rollback()
+		ctx.JSON(http.StatusOK,err.GetH())
+		return ;
+	} else {
+		tx.Commit()
+		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"id":article_id}))
+	}
 
 }
 

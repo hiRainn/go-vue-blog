@@ -80,6 +80,7 @@ var (
 	ArticleCateEmpty = &ERRCODE{code: 30312, msg:"category is empty"}
 	ArticleContentEmpty = &ERRCODE{code: 30313,msg: "content is empty"}
 	SetIncTagsError = &ERRCODE{code: 30314,msg: "tag setInc error"}
+	SetIncCateError = &ERRCODE{code: 30315,msg: "cate setInc error"}
 )
 
 

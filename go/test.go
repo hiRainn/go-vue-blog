@@ -10,8 +10,8 @@ type tt struct {
 }
 
 func main() {
-	test := []int{1,2,3,4}
-	fmt.Println(string.)
+	test := []int{}
+	fmt.Println(test == nil)
 }
 
 func test(args ...interface{}) {
