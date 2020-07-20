@@ -19,9 +19,13 @@ func InitrouteBac() *gin.Engine {
 		//get bac article list
 		bac_group.GET("article",bac.GetArticles)
 		//add article
-		bac_group.POST("article",bac.AddArticle)
+		bac_group.POST("article",bac.PostArticle)
+		//save article
+		bac_group.POST("save_article",bac.SaveArticle)
+		//post save article
+		bac_group.PUT("save_article/:id",bac.PostSaveArticle)
 		//update article
-		bac_group.PUT("article/:id",bac.AddArticle)
+		bac_group.PUT("article/:id",bac.EditArticle)
 		//delete article
 		bac_group.DELETE("article/:id",bac.DelArticle)
 

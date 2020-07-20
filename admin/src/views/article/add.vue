@@ -32,9 +32,7 @@
 					<span style="margin-right: 5px;">{{ $t('article.sort') }}:</span>
 					<el-input v-model.number="form.sort" @input="checkSort" :placeholder="$t('article.sort_content')" style="width:80%"></el-input>
 				</el-col>
-
 			</el-form-item>
-
 
 			<el-form-item>
 				<mavon-editor v-model="form.content" style="height: 600px" :placeholder="$t('article.edit')"></mavon-editor>
@@ -58,7 +56,7 @@
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" @click="postArticle()">{{$t('article.post')}}</el-button>
-				<el-button>{{$t('article.save')}}</el-button>
+				<el-button :hidden="form.is_edit" :disabled="form.is_edit" @click="saveArticle()">{{$t('article.save')}}</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
@@ -77,7 +75,7 @@
 		getSelectTagsList
 	} from '@/api/tags.js'
 	import {
-		postArticle
+		postArticle,saveArticle,updateArticle,postSaveArticle
 	} from '@/api/article.js'
 	export default {
 		name: 'add',
@@ -87,6 +85,7 @@
 		},
 		data() {
 			return {
+				is_new:true,
 				dialogFormVisible: false,
 				addDsiabled: false,
 				cate_list: [],
@@ -94,6 +93,7 @@
 				cate_name: '',
 				sort: 0,
 				form: {
+					id:0,
 					title: '',
 					cate_id: '',
 					content: '',
@@ -101,6 +101,7 @@
 					is_top: false,
 					sort: '',
 					create_at:'',
+					is_edit:false
 				},
 				rules: {
 					title: [{
@@ -182,21 +183,65 @@
 				})
 			},
 			postArticle() {
-				if (!this.form.is_top) {
+				if(this.form['sort'] == false) {
 					this.form['sort'] = 0
+				} else {
+					this.form['sort'] = parseInt(this.form['sorm'])
 				}
-				postArticle(this.form).then(response => {
+				
+				//edit article
+				if(!this.is_new) {
+					if(this.form.is_edit) {
+						updateArticle(this.form).then(response => {
+							console.log(response)
+						}).catch(err => {
+							console.log(err)
+						})
+					} else {
+						postSaveArticle(this.form).then(response => {
+							console.log(response)
+						}).catch(err => {
+							console.log(err)
+						})
+					}
+				} else  {
+					//add article
+					postArticle(this.form).then(response => {
+						if (response.code) {
+							this.$alert(response.msg)
+							this.is_new = true
+						} else {
+							this.form.id = response.data.id
+							this.is_new = false
+							this.form.is_edit = true;
+						}
+					}).catch(err => {
+						console.log(err)
+						this.is_new = true
+					})
+				}
+				
+				console.log(this.form)
+			},
+			saveArticle() {
+				if(this.form['sort'] == false) {
+					this.form['sort'] = 0
+				}else {
+					this.form['sort'] = parseInt(this.form['sorm'])
+				}
+				saveArticle(this.form).then(response => {
 					if (response.code) {
 						this.$alert(response.msg)
 					} else {
-						console.log(response)
+						this.form.id = response.data.id
 					}
 				}).catch(err => {
 					console.log(err)
 				})
-				console.log(this.form)
 			},
-
+			getInfo(id) {
+				
+			}
 		},
 
 		mounted() {

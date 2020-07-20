@@ -16,4 +16,30 @@ export function postArticle(data) {
   })
 }
 
+export function updateArticle(data) {
+  return request({
+    url: '/article/' + data.id,
+    method: 'put',
+    data: data,
+  })
+}
+
+export function postSaveArticle(data) {
+  return request({
+    url: '/save_article/' + data.id,
+    method: 'put',
+    data: data,
+  })
+}
+
+
+
+export function saveArticle(data) {
+  return request({
+    url: '/save_article',
+    method: 'post',
+    data: data
+  })
+}
+
 

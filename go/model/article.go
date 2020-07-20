@@ -32,6 +32,26 @@ func(art *BlogArticle) AddArticle(tx *gorm.DB) (int,*errcode.ERRCODE){
 	return id,e
 }
 
+func (art *BlogArticle)  EditArticle(tx *gorm.DB) (bool,*errcode.ERRCODE) {
+	if err := tx.Save(art).Error;err != nil {
+		return false,errcode.EditSaveArticleError
+	}
+	return true,nil
+
+}
+
+func (art *BlogArticle) GetArticleById() *errcode.ERRCODE {
+	res := db.Where("id = ?",art.Id).First(art)
+	if res.Error != nil {
+		if res.RecordNotFound() {
+			return errcode.DataNotExists
+		} else {
+			return errcode.DataBaseError
+		}
+	}
+	return nil
+}
+
 func GetArticleListByPage (page int) ([]BlogArticle, error) {
 	if page <= 1 {
 		page = 0

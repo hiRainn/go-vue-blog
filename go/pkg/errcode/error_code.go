@@ -76,11 +76,15 @@ var (
 	AddTagNameError = &ERRCODE{code: 30308,msg: "tag's name is null"}
 	AddTagError = &ERRCODE{code: 30309,msg: "add tag error"}
 	AddArticleError = &ERRCODE{code: 30310,msg: "add article error"}
+	EditSaveArticleError = &ERRCODE{code: 30311,msg: "edit article error"}
 	ArticleTitleEmpty = &ERRCODE{code: 30311,msg: "title is empty"}
 	ArticleCateEmpty = &ERRCODE{code: 30312, msg:"category is empty"}
 	ArticleContentEmpty = &ERRCODE{code: 30313,msg: "content is empty"}
 	SetIncTagsError = &ERRCODE{code: 30314,msg: "tag setInc error"}
 	SetIncCateError = &ERRCODE{code: 30315,msg: "cate setInc error"}
+	SetDecTagsError = &ERRCODE{code: 30314,msg: "tag setDec error"}
+	SetDecCateError = &ERRCODE{code: 30315,msg: "cate setDec error"}
+	EditArticleError = &ERRCODE{code: 30136,msg: "edit article error"}
 )
 
 
