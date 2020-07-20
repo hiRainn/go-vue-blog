@@ -21,8 +21,21 @@
 					</el-option>
 				</el-select>
 				<el-button @click="dialogFormVisible = true">+</el-button>
+			</el-form-item>
+
+			<el-form-item :label="$t('article.is_top')">
+				<el-col :span="2">
+					<el-switch v-model="form.is_top" active-color="#13ce66" :active-text="$t('os.yes')">
+					</el-switch>
+				</el-col>
+				<el-col :span="8" :hidden="!form.is_top">
+					<span style="margin-right: 5px;">{{ $t('article.sort') }}:</span>
+					<el-input v-model.number="form.sort" @input="checkSort" :placeholder="$t('article.sort_content')" style="width:80%"></el-input>
+				</el-col>
 
 			</el-form-item>
+
+
 			<el-form-item>
 				<mavon-editor v-model="form.content" style="height: 600px" :placeholder="$t('article.edit')"></mavon-editor>
 			</el-form-item>
@@ -32,6 +45,16 @@
 					<el-option v-for="item in tags_list" :key="item.id" :label="item.name" :value="item.id">
 					</el-option>
 				</el-select>
+			</el-form-item>
+			<el-form-item :label="$t('article.create_at')">
+				<el-date-picker 
+				v-model="form.create_at" 
+				type="date" 
+				format="yyyy-MM-dd"
+				placeholder="yyyy-mm-dd"
+				value-format="yyyy-MM-dd">
+				</el-date-picker>
+				<span>*{{$t('article.create_desc')}}*</span>
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" @click="postArticle()">{{$t('article.post')}}</el-button>
@@ -47,9 +70,15 @@
 	} from 'mavon-editor'
 	import 'mavon-editor/dist/css/index.css'
 	import {
-		getSelectCateList,addTag
+		getSelectCateList,
+		addTag
 	} from '@/api/cate.js'
-	import {getSelectTagsList} from '@/api/tags.js'
+	import {
+		getSelectTagsList
+	} from '@/api/tags.js'
+	import {
+		postArticle
+	} from '@/api/article.js'
 	export default {
 		name: 'add',
 		components: {
@@ -63,11 +92,15 @@
 				cate_list: [],
 				tags_list: [],
 				cate_name: '',
+				sort: 0,
 				form: {
 					title: '',
 					cate_id: '',
 					content: '',
 					tags: [],
+					is_top: false,
+					sort: '',
+					create_at:'',
 				},
 				rules: {
 					title: [{
@@ -91,7 +124,7 @@
 		methods: {
 			getSelectCateList() {
 				getSelectCateList().then(response => {
-					if(response.code) {
+					if (response.code) {
 						this.$alert(response.msg)
 					} else {
 						this.cate_list = response.data.list
@@ -101,8 +134,8 @@
 				})
 			},
 			getSelectTagsList() {
-				getSelectTagsList().then( response => {
-					if(response.code) {
+				getSelectTagsList().then(response => {
+					if (response.code) {
 						this.$alert(response.msg)
 					} else {
 						this.tags_list = response.data.list
@@ -111,42 +144,61 @@
 					console.log(err)
 				})
 			},
+			checkSort(value) {
+				if (value > 255 || value < 0) {
+					this.form["sort"] = this['sort']
+					return false;
+				}
+				this['sort'] = value
+			},
 			addcate() {
-				if(this.cate_name == false) {
+				if (this.cate_name == false) {
 					this.$alert(this.$i18n.t('article.cate_rule'));
 					return false;
 				}
 				var data = {
-					name : this.cate_name
+					name: this.cate_name
 				}
 				this.addDsiabled = true
 				addTag(data).then(response => {
-					if(response.code) {
+					if (response.code) {
 						this.$alert(response.msg)
 					} else {
 						var add = {
-							id : response.data.id,
+							id: response.data.id,
 							name: this.cate_name
 						}
 						this.cate_list.unshift(add)
 						this.$message({
-							message:this.$i18n.t('os.success'),
-							type:'success'
+							message: this.$i18n.t('os.success'),
+							type: 'success'
 						})
 					}
 					this.dialogFormVisible = false
 					this.addDsiabled = false
-				}).catch( err => {
+				}).catch(err => {
 					this.$alert(err)
 					this.addDsiabled = false
 				})
 			},
 			postArticle() {
+				if (!this.form.is_top) {
+					this.form['sort'] = 0
+				}
+				postArticle(this.form).then(response => {
+					if (response.code) {
+						this.$alert(response.msg)
+					} else {
+						console.log(response)
+					}
+				}).catch(err => {
+					console.log(err)
+				})
 				console.log(this.form)
 			},
 
 		},
-		
+
 		mounted() {
 			this.getSelectCateList()
 			this.getSelectTagsList()

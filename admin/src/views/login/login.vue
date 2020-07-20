@@ -6,7 +6,7 @@
 					<el-input v-model="loginForm.username" />
 				</el-form-item>
 				<el-form-item :label="$t('login.password')" prop="delivery">
-					<el-input type="password" v-model="loginForm.password" />
+					<el-input type="password" v-model="loginForm.password" show-password />
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="handleLogin('loginForm')">{{ $t('login.login') }}</el-button>

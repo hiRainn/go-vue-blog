@@ -46,14 +46,14 @@ func (c *BlogCate) GetSelectList() ([]*SelectCate,*errcode.ERRCODE) {
 }
 //add 1 when a article choose this category
 func (c *BlogCate) SetIncNum(tx *gorm.DB) bool {
-	if err := tx.Model(c).Where("id = ?", c.Id).UpdateColumn("num",gorm.Expr("num + ?",1)).Error; err !=nil {
+	if err := tx.Table("blog_cate").Where("id = ?", c.Id).UpdateColumn("num",gorm.Expr("num + ?",1)).Error; err !=nil {
 		return false
 	}
 	return true
 }
 //reduce 1 when a article choose this category
 func (c *BlogCate) SetDecNum(tx *gorm.DB) bool {
-	if err := tx.Model(c).Where("id = ?", c.Id).UpdateColumn("num",gorm.Expr("num - ?",1)).Error; err !=nil {
+	if err := tx.Table("blog_cate").Where("id = ?", c.Id).UpdateColumn("num",gorm.Expr("num - ?",1)).Error; err !=nil {
 		return false
 	}
 	return true

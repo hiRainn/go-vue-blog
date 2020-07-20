@@ -7,3 +7,13 @@ export function getArticles(query) {
     params: query
   })
 }
+
+export function postArticle(data) {
+  return request({
+    url: '/article',
+    method: 'post',
+    data: data
+  })
+}
+
+

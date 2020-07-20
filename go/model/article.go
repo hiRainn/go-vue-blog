@@ -9,11 +9,11 @@ type BlogArticle struct {
 	Model
 	Title string `json:"title";gorm:"type:varchar(100);DEFAULT:'';NOT NULL"`
 	ModifyAt int64 `json:"modify_at";gorm:"type:int(10);default:0;not null"`
-	CateId int `json:"cate_id";gorm:"type:int;not null;default 0"`
+	CateId int `json:"cate_id";gorm:"type:int;not null;default:0"`
 	Content string `json:"content";gorm:"type:varchar(5000);not null;default:''"`
 	View int `json:"view";gorm:"type:int;not null;default:0"`
 	IsTop uint8 `json:"is_top";gorm:"type:tinyint;unsigned;not null;default:0"`
-	Sort uint8 `json:"sort";gorm:"type:tinyint;unsigned;not null;default 0"` // sort for articles  recommended
+	Sort uint8 `json:"sort";gorm:"type:tinyint;unsigned;not null;default:0"` // sort for articles  recommended
 	TagsIds string `json:"tags_ids";gorm:"type varchar(100);not null;default:''"`
 
 }

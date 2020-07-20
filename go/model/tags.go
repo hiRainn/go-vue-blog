@@ -68,14 +68,14 @@ func (t *BlogTags) AddCate(tx *gorm.DB) int {
 
 //add 1 when a article choose these tags
 func (c *BlogTags) SetIncNum(tx *gorm.DB,ids []int) bool {
-	if err := tx.Model(c).Where("id in ?", ids).UpdateColumn("num",gorm.Expr("num + ?",1)).Error; err !=nil {
+	if err := tx.Table("blog_tags").Where("id in (?)", ids).UpdateColumn("num",gorm.Expr("num + ?",1)).Error; err !=nil {
 		return false
 	}
 	return true
 }
 //reduce 1 when a article choose these tags
 func (c *BlogTags) SetDecNum(tx *gorm.DB,ids []int) bool {
-	if err := tx.Model(c).Where("id in ?", ids).UpdateColumn("num",gorm.Expr("num - ?",1)).Error; err !=nil {
+	if err := tx.Table("blog_tags").Where("id in ?", ids).UpdateColumn("num",gorm.Expr("num - ?",1)).Error; err !=nil {
 		return false
 	}
 	return true

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 )
 
 type tt struct {
@@ -10,8 +11,11 @@ type tt struct {
 }
 
 func main() {
-	test := []int{}
-	fmt.Println(test == nil)
+	s := make(map[string]interface{})
+	s["sort"] = ""
+
+	sort,_ :=strconv.Atoi(s["sort"].(string))
+	fmt.Println(sort)
 }
 
 func test(args ...interface{}) {

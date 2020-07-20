@@ -4,6 +4,7 @@ import (
 	"blog/config"
 	"crypto/md5"
 	"encoding/hex"
+	"time"
 )
 
 func Md5(s string) string{
@@ -16,4 +17,15 @@ func Md5(s string) string{
 func PassEncry(pass string) string {
 	conf:=config.GetConf()
 	return Md5(pass + Md5(conf.Salt))
+}
+
+func YmdTotimestamp(date string) int64 {
+	layout := "2006-01-02"
+	loc,_ := time.LoadLocation("Local")
+	the_time,err := time.ParseInLocation(layout,date,loc)
+	if err != nil {
+		return 0
+	} else {
+		return the_time.Unix()
+	}
 }

@@ -3,8 +3,12 @@ package bac
 import (
 	"blog/model"
 	"blog/pkg/errcode"
+	"blog/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
+	"strings"
+	"time"
 )
 
 //增加、修改
@@ -24,30 +28,41 @@ func AddArticle(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK,errcode.ArticleTitleEmpty.GetH())
 		return ;
 	}
-	art.CateId = params["cate_id"].(int)
-	cate.Id = params["cate_id"].(int)
+	art.CateId = int(params["cate_id"].(float64))
+	cate.Id = int(params["cate_id"].(float64))
 	if art.CateId == 0 {
 		ctx.JSON(http.StatusOK,errcode.ArticleCateEmpty.GetH())
 		return ;
 	}
+
 	art.Content = params["content"].(string)
 	if art.Content == "" {
 		ctx.JSON(http.StatusOK,errcode.ArticleContentEmpty.GetH())
 		return ;
 	}
-	art.IsTop = params["is_top"].(uint8)
-	if art.IsTop != 0 {
-		art.Sort = params["sort"].(uint8)
+	top := params["is_top"].(bool)
+	if top {
+		art.IsTop = 1
 	}
+	art.Sort = uint8(params["sort"].(float64))
+
+	//do with created_at
+	the_time := params["create_at"].(string)
+	if the_time == "" {
+		art.CreatedAt = time.Now().Unix()
+	} else {
+		art.CreatedAt = utils.YmdTotimestamp(the_time)
+	}
+
 	// start transaction
 	tx := model.DB().Begin()
 	//do with tags
 	var tags []int
-	var tag *model.BlogTags
+	tag  := new(model.BlogTags)
 	for _ , val := range params["tags"].([]interface{}) {
 		//if get int , then it is the id of tags
-		if value1, ok1 := val.(int); ok1 == true {
-			tags = append(tags,value1)
+		if value1, ok1 := val.(float64); ok1 == true {
+			tags = append(tags,int(value1))
 		}
 		//if get string ,then need to created
 		if value2, ok2 := val.(string); ok2 == true {
@@ -75,14 +90,24 @@ func AddArticle(ctx *gin.Context) {
 		}
 	}
 	//set tags num + 1
-	if tag.SetIncNum(tx,tags) == false {
-		tx.Rollback()
-		ctx.JSON(http.StatusOK,errcode.SetIncTagsError.GetH())
-		return ;
+	if len(tags) != 0 {
+		if tag.SetIncNum(tx,tags) == false {
+			tx.Rollback()
+			ctx.JSON(http.StatusOK,errcode.SetIncTagsError.GetH())
+			return ;
+		}
 	}
-	//set struct article's tags, id,id,id ...    todo
-	//determine if tags is []
 
+	//set struct article's tags, id,id,id ...
+	//determine if tags is []
+	if len(tags) == 0 {
+		art.TagsIds = ""
+	} else {
+		for _, v :=  range tags {
+			art.TagsIds = art.TagsIds + strconv.Itoa(v) + ","
+		}
+	}
+	art.TagsIds = strings.Trim(art.TagsIds,",")
 	//add category's num + 1
 	if cate.SetIncNum(tx) == false {
 		tx.Rollback()
@@ -102,6 +127,8 @@ func AddArticle(ctx *gin.Context) {
 	}
 
 }
+
+
 
 
 //articles list
