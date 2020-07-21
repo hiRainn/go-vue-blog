@@ -17,10 +17,10 @@
 							</template>
 							<el-menu-item-group>
 								<router-link to='/article'>
-									<el-menu-item index="article" class="menu-span">{{$t('menu.list')}}</el-menu-item>
+									<el-menu-item index="article" class="menu-span sub-menu-item">{{$t('menu.list')}}</el-menu-item>
 								</router-link>
 								<router-link to='/article/add'>
-									<el-menu-item index="article/add" class="menu-span">{{$t('menu.drafts')}}</el-menu-item>
+									<el-menu-item index="article/add" class="menu-span sub-menu-item">{{$t('menu.drafts')}}</el-menu-item>
 								</router-link>
 							</el-menu-item-group>
 						</el-submenu>
@@ -78,8 +78,8 @@
 		text-decoration: none !important;
 		font-size: 18px !important;
 	}
-	el-menu-item{
-		padding-left: 20px;
+	.sub-menu-item {
+		padding-left: 60px !important;
 	}
 	
 	a {
