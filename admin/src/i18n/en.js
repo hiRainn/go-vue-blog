@@ -5,7 +5,13 @@ module.exports = {
 		'confirm' : 'comfirm',
 		'success':'success',
 		'yes':'yes',
-		'no':'no'
+		'no':'no',
+	},
+	menu :{
+		'index':'index',
+		'article_manage':'articles',
+		'drafts':'drafts',
+		'list':'list',
 	},
     login:{
         'title' : 'blog name',
@@ -27,7 +33,8 @@ module.exports = {
 		'init_ok':"init success!click OK to login",
 		'login_timeout':'your login is timeout,please login! cancle to stay at this page',
 		'tips':'tips',
-		'cancle' : 'cancle'
+		'cancle' : 'cancle',
+		
     },
 	article:{
 		'title':'title',

@@ -3,40 +3,32 @@
 		<el-row>
 			<el-col :span="3">
 				<div class="sideBar">
-					<el-menu default-active="2" class="el-menu-vertical-demo" background-color="#d9f6ff">
-						<el-submenu index="1">
+					<el-menu :default-active="active" :select="handleClickOutside" class="el-menu-vertical-demo" background-color="#d9f6ff">
+						<router-link to='/'>
+							<el-menu-item index="/">
+								<i class="el-icon-menu"></i>
+								<span slot="title" class="menu-span">{{$t('menu.index')}}</span>
+							</el-menu-item>
+						</router-link>
+						<el-submenu index="">
 							<template slot="title">
 								<i class="el-icon-location"></i>
-								<span>导航一</span>
+								<span class="menu-span">{{$t('menu.article_manage')}}</span>
 							</template>
 							<el-menu-item-group>
-								<template slot="title">分组一</template>
-								<el-menu-item index="1-1">选项1</el-menu-item>
-								<el-menu-item index="1-2">选项2</el-menu-item>
+								<router-link to='/article'>
+									<el-menu-item index="article" class="menu-span">{{$t('menu.list')}}</el-menu-item>
+								</router-link>
+								<router-link to='/article/add'>
+									<el-menu-item index="article/add" class="menu-span">{{$t('menu.drafts')}}</el-menu-item>
+								</router-link>
 							</el-menu-item-group>
-							<el-menu-item-group title="分组2">
-								<el-menu-item index="1-3">选项3</el-menu-item>
-							</el-menu-item-group>
-							<el-submenu index="1-4">
-								<template slot="title">选项4</template>
-								<el-menu-item index="1-4-1">选项1</el-menu-item>
-							</el-submenu>
 						</el-submenu>
-						<el-menu-item index="2">
-							<i class="el-icon-menu"></i>
-							<span slot="title">导航二</span>
-						</el-menu-item>
-						<el-menu-item index="3" disabled>
-							<i class="el-icon-document"></i>
-							<span slot="title">导航三</span>
-						</el-menu-item>
-						<el-menu-item index="4">
-							<i class="el-icon-setting"></i>
-							<span slot="title">导航四</span>
-						</el-menu-item>
+
+
 					</el-menu>
 				</div>
-				
+
 			</el-col>
 			<el-col :offset="1" :span="19" style="padding-top: 20px;">
 				<app-main />
@@ -47,33 +39,54 @@
 </template>
 
 <script>
-	import { AppMain } from './components'
+	import {
+		AppMain
+	} from './components'
 	export default {
 		name: 'Layout',
 		components: {
-		  AppMain,
+			AppMain,
 		},
 		data() {
 			return {
+				active: '',
+				menu_list: [],
 				style: 'top'
 			}
 		},
 		methods: {
 			handleClickOutside() {
-				this.$store.dispatch('app/closeSideBar', {
-					withoutAnimation: false
-				})
+				console.log(1)
 			}
 		},
 		mounted() {
 			// alert(this.style)
+			this.menu_list = this.$router.options.routes;
+
+			this.active = this.$route.path.trimLeft('/')
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.sideBar{
+	.sideBar {
 		height: 100vh;
 		background-color: #d9f6ff;
+	}
+	
+	.menu-span{
+		text-decoration: none !important;
+		font-size: 18px !important;
+	}
+	el-menu-item{
+		padding-left: 20px;
+	}
+	
+	a {
+	  text-decoration: none;
+	}
+	 
+	.router-link-active {
+	  text-decoration: none;
 	}
 </style>

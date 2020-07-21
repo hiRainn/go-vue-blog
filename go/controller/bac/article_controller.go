@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-//增加、修改
+//post
 func PostArticle(ctx *gin.Context) {
 	//var article model.BlogArticle
 	var params map[string] interface{}

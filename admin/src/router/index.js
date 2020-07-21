@@ -4,7 +4,8 @@ import Layout from '@/layout'
 
 Vue.use(VueRouter)
 
-const Routes = [{
+const Routes = [
+	{
 		path: '/login',
 		component: () => import('@/views/login/login'),
 		hidden: true,
@@ -12,11 +13,6 @@ const Routes = [{
 	{
 		path: '/init',
 		component: () => import('@/views/login/init'),
-		hidden: false,
-	},
-	{
-		path: '/index',
-		component: () => import('@/views/index/index'),
 		hidden: false,
 	},
 	{
@@ -36,13 +32,16 @@ const Routes = [{
 		},
 		]
 	},
-
-
+	{
+		path: '/',
+		component: Layout,
+		hidden: false,
+	},
+	
 ]
 
 
-
 export default new VueRouter({
-	mode: 'hash',
+	mode: 'history',
 	routes: Routes
 })
