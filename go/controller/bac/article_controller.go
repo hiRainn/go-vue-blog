@@ -366,7 +366,11 @@ func getTagsIds(tx *gorm.DB,params map[string]interface{}) ([]int,*errcode.ERRCO
 
 //articles list
 func GetArticles(ctx *gin.Context) {
-
+	var params map[string] interface{}
+	if err := ctx.BindJSON(&params); err != nil {
+		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
+		return
+	}
 	ctx.JSON(http.StatusOK,errcode.Ok.GetH())
 }
 
