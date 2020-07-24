@@ -3,7 +3,7 @@
 		<el-row>
 			<el-col :span="3">
 				<div class="sideBar">
-					<el-menu :default-active="active" :select="handleClickOutside" class="el-menu-vertical-demo" background-color="#d9f6ff">
+					<el-menu default-active="/article/add" text-color="#fff" background-color="#1a1918" :select="handleClickOutside" class="el-menu-vertical-demo">
 						<router-link to='/'>
 							<el-menu-item index="/">
 								<i class="el-icon-menu"></i>
@@ -17,10 +17,10 @@
 							</template>
 							<el-menu-item-group>
 								<router-link to='/article'>
-									<el-menu-item index="article" class="menu-span sub-menu-item">{{$t('menu.list')}}</el-menu-item>
+									<el-menu-item index="/article" class="menu-span sub-menu-item">{{$t('menu.list')}}</el-menu-item>
 								</router-link>
 								<router-link to='/article/add'>
-									<el-menu-item index="article/add" class="menu-span sub-menu-item">{{$t('menu.drafts')}}</el-menu-item>
+									<el-menu-item index="/article/add" class="menu-span sub-menu-item">{{$t('menu.drafts')}}</el-menu-item>
 								</router-link>
 							</el-menu-item-group>
 						</el-submenu>
@@ -64,14 +64,16 @@
 			this.menu_list = this.$router.options.routes;
 
 			this.active = this.$route.path.trimLeft('/')
+			
+			// alert(this.$route.path.trimLeft('/'))
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.sideBar {
-		height: 100vh;
-		background-color: #d9f6ff;
+		height: 105vh;
+		background-color: #1a1918;
 	}
 	
 	.menu-span{

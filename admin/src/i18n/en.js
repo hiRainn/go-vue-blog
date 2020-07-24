@@ -6,6 +6,8 @@ module.exports = {
 		'success':'success',
 		'yes':'yes',
 		'no':'no',
+		'search':'search',
+		'operate':'operate'
 	},
 	menu :{
 		'index':'index',
@@ -34,7 +36,6 @@ module.exports = {
 		'login_timeout':'your login is timeout,please login! cancle to stay at this page',
 		'tips':'tips',
 		'cancle' : 'cancle',
-		
     },
 	article:{
 		'title':'title',
@@ -42,6 +43,8 @@ module.exports = {
 		'select_cate':'select category',
 		'cate_name':'category name',
 		'tags':'tags',
+		'comment':'comments',
+		'view':'views',
 		'edit':'start to edit...',
 		'create_tags':'enter to create new tag, up to 5 tags',
 		'is_top':'recommend',

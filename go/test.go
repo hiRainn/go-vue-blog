@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 type tt struct {
@@ -10,12 +11,20 @@ type tt struct {
 }
 
 func main() {
+	for i:=0;i<2;i++ {
+		tmp := int64(129)
+		test()
+		fmt.Printf("%p \r\n",&tmp)
+	}
 
 
 }
 
 func test(args ...interface{}) {
-	fmt.Println(len(args))
+	for i:=0;i<=1000000;i++ {
+		i = i + 1
+	}
+	time.Sleep(time.Second * 30)
 }
 
 func reverseString(s []byte)  []byte {
