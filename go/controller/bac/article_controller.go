@@ -366,6 +366,14 @@ func getTagsIds(tx *gorm.DB,params map[string]interface{}) ([]int,*errcode.ERRCO
 
 //articles list
 func GetArticles(ctx *gin.Context) {
+	page_num := 20 //number of crticle per page
+
+	p := ctx.DefaultQuery("p","0")
+	cate_id := ctx.DefaultQuery("cate_id","0")
+	tas_id := ctx.DefaultQuery("tag_id","0")
+	title := ctx.DefaultQuery("title","")
+
+
 
 	//var params map[string] interface{}
 	//if err := ctx.BindJSON(&params); err != nil {
