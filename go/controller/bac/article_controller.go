@@ -373,6 +373,9 @@ func GetArticles(ctx *gin.Context) {
 	tas_id := ctx.DefaultQuery("tag_id","0")
 	title := ctx.DefaultQuery("title","")
 
+	var art model.BlogArticle
+	
+
 
 
 	//var params map[string] interface{}
