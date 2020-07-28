@@ -366,15 +366,18 @@ func getTagsIds(tx *gorm.DB,params map[string]interface{}) ([]int,*errcode.ERRCO
 
 //articles list
 func GetArticles(ctx *gin.Context) {
-	page_num := 20 //number of crticle per page
-
-	p := ctx.DefaultQuery("p","0")
-	cate_id := ctx.DefaultQuery("cate_id","0")
-	tas_id := ctx.DefaultQuery("tag_id","0")
-	title := ctx.DefaultQuery("title","")
-
+	//page_num := 20 //number of crticle per page
+	//
+	//p := ctx.DefaultQuery("p","0")
+	//cate_id := ctx.DefaultQuery("cate_id","0")
+	//tas_id := ctx.DefaultQuery("tag_id","0")
+	//title := ctx.DefaultQuery("title","")
 	var art model.BlogArticle
-	
+	res,_ := art.GetArticleList()
+
+
+
+
 
 
 
@@ -383,7 +386,7 @@ func GetArticles(ctx *gin.Context) {
 	//	ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
 	//	return
 	//}
-	ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":[]string{},"p":3,"page_num":15,"total":40}))
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"p":3,"page_num":15,"total":40}))
 }
 
 

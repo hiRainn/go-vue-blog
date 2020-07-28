@@ -24,9 +24,15 @@
 				<span>{{scope.row.title}}</span>
 			</template>
 	    </el-table-column>
-		<el-table-column prop="view" :label="$t('article.view')" width="150px">
+		<el-table-column prop="cate_name" :label="$t('article.cate_name')" width="150px">
 		</el-table-column>
-		<el-table-column prop="comment" :label="$t('article.comment')" width="150px">
+		<el-table-column prop="tags" :label="$t('article.tags')" width="150px">
+		</el-table-column>
+		<el-table-column prop="views" :label="$t('article.view')" width="150px">
+		</el-table-column>
+		<el-table-column prop="comments" :label="$t('article.comment')" width="150px">
+		</el-table-column>
+		<el-table-column prop="post_at" :label="$t('article.create_at')" width="150px">
 		</el-table-column>
 	    
 	  
@@ -34,11 +40,8 @@
 	    
 	    <el-table-column :label="$t('os.operate')" width="250px">
 	      <template slot-scope="scope">
-	        <el-button v-if="!scope.row.edit" type="primary" size="small" icon="el-icon-edit" @click="scope.row.edit = true">编辑</el-button>
-	        <el-button v-if="scope.row.edit" type="success" :disabled="scope.row.disabled" size="small" icon="el-icon-circle-check-outline"
-	          @click="confirmEdit(scope.row)">确定</el-button>
-	        <el-button v-if="scope.row.edit" type="danger" size="small" icon="el-icon-circle-check-outline" @click="scope.row.edit = false">取消</el-button>
-	        <el-button v-if="!scope.row.edit" type="danger" size="small" icon="el-icon-delete" @click="delcus(scope.row.id)">删除</el-button>
+	        <el-button v-if="!scope.row.edit" type="primary" size="small" icon="el-icon-edit" @click="scope.row.edit = true">{{$t('os.edit')}}</el-button>
+	        <el-button v-if="!scope.row.edit" type="danger" size="small" icon="el-icon-delete" @click="delcus(scope.row.id)">{{$t('os.delete')}}</el-button>
 	      </template>
 	    </el-table-column>
 	  </el-table>

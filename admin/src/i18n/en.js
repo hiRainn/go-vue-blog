@@ -7,7 +7,9 @@ module.exports = {
 		'yes':'yes',
 		'no':'no',
 		'search':'search',
-		'operate':'operate'
+		'operate':'operate',
+		'edit':'edit',
+		'delete':'delete'
 	},
 	menu :{
 		'index':'index',
@@ -41,7 +43,7 @@ module.exports = {
 		'title':'title',
 		'cate':'category',
 		'select_cate':'select category',
-		'cate_name':'category name',
+		'cate_name':'category',
 		'tags':'tags',
 		'comment':'comments',
 		'view':'views',

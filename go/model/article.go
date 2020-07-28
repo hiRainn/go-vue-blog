@@ -17,6 +17,18 @@ type BlogArticle struct {
 	TagsIds string `json:"tags_ids";gorm:"type varchar(100);not null;default:''"`
 
 }
+
+type AdminArticleList struct {
+	Model
+	Title string `json:"title"`
+	CateName string `json:"cate_name"`
+	Tags string `json:"tags"`
+	Views int `json:"views"`
+	Comments int `json:"comments"`
+	NewViews uint16 `json:"new_views"`
+	NewComments uint16 `json:"new_comments"`
+	PostAt string `json:"post_at"`
+}
 const OFFSET = 15
 
 //you must be in a transaction when post a article ,so must get handle of db
@@ -52,14 +64,13 @@ func (art *BlogArticle) GetArticleById() *errcode.ERRCODE {
 	return nil
 }
 
-func GetArticleListByPage (page int) ([]BlogArticle, error) {
-	if page <= 1 {
-		page = 0
-	} else {
-		page = page -1
-	}
-	offset := OFFSET * page
-	var article []BlogArticle
-	res := db.Offset(offset).Limit(OFFSET).Order("id desc").Find(&article)
-	return article, res.Error
+func (art *BlogArticle) GetArticleList () ([]AdminArticleList, error) {
+	var list []AdminArticleList
+	join_cate := "left join blog_cate bc on a.cate_id = bc.id"
+	join_comment := "left join blog_comment c on a.id = c.article_id"
+	join_tag := "left join blog_tags bt on FIND_IN_SET(bt.id,a.tags_ids)"
+	join_view := "left join blog_view v on a.id = v.article_id"
+	field := "a.id,a.title,bc.cate_name,group_concat(bt.tag_name) as tags,from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at,count(v.id) as views,count(c.id) as comments"
+	res := db.Table("blog_article a").Select(field).Joins(join_cate).Joins(join_comment).Joins(join_tag).Joins(join_view).Group("a.id").Find(&list)
+	return list, res.Error
 }
