@@ -18,6 +18,8 @@ func InitrouteBac() *gin.Engine {
 		//------------article -------------
 		//get bac article list
 		bac_group.GET("article",bac.GetArticles)
+		//get bac article info
+		bac_group.GET("article/:id",bac.GetArticleInfo)
 		//add article
 		bac_group.POST("article",bac.PostArticle)
 		//save article
@@ -28,6 +30,8 @@ func InitrouteBac() *gin.Engine {
 		bac_group.PUT("article",bac.EditArticle)
 		//delete article
 		bac_group.DELETE("article/:id",bac.DelArticle)
+		//image
+		bac_group.POST("article/upload",bac.UploadArticleImg)
 
 		//-----------category-----------------------
 		//get category list,category admin page

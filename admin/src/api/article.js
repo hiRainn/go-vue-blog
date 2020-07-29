@@ -8,6 +8,13 @@ export function getArticles(query) {
   })
 }
 
+export function getArticleInfo(id) {
+  return request({
+    url: '/article/'+ id ,
+    method: 'get',
+  })
+}
+
 export function postArticle(data) {
   return request({
     url: '/article',
@@ -18,7 +25,7 @@ export function postArticle(data) {
 
 export function updateArticle(data) {
   return request({
-    url: '/article/' + data.id,
+    url: '/article',
     method: 'put',
     data: data,
   })
@@ -26,7 +33,7 @@ export function updateArticle(data) {
 
 export function postSaveArticle(data) {
   return request({
-    url: '/save_article/' + data.id,
+    url: '/save_article' ,
     method: 'put',
     data: data,
   })

@@ -52,6 +52,7 @@ module.exports = {
 		'edit':'start to edit...',
 		'create_tags':'enter to create new tag, up to 5 tags',
 		'is_top':'recommend',
+		'is_self':'private',
 		'sort':'sort',
 		'sort_content':'0-255,higher value higher position',
 		'title_rule':'please enter title',

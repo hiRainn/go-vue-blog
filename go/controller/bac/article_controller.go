@@ -76,6 +76,26 @@ func PostArticle(ctx *gin.Context) {
 
 }
 
+func GetArticleInfo(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
+		return
+	}
+	var art model.BlogArticle
+	art.Id,_ = strconv.Atoi(id)
+	if art.Id == 0 {
+		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
+		return
+	}
+	err :=art.GetArticleById()
+	if err != nil {
+		ctx.JSON(http.StatusOK,err.GetH())
+		return
+	}
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(art))
+}
+
 //edit
 func EditArticle(ctx *gin.Context) {
 	//var article model.BlogArticle
@@ -313,6 +333,10 @@ func determineArt(art *model.BlogArticle,params map[string] interface{}) *errcod
 	top := params["is_top"].(bool)
 	if top {
 		art.IsTop = 1
+	}
+	self := params["is_self"].(bool)
+	if self {
+		art.IsSelf = 1
 	}
 	switch params["sort"].(type) {
 	case nil:

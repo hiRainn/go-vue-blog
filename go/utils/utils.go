@@ -20,7 +20,7 @@ func PassEncry(pass string) string {
 }
 
 func YmdTotimestamp(date string) int64 {
-	layout := "2006-01-02"
+	layout := "2006-01-02 15:04"
 	loc,_ := time.LoadLocation("Local")
 	the_time,err := time.ParseInLocation(layout,date,loc)
 	if err != nil {

@@ -40,7 +40,9 @@
 
 			<el-table-column :label="$t('os.operate')" width="250px">
 				<template slot-scope="scope">
-					<el-button v-if="!scope.row.edit" type="primary" size="small" icon="el-icon-edit" @click="scope.row.edit = true">{{$t('os.edit')}}</el-button>
+					<el-button v-if="!scope.row.edit" type="primary" size="small" icon="el-icon-edit">
+						<router-link :to="{path:'/article/add',query:{id:scope.row.id}}">{{$t('os.edit')}}</router-link>
+					</el-button>
 					<el-button v-if="!scope.row.edit" type="danger" size="small" icon="el-icon-delete" @click="del(scope.$index,scope.row.id)">{{$t('os.delete')}}</el-button>
 				</template>
 			</el-table-column>
@@ -187,5 +189,9 @@
 	}
 </script>
 
-<style>
+<style scoped="scoped">
+	a {
+	    text-decoration: none;
+		color: #FFFFFF;
+	}
 </style>

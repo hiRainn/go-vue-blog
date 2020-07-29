@@ -33,7 +33,6 @@ router.beforeEach(async(to, from, next) => {
 	    localStorage.removeItem('user');
 	  }
 	  let user = localStorage.getItem('user');
-	  console.log(user)
 	  //if user is not exists
 	  if(!user) {
 	  	  if(to.path !== '/login') {

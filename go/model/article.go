@@ -13,6 +13,7 @@ type BlogArticle struct {
 	Content string `json:"content";gorm:"type:varchar(5000);not null;default:''"`
 	View int `json:"view";gorm:"type:int;not null;default:0"`
 	IsTop uint8 `json:"is_top";gorm:"type:tinyint;unsigned;not null;default:0"`
+	IsSelf uint8 `json:"is_self";gorm:"type:tinyint;unsigned;not null;default:0"`
 	Sort uint8 `json:"sort";gorm:"type:tinyint;unsigned;not null;default:0"` // sort for articles  recommended
 	TagsIds string `json:"tags_ids";gorm:"type varchar(100);not null;default:''"`
 
@@ -97,7 +98,7 @@ func (art *BlogArticle) GetArticleList (condition map[string]interface{}, page m
 	res = res.Group("a.id")
 	var count int
 	res.Count(&count)
-	res = res.Offset(offset).Limit(page["page_size"]).Find(&list)
+	res = res.Offset(offset).Limit(page["page_size"]).Order("a.id desc").Find(&list)
 
 	return list,count,res.Error
 }
