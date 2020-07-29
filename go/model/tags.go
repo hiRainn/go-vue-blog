@@ -75,7 +75,7 @@ func (c *BlogTags) SetIncNum(tx *gorm.DB,ids []int) bool {
 }
 //reduce 1 when a article choose these tags
 func (c *BlogTags) SetDecNum(tx *gorm.DB,ids []string) bool {
-	if err := tx.Table("blog_tags").Where("id in ?", ids).UpdateColumn("num",gorm.Expr("num - ?",1)).Error; err !=nil {
+	if err := tx.Table("blog_tags").Where("id in (?)", ids).UpdateColumn("num",gorm.Expr("num - ?",1)).Error; err !=nil {
 		return false
 	}
 	return true

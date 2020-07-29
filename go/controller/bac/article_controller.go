@@ -149,6 +149,7 @@ func EditArticle(ctx *gin.Context) {
 		}
 	}
 	art.TagsIds = strings.Trim(art.TagsIds,",")
+	art.ModifyAt = time.Now().Unix()
 	//edit article
 	if tx.Where("id = ?",art.Id).Save(art).Error != nil {
 		tx.Rollback()
@@ -366,30 +367,89 @@ func getTagsIds(tx *gorm.DB,params map[string]interface{}) ([]int,*errcode.ERRCO
 
 //articles list
 func GetArticles(ctx *gin.Context) {
-	//page_num := 20 //number of crticle per page
-	//
-	//p := ctx.DefaultQuery("p","0")
-	//cate_id := ctx.DefaultQuery("cate_id","0")
-	//tas_id := ctx.DefaultQuery("tag_id","0")
-	//title := ctx.DefaultQuery("title","")
+	page_num := ctx.DefaultQuery("page_size","0") //number of crticle per page
+	p := ctx.DefaultQuery("p","1")
+	cate_id := ctx.DefaultQuery("cate_id","0")
+	tag_id,_ := ctx.GetQueryArray("tag_id[]")
+	title := ctx.DefaultQuery("title","")
+	var page_size int
+	if page_num == "" || page_num == "0" {
+		page_size = 20
+	} else {
+		page_size,_ = strconv.Atoi(page_num)
+	}
+	//select condition where
+	condition := make(map[string]interface{})
+	condition["status"],_ = strconv.Atoi(ctx.DefaultQuery("status","0"))
+	if cate_id != "0" && cate_id != "" {
+		condition["cate_id"],_ = strconv.Atoi(cate_id)
+	}
+	if title != "" {
+		condition["title"] = title
+	}
+	if len(tag_id) != 0 {
+		condition["tag_id"] = tag_id
+	}
+	//page information
+	page := make(map[string]int)
+	page["page_size"] = page_size
+	page["page"],_ = strconv.Atoi(p)
 	var art model.BlogArticle
-	res,_ := art.GetArticleList()
+	res,count,_ := art.GetArticleList(condition,page)
 
-
-
-
-
-
-
-	//var params map[string] interface{}
-	//if err := ctx.BindJSON(&params); err != nil {
-	//	ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
-	//	return
-	//}
-	ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"p":3,"page_num":15,"total":40}))
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"p":page["page"],"page_size":page_size,"total":count}))
 }
 
 
 func DelArticle(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusOK,errcode.ParamError)
+		return
+	}
+	var art model.BlogArticle
+	art.Id,_ = strconv.Atoi(id)
+	err :=art.GetArticleById()
+	if err != nil {
+		ctx.JSON(http.StatusOK,err.GetH())
+		return
+	}
+	//if article is draft just delete
+	if art.Status == status.ArticleSave.GetCode() {
+		if err := art.DelArticleById(); err != nil {
+			ctx.JSON(http.StatusOK,err.GetH())
+			return
+		} else {
+			ctx.JSON(http.StatusOK,errcode.Ok.GetH())
+		}
+	} else {
+		//must delete tag number and category number
+		cate := new(model.BlogCate)
+		tag := new(model.BlogTags)
+		//start transaction
+		tx := model.DB().Begin()
+		cate.Id = art.CateId
+		//reduce cate num
+		if cate.SetDecNum(tx) == false {
+			tx.Rollback()
+			ctx.JSON(http.StatusOK,errcode.SetDecCateError.GetH())
+			return
+		}
+		//reduce tags num
+		tag_array := strings.Split(art.TagsIds,",")
+		if tag.SetDecNum(tx,tag_array) == false {
+			tx.Rollback()
+			ctx.JSON(http.StatusOK,errcode.SetDecTagsError.GetH())
+			return
+		}
+
+		if tx.Delete(art).Error != nil {
+			tx.Rollback()
+			ctx.JSON(http.StatusOK,errcode.DeleteArticleError.GetH())
+			return
+		}
+		tx.Commit()
+		ctx.JSON(http.StatusOK,errcode.Ok.GetH())
+	}
 
 }

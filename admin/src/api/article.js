@@ -42,4 +42,12 @@ export function saveArticle(data) {
   })
 }
 
+export function delArticle(data) {
+  return request({
+    url: '/article/' + data.id,
+    method: 'delete',
+    data: data
+  })
+}
+
 

@@ -85,6 +85,7 @@ var (
 	SetDecTagsError = &ERRCODE{code: 30314,msg: "tag setDec error"}
 	SetDecCateError = &ERRCODE{code: 30315,msg: "cate setDec error"}
 	EditArticleError = &ERRCODE{code: 30136,msg: "edit article error"}
+	DeleteArticleError = &ERRCODE{code: 30137,msg: "delete article error"}
 )
 
 

@@ -24,12 +24,17 @@ const Routes = [
 			path: 'add',
 			component: () => import('@/views/article/add'),
 			hidden: false
-		}, 
-		{
+			}, 
+			{
+			path: 'drafts',
+			component: () => import('@/views/article/drafts'),
+			hidden: false,
+			},
+			{
 			path: '/',
 			component: () => import('@/views/article/articles'),
 			hidden: false
-		},
+			},
 		]
 	},
 	{

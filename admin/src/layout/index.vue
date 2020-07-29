@@ -3,25 +3,20 @@
 		<el-row>
 			<el-col :span="3">
 				<div class="sideBar">
-					<el-menu default-active="/article/add" text-color="#fff" background-color="#1a1918" :select="handleClickOutside" class="el-menu-vertical-demo">
-						<router-link to='/'>
-							<el-menu-item index="/">
-								<i class="el-icon-menu"></i>
-								<span slot="title" class="menu-span">{{$t('menu.index')}}</span>
-							</el-menu-item>
-						</router-link>
-						<el-submenu index="">
+					<el-menu :default-active="active" text-color="#fff" background-color="#1a1918" :select="handleClickOutside" class="el-menu-vertical-demo">
+						<el-menu-item index="/" @click="jump('/')">
+							<i class="el-icon-menu"></i>
+							<span slot="title" class="menu-span" >{{$t('menu.index')}}</span>
+						</el-menu-item>
+						<el-submenu index="1">
 							<template slot="title">
 								<i class="el-icon-location"></i>
 								<span class="menu-span">{{$t('menu.article_manage')}}</span>
 							</template>
 							<el-menu-item-group>
-								<router-link to='/article'>
-									<el-menu-item index="/article" class="menu-span sub-menu-item">{{$t('menu.list')}}</el-menu-item>
-								</router-link>
-								<router-link to='/article/add'>
-									<el-menu-item index="/article/add" class="menu-span sub-menu-item">{{$t('menu.drafts')}}</el-menu-item>
-								</router-link>
+								<el-menu-item index="/article" class="menu-span sub-menu-item" @click="jump('/article')">{{$t('menu.list')}}</el-menu-item>
+								<el-menu-item index="/article/add" hidden ></el-menu-item>
+								<el-menu-item index="/article/drafts" class="menu-span sub-menu-item" @click="jump('/article/drafts')">{{$t('menu.drafts')}}</el-menu-item>
 							</el-menu-item-group>
 						</el-submenu>
 
@@ -57,14 +52,17 @@
 		methods: {
 			handleClickOutside() {
 				console.log(1)
+			},
+			jump(path) {
+				this.$router.push({path:path})
 			}
 		},
 		mounted() {
 			// alert(this.style)
 			this.menu_list = this.$router.options.routes;
 
-			this.active = this.$route.path.trimLeft('/')
-			
+			this.active = this.$route.path
+			console.log(this.active)
 			// alert(this.$route.path.trimLeft('/'))
 		}
 	}

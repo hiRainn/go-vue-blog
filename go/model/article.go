@@ -53,7 +53,7 @@ func (art *BlogArticle)  EditArticle(tx *gorm.DB) (bool,*errcode.ERRCODE) {
 }
 
 func (art *BlogArticle) GetArticleById() *errcode.ERRCODE {
-	res := db.Where("id = ?",art.Id).First(art)
+	res := db.First(art)
 	if res.Error != nil {
 		if res.RecordNotFound() {
 			return errcode.DataNotExists
@@ -64,13 +64,40 @@ func (art *BlogArticle) GetArticleById() *errcode.ERRCODE {
 	return nil
 }
 
-func (art *BlogArticle) GetArticleList () ([]AdminArticleList, error) {
+func (art *BlogArticle) DelArticleById() *errcode.ERRCODE {
+	res := db.Where("id = ?",art.Id).Delete(art)
+	if res.Error != nil {
+		return errcode.DeleteArticleError
+	}
+	return nil
+}
+
+func (art *BlogArticle) GetArticleList (condition map[string]interface{}, page map[string]int) ([]AdminArticleList, int, error) {
 	var list []AdminArticleList
-	join_cate := "left join blog_cate bc on a.cate_id = bc.id"
-	join_comment := "left join blog_comment c on a.id = c.article_id"
-	join_tag := "left join blog_tags bt on FIND_IN_SET(bt.id,a.tags_ids)"
-	join_view := "left join blog_view v on a.id = v.article_id"
+
 	field := "a.id,a.title,bc.cate_name,group_concat(bt.tag_name) as tags,from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at,count(v.id) as views,count(c.id) as comments"
-	res := db.Table("blog_article a").Select(field).Joins(join_cate).Joins(join_comment).Joins(join_tag).Joins(join_view).Group("a.id").Find(&list)
-	return list, res.Error
+	offset := (page["page"] - 1) * page["page_size"]
+	res := db.Table("blog_article a").Select(field)
+	if condition["title"] != nil {
+		res = res.Where("`title` like ?","%" + condition["title"].(string) + "%")
+	}
+	if condition["cate_id"] != nil {
+		res = res.Where("`cate_id` = ?",condition["cate_id"].(int))
+	}
+	if condition["tag_id"] != nil {
+		for _,v := range condition["tag_id"].([]string) {
+			res = res.Where("find_in_set(?,tags_ids)",v)
+		}
+	}
+	res = res.Where("a.status = ?", condition["status"].(int))
+	res = res.Joins("left join blog_cate bc on a.cate_id = bc.id")
+	res = res.Joins("left join blog_comment c on a.id = c.article_id")
+	res = res.Joins("left join blog_tags bt on FIND_IN_SET(bt.id,a.tags_ids)")
+	res = res.Joins("left join blog_view v on a.id = v.article_id")
+	res = res.Group("a.id")
+	var count int
+	res.Count(&count)
+	res = res.Offset(offset).Limit(page["page_size"]).Find(&list)
+
+	return list,count,res.Error
 }

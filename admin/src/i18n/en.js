@@ -9,7 +9,9 @@ module.exports = {
 		'search':'search',
 		'operate':'operate',
 		'edit':'edit',
-		'delete':'delete'
+		'delete':'delete',
+		'tip':'tip',
+		
 	},
 	menu :{
 		'index':'index',
@@ -60,6 +62,7 @@ module.exports = {
 		'create_desc':'if you move article form other place,i think you need this function..',
 		'post':'Post',
 		'save':'Save',
+		'confirm_delete':'are you confirm to delete this article?'
 	},
 	select:{
 		'select':'select'
