@@ -26,7 +26,8 @@ Vue.use(Element, {
   locale
 })
 router.beforeEach((to, from, next) => {
-  window.document.title = to.meta.title == undefined?'heihei is smiling':to.meta.title
+  window.document.title = to.meta.title == undefined?'heihei is smiling':to.meta.title,
+  next()
 });
 //determine the page is init or not login
 // router.beforeEach((to, from, next) => {

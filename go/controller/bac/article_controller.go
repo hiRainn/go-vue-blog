@@ -165,7 +165,7 @@ func EditArticle(ctx *gin.Context) {
 			art.TagsIds = art.TagsIds + strconv.Itoa(v) + ","
 		}
 	}
-	
+
 	art.TagsIds = strings.Trim(art.TagsIds,",")
 	art.ModifyAt = time.Now().Unix()
 	//edit article

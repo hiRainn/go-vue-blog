@@ -42,7 +42,7 @@
 			} else { // 已播放点击则暂停
 				this.video.pause(); //暂停控制
 			}
-
+			alert(1)
 		}
 	}
 </script>

@@ -1,102 +1,92 @@
 <template>
-  <div :class="classObj" class="app-wrapper">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <sidebar class="sidebar-container" />
-    <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
-        <tags-view v-if="needTagsView" />
-      </div>
-      <app-main />
-      <right-panel v-if="showSettings">
-        <settings />
-      </right-panel>
-    </div>
-  </div>
+	<div class="" style="margin-top: 0px;padding-top: 0px;">
+		<el-row>
+			<el-col :span="3">
+				<div class="sideBar">
+					<el-menu :default-active="active" text-color="#fff" background-color="#1a1918" :select="handleClickOutside" class="el-menu-vertical-demo">
+						<el-menu-item index="/" @click="jump('/')">
+							<i class="el-icon-menu"></i>
+							<span slot="title" class="menu-span" >{{$t('menu.index')}}</span>
+						</el-menu-item>
+						<el-submenu index="1">
+							<template slot="title">
+								<i class="el-icon-location"></i>
+								<span class="menu-span">{{$t('menu.article_manage')}}</span>
+							</template>
+							<el-menu-item-group>
+								<el-menu-item index="/article" class="menu-span sub-menu-item" @click="jump('/article')">{{$t('menu.list')}}</el-menu-item>
+								<el-menu-item index="/article/add" hidden ></el-menu-item>
+								<el-menu-item index="/article/drafts" class="menu-span sub-menu-item" @click="jump('/article/drafts')">{{$t('menu.drafts')}}</el-menu-item>
+							</el-menu-item-group>
+						</el-submenu>
+
+
+					</el-menu>
+				</div>
+
+			</el-col>
+			<el-col :offset="1" :span="19" style="padding-top: 20px;">
+				<app-main />
+			</el-col>
+		</el-row>
+
+	</div>
 </template>
 
 <script>
-import RightPanel from '@/components/RightPanel'
-import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
-import ResizeMixin from './mixin/ResizeHandler'
-import { mapState } from 'vuex'
+	import {
+		AppMain
+	} from './components'
+	export default {
+		name: 'Layout',
+		components: {
+			AppMain,
+		},
+		data() {
+			return {
+				active: '',
+				menu_list: [],
+				style: 'top'
+			}
+		},
+		methods: {
+			handleClickOutside() {
+				console.log(1)
+			},
+			jump(path) {
+				this.$router.push({path:path})
+			}
+		},
+		mounted() {
+			// alert(this.style)
+			this.menu_list = this.$router.options.routes;
 
-export default {
-  name: 'Layout',
-  components: {
-    AppMain,
-    Navbar,
-    RightPanel,
-    Settings,
-    Sidebar,
-    TagsView
-  },
-  mixins: [ResizeMixin],
-  computed: {
-    ...mapState({
-      sidebar: state => state.app.sidebar,
-      device: state => state.app.device,
-      showSettings: state => state.settings.showSettings,
-      needTagsView: state => state.settings.tagsView,
-      fixedHeader: state => state.settings.fixedHeader
-    }),
-    classObj() {
-      return {
-        hideSidebar: !this.sidebar.opened,
-        openSidebar: this.sidebar.opened,
-        withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
-      }
-    }
-  },
-  methods: {
-    handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
-    }
-  }
-}
+			this.active = this.$route.path
+			console.log(this.active)
+			// alert(this.$route.path.trimLeft('/'))
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/mixin.scss";
-  @import "~@/styles/variables.scss";
-
-  .app-wrapper {
-    @include clearfix;
-    position: relative;
-    height: 100%;
-    width: 100%;
-
-    &.mobile.openSidebar {
-      position: fixed;
-      top: 0;
-    }
-  }
-
-  .drawer-bg {
-    background: #000;
-    opacity: 0.3;
-    width: 100%;
-    top: 0;
-    height: 100%;
-    position: absolute;
-    z-index: 999;
-  }
-
-  .fixed-header {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 9;
-    width: calc(100% - #{$sideBarWidth});
-    transition: width 0.28s;
-  }
-
-  .hideSidebar .fixed-header {
-    width: calc(100% - 54px)
-  }
-
-  .mobile .fixed-header {
-    width: 100%;
-  }
+	.sideBar {
+		height: 105vh;
+		background-color: #1a1918;
+	}
+	
+	.menu-span{
+		text-decoration: none !important;
+		font-size: 18px !important;
+	}
+	.sub-menu-item {
+		padding-left: 60px !important;
+	}
+	
+	a {
+	  text-decoration: none;
+	}
+	 
+	.router-link-active {
+	  text-decoration: none;
+	}
 </style>
