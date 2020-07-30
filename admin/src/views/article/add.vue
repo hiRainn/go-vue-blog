@@ -30,7 +30,7 @@
 				</el-col>
 				<el-col :span="8" :hidden="!form.is_top">
 					<span style="margin-right: 5px;">{{ $t('article.sort') }}:</span>
-					<el-input v-model.number="form.sort" @input="checkSort" :placeholder="$t('article.sort_content')" style="width:80%"></el-input>
+					<el-input v-model.number="form.sort_num" @input="checkSort" :placeholder="$t('article.sort_content')" style="width:80%"></el-input>
 				</el-col>
 			</el-form-item>
 			<el-form-item :label="$t('article.is_self')">
@@ -113,6 +113,7 @@
 					is_top: false,
 					is_self: false,
 					sort: '',
+					sort_num:'',
 					create_at: '',
 				},
 				rules: {
@@ -159,10 +160,10 @@
 			},
 			checkSort(value) {
 				if (value > 255 || value < 0) {
-					this.form["sort"] = this['sort']
+					this.form["sort_num"] = this['sort_num']
 					return false;
 				}
-				this['sort'] = value
+				this['sort_num'] = value
 			},
 			getArticleInfo(id) {
 				getArticleInfo(id).then(response => {
@@ -180,10 +181,13 @@
 						} else {
 							data.is_self = false
 						}
-						var tags = data.tags_ids.split(',')
-						data.tags = []
-						for (var p in tags) {
-							data.tags.push(parseInt(tags[p]))
+						data.sort_num = data['sort']
+						if(data.tags_ids != false) {
+							var tags = data.tags_ids.split(',')
+							data.tags = []
+							for (var p in tags) {
+								data.tags.push(parseInt(tags[p]))
+							}
 						}
 						data.create_at = Format(parseInt(data.created_at) * 1000, 'yyyy-MM-dd hh:mm')
 						if (data.status == 1) {
@@ -226,10 +230,10 @@
 				})
 			},
 			postArticle() {
-				if (this.form['sort'] == false) {
+				if (this.form['sort_num'] == false) {
 					this.form['sort'] = 0
 				} else {
-					this.form['sort'] = parseInt(this.form['sorm'])
+					this.form['sort'] = parseInt(this.form['sort_num'])
 				}
 				this.addDsiabled = true
 				console.log(this.form.id)
@@ -289,10 +293,10 @@
 				console.log(this.form)
 			},
 			saveArticle() {
-				if (this.form['sort'] == false) {
+				if (this.form['sort_num'] == false) {
 					this.form['sort'] = 0
 				} else {
-					this.form['sort'] = parseInt(this.form['sorm'])
+					this.form['sort'] = parseInt(this.form['sort_num'])
 				}
 				this.addDsiabled = true
 				saveArticle(this.form).then(response => {

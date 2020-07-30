@@ -10,7 +10,7 @@ type BlogArticle struct {
 	Title string `json:"title";gorm:"type:varchar(100);DEFAULT:'';NOT NULL"`
 	ModifyAt int64 `json:"modify_at";gorm:"type:int(10);default:0;not null"`
 	CateId int `json:"cate_id";gorm:"type:int;not null;default:0"`
-	Content string `json:"content";gorm:"type:varchar(5000);not null;default:''"`
+	Content string `json:"content";gorm:"type:varchar(20000);not null;default:''"`
 	View int `json:"view";gorm:"type:int;not null;default:0"`
 	IsTop uint8 `json:"is_top";gorm:"type:tinyint;unsigned;not null;default:0"`
 	IsSelf uint8 `json:"is_self";gorm:"type:tinyint;unsigned;not null;default:0"`

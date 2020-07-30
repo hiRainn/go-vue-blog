@@ -166,6 +166,7 @@
 							type: 'success'
 						});
 						this.list.splice(index,1)
+						this.page.total = this.page.total - 1
 					}).catch(error => {
 						this.$alert(error, this.$i18n.t('os.tip'))
 					})

@@ -132,6 +132,8 @@ func EditArticle(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK,errcode.SetDecTagsError.GetH())
 		return
 	}
+	//set art.TagsIds to empty
+	art.TagsIds = ""
 	// get params
 	if err :=determineArt(art,params); err != nil {
 		tx.Rollback()
@@ -158,16 +160,12 @@ func EditArticle(ctx *gin.Context) {
 			ctx.JSON(http.StatusOK,errcode.SetIncTagsError.GetH())
 			return
 		}
-	}
-	//set struct article's tags, id,id,id ...
-	//determine if tags is []
-	if len(tags) == 0 {
-		art.TagsIds = ""
-	} else {
+		//set struct article's tags, id,id,id ...
 		for _, v :=  range tags {
 			art.TagsIds = art.TagsIds + strconv.Itoa(v) + ","
 		}
 	}
+	
 	art.TagsIds = strings.Trim(art.TagsIds,",")
 	art.ModifyAt = time.Now().Unix()
 	//edit article
@@ -203,7 +201,6 @@ func PostSaveArticle(ctx *gin.Context) {
 	tag := new(model.BlogTags)
 	//start transaction
 	tx := model.DB().Begin()
-	cate.Id = art.CateId
 
 	// get params
 	if err :=determineArt(art,params); err != nil {
@@ -225,6 +222,8 @@ func PostSaveArticle(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK,err.GetH())
 		return
 	}
+	//set TagsIds to empty
+	art.TagsIds = ""
 	//set tags num + 1
 	if len(tags) != 0 {
 		if tag.SetIncNum(tx,tags) == false {
@@ -232,16 +231,13 @@ func PostSaveArticle(ctx *gin.Context) {
 			ctx.JSON(http.StatusOK,errcode.SetIncTagsError.GetH())
 			return
 		}
-	}
-	//set struct article's tags, id,id,id ...
-	//determine if tags is []
-	if len(tags) == 0 {
-		art.TagsIds = ""
-	} else {
+		//set struct article's tags, id,id,id ...
 		for _, v :=  range tags {
 			art.TagsIds = art.TagsIds + strconv.Itoa(v) + ","
 		}
 	}
+
+
 	art.TagsIds = strings.Trim(art.TagsIds,",")
 	//edit article
 	if tx.Where("id = ?",art.Id).Save(art).Error != nil {
