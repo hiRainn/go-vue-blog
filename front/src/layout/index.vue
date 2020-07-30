@@ -1,5 +1,49 @@
 <template>
 	<div class="" style="margin-top: 0px;padding-top: 0px;">
+		<div class="header">
+			<el-row>
+			  <el-col :span="24" class="hidden-md-and-down">
+				  <header></header>
+			  </el-col>
+			</el-row>
+		</div>   
+		<div class="menu">
+			<!-- menu for phone -->  
+			<div class="hidden-sm-and-up">
+				手机菜单
+			</div>
+			<!-- menu for pad -->
+			<div class="hidden-xs-only hidden-lg-and-up">
+				平板菜单
+			</div>
+			<div class="hidden-md-only hidden-md-and-down">
+				电脑菜单
+			</div>
+		</div>
+		<el-row>
+			<el-col :offset="3" :span="18">
+				<menu>
+					<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+					  <el-menu-item index="1">处理中心</el-menu-item>
+					  <el-submenu index="2">
+					    <template slot="title">我的工作台</template>
+					    <el-menu-item index="2-1">选项1</el-menu-item>
+					    <el-menu-item index="2-2">选项2</el-menu-item>
+					    <el-menu-item index="2-3">选项3</el-menu-item>
+					    <el-submenu index="2-4">
+					      <template slot="title">选项4</template>
+					      <el-menu-item index="2-4-1">选项1</el-menu-item>
+					      <el-menu-item index="2-4-2">选项2</el-menu-item>
+					      <el-menu-item index="2-4-3">选项3</el-menu-item>
+					    </el-submenu>
+					  </el-submenu>
+					  <el-menu-item index="3" disabled>消息中心</el-menu-item>
+					  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+					</el-menu>
+				</menu>
+			</el-col>
+			<el-clo :span="3"></el-clo>
+		</el-row>
 		<el-row>
 			<el-col :span="3">
 				<div class="sideBar">
@@ -34,6 +78,7 @@
 </template>
 
 <script>
+	import 'element-ui/lib/theme-chalk/display.css'
 	import {
 		AppMain
 	} from './components'
@@ -69,17 +114,9 @@
 </script>
 
 <style lang="scss" scoped>
-	.sideBar {
-		height: 105vh;
-		background-color: #1a1918;
-	}
-	
-	.menu-span{
-		text-decoration: none !important;
-		font-size: 18px !important;
-	}
-	.sub-menu-item {
-		padding-left: 60px !important;
+	header{
+		height: 100px;
+		border: 1px solid black;
 	}
 	
 	a {
