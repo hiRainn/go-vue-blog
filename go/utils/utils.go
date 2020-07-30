@@ -4,6 +4,7 @@ import (
 	"blog/config"
 	"crypto/md5"
 	"encoding/hex"
+	"math/rand"
 	"time"
 )
 
@@ -28,4 +29,16 @@ func YmdTotimestamp(date string) int64 {
 	} else {
 		return the_time.Unix()
 	}
+}
+
+//set token
+func GetShuffledStr(l int) string {
+	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRXTUVWXZY"
+	bytes := []byte(str)
+	result := []byte{}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < l; i++ {
+		result = append(result, bytes[r.Intn(len(bytes))])
+	}
+	return string(result)
 }

@@ -12,7 +12,7 @@ type ERRCODE struct {
 	err error   //debug错误信息
 }
 
-func (err *ERRCODE) getErr() {
+func (err *ERRCODE) GetErr() {
 	fmt.Printf("Error - %d, message : %s ,error : %s",err.code, err.msg, err.err)
 }
 
@@ -82,10 +82,13 @@ var (
 	ArticleContentEmpty = &ERRCODE{code: 30313,msg: "content is empty"}
 	SetIncTagsError = &ERRCODE{code: 30314,msg: "tag setInc error"}
 	SetIncCateError = &ERRCODE{code: 30315,msg: "cate setInc error"}
-	SetDecTagsError = &ERRCODE{code: 30314,msg: "tag setDec error"}
-	SetDecCateError = &ERRCODE{code: 30315,msg: "cate setDec error"}
-	EditArticleError = &ERRCODE{code: 30136,msg: "edit article error"}
-	DeleteArticleError = &ERRCODE{code: 30137,msg: "delete article error"}
+	SetDecTagsError = &ERRCODE{code: 30316,msg: "tag setDec error"}
+	SetDecCateError = &ERRCODE{code: 30317,msg: "cate setDec error"}
+	EditArticleError = &ERRCODE{code: 30318,msg: "edit article error"}
+	DeleteArticleError = &ERRCODE{code: 30319,msg: "delete article error"}
+
+	UploadFileError = &ERRCODE{code: 30398,msg: "upload file error"}
+	UploadFileSaveError = &ERRCODE{code: 30399,msg: "upload file save error"}
 )
 
 

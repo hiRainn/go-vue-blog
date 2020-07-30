@@ -318,10 +318,10 @@
 				var formdata = new FormData();
 				formdata.append('image', $file);
 				var vm = this.$refs['md']
-				uploadArticleImage(FormData).then(response => {
-					vm.$img2Url(pos, url);
+				uploadArticleImage(formdata).then(response => {
+					vm.$img2Url("name", "url");
 				}).catch(err => {
-					vm.$img2Url(pos, url);
+					vm.$img2Url("name", "url");
 					console.log($file)
 				})
 			}
