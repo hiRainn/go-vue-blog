@@ -3,7 +3,6 @@ package bac
 import (
 	"blog/pkg/errcode"
 	"blog/utils"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"path"
@@ -19,15 +18,15 @@ func UploadArticleImg(ctx *gin.Context) {
 		return
 	}
 	savename := getUniqueName() + path.Ext(file.Filename)
+	savepath := "/static/upload/"+ savename
 
-	savepath := "./static/upload/"+ savename
-
-	if ctx.SaveUploadedFile(file,savepath) != nil {
+	if ctx.SaveUploadedFile(file,"." + savepath) != nil {
 		ctx.JSON(http.StatusOK,errcode.UploadFileSaveError.GetH())
-		fmt.Println(ctx.SaveUploadedFile(file,savepath))
 		return
 	}
-	res := map[string]interface {}{"url":savepath}
+
+	host := "http://" + ctx.Request.Host
+	res := map[string]interface {}{"url": host + savepath,"filename":savename}
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 }
 

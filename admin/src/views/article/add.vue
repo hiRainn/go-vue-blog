@@ -41,7 +41,7 @@
 			</el-form-item>
 
 			<el-form-item>
-				<mavon-editor ref="md" @imgAdd="imgAdd" :language="language" codeStyle="atelier-lakeside-dark" v-model="form.content" style="height: 600px"
+				<mavon-editor ref='md' @imgAdd="imgAdd" :language="language" codeStyle="atelier-lakeside-dark" v-model="form.content" style="height: 600px"
 				 :placeholder="$t('article.edit')"></mavon-editor>
 			</el-form-item>
 			<el-form-item :label="$t('article.tags')">
@@ -317,12 +317,18 @@
 				// 第一步.将图片上传到服务器.
 				var formdata = new FormData();
 				formdata.append('image', $file);
-				var vm = this.$refs['md']
+				var md = this.$refs['md']
 				uploadArticleImage(formdata).then(response => {
-					vm.$img2Url("name", "url");
+					if(response.code) {
+						this.$alert(response.msg)
+					} else {
+						var data = response.data
+						md.$img2Url(pos,data.url );
+						
+					}
+					
 				}).catch(err => {
-					vm.$img2Url("name", "url");
-					console.log($file)
+					console.log(err)
 				})
 			}
 		},
@@ -343,6 +349,8 @@
 				language = 'zh-CN'
 			}
 			this.language = language
+			
+			
 		}
 
 	}
