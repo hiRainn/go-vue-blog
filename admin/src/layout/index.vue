@@ -3,20 +3,20 @@
 		<el-row>
 			<el-col :span="3">
 				<div class="sideBar">
-					<el-menu :default-active="active" text-color="#fff" background-color="#1a1918" :select="handleClickOutside" class="el-menu-vertical-demo">
-						<el-menu-item index="/" @click="jump('/')">
+					<el-menu :default-active="active" :router="router" text-color="#fff" background-color="#1a1918" :select="handleClickOutside" class="el-menu-vertical-demo">
+						<el-menu-item index="/">
 							<i class="el-icon-menu"></i>
 							<span slot="title" class="menu-span" >{{$t('menu.index')}}</span>
 						</el-menu-item>
-						<el-submenu index="1">
+						<el-submenu index="/article">
 							<template slot="title">
 								<i class="el-icon-location"></i>
 								<span class="menu-span">{{$t('menu.article_manage')}}</span>
 							</template>
 							<el-menu-item-group>
-								<el-menu-item index="/article" class="menu-span sub-menu-item" @click="jump('/article')">{{$t('menu.list')}}</el-menu-item>
+								<el-menu-item index="/article" class="menu-span sub-menu-item">{{$t('menu.list')}}</el-menu-item>
 								<el-menu-item index="/article/add" hidden ></el-menu-item>
-								<el-menu-item index="/article/drafts" class="menu-span sub-menu-item" @click="jump('/article/drafts')">{{$t('menu.drafts')}}</el-menu-item>
+								<el-menu-item index="/article/drafts" class="menu-span sub-menu-item">{{$t('menu.drafts')}}</el-menu-item>
 							</el-menu-item-group>
 						</el-submenu>
 
@@ -44,6 +44,7 @@
 		},
 		data() {
 			return {
+				router:true,
 				active: '',
 				menu_list: [],
 				style: 'top'
