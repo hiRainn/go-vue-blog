@@ -1,9 +1,9 @@
 <template>
 	<div class="" style="margin-top: 0px;padding-top: 0px;">
-		<el-row>
+		
 			<el-col :span="3">
-				<div class="sideBar">
-					<el-menu :default-active="active" :router="router" text-color="#fff" background-color="#1a1918" :select="handleClickOutside" class="el-menu-vertical-demo">
+			
+					<el-menu :style="style" :default-active="active" :router="true" text-color="#fff" background-color="#1a1918" :select="handleClickOutside" class="el-menu-vertical-demo sideBar">
 						<el-menu-item index="/">
 							<i class="el-icon-menu"></i>
 							<span slot="title" class="menu-span" >{{$t('menu.index')}}</span>
@@ -19,16 +19,13 @@
 								<el-menu-item index="/article/drafts" class="menu-span sub-menu-item">{{$t('menu.drafts')}}</el-menu-item>
 							</el-menu-item-group>
 						</el-submenu>
-
-
 					</el-menu>
-				</div>
-
+				
 			</el-col>
 			<el-col :offset="1" :span="19" style="padding-top: 20px;">
 				<app-main />
 			</el-col>
-		</el-row>
+	
 
 	</div>
 </template>
@@ -44,10 +41,12 @@
 		},
 		data() {
 			return {
-				router:true,
 				active: '',
 				menu_list: [],
-				style: 'top'
+				style: 'top',
+				style:{
+					height:"100vh",
+				}
 			}
 		},
 		methods: {
@@ -65,13 +64,13 @@
 			this.active = this.$route.path
 			console.log(this.active)
 			// alert(this.$route.path.trimLeft('/'))
+			this.style.height = document.body.scrollHeight + 40 + 'px'
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.sideBar {
-		height: 105vh;
 		background-color: #1a1918;
 	}
 	
