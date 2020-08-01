@@ -22,6 +22,17 @@
 				</el-select>
 				<el-button @click="dialogFormVisible = true">+</el-button>
 			</el-form-item>
+			
+			<el-form-item :label="$t('article.is_origin')">
+				<el-col :span="2">
+					<el-switch v-model="form.is_original" active-color="#13ce66" :active-text="$t('os.yes')">
+					</el-switch>
+				</el-col>
+				<el-col :span="8" :hidden="form.is_original">
+					<span style="margin-right: 5px;">{{ $t('article.reprint_from') }}:</span>
+					<el-input v-model.number="form.reprint_from" @input="checkSort" :placeholder="$t('article.reprint_msg')" style="width:80%"></el-input>
+				</el-col>
+			</el-form-item>
 
 			<el-form-item :label="$t('article.is_top')">
 				<el-col :span="2">
@@ -33,9 +44,17 @@
 					<el-input v-model.number="form.sort_num" @input="checkSort" :placeholder="$t('article.sort_content')" style="width:80%"></el-input>
 				</el-col>
 			</el-form-item>
+			
 			<el-form-item :label="$t('article.is_self')">
 				<el-col :span="2">
 					<el-switch v-model="form.is_self" active-color="#13ce66" :active-text="$t('os.yes')">
+					</el-switch>
+				</el-col>
+			</el-form-item>
+			
+			<el-form-item :label="$t('article.no_comment')">
+				<el-col :span="2">
+					<el-switch v-model="form.allow_comment" active-color="#13ce66" :active-text="$t('os.yes')">
 					</el-switch>
 				</el-col>
 			</el-form-item>
@@ -112,6 +131,9 @@
 					tags: [],
 					is_top: false,
 					is_self: false,
+					is_original:true,
+					allow_comment:true,
+					reprint_from:'',
 					sort: '',
 					sort_num:'',
 					create_at: '',
@@ -180,6 +202,16 @@
 							data.is_self = true
 						} else {
 							data.is_self = false
+						}
+						if (data.is_original == 1) {
+							data.is_original = true
+						} else {
+							data.is_original = false
+						}
+						if (data.allow_comment == 1) {
+							data.allow_comment = true
+						} else {
+							data.allow_comment = false
 						}
 						data.sort_num = data['sort']
 						if(data.tags_ids != false) {

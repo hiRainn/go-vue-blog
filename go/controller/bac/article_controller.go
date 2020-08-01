@@ -326,23 +326,46 @@ func determineArt(art *model.BlogArticle,params map[string] interface{}) *errcod
 	if art.Content == "" {
 		return errcode.ArticleContentEmpty
 	}
-	top := params["is_top"].(bool)
+	top:= params["is_top"].(bool)
 	if top {
 		art.IsTop = 1
+		switch params["sort"].(type) {
+		case nil:
+			art.Sort = 0
+		case float64:
+			art.Sort = uint8(params["sort"].(float64))
+		case string:
+			tmp,_ := strconv.Atoi(params["sort"].(string))
+			art.Sort = uint8(tmp)
+		}
+	} else {
+		art.IsTop = 0
+		art.Sort = 0
 	}
+	//is original
+	original,_ := params["is_original"].(bool)
+	if original {
+		art.IsOriginal = 1
+		art.ReprintFrom = ""
+	} else {
+		art.IsOriginal = 0
+		art.ReprintFrom = params["reprint_from"].(string)
+	}
+	//only see by yourself
 	self := params["is_self"].(bool)
 	if self {
 		art.IsSelf = 1
+	} else {
+		art.IsSelf = 0
 	}
-	switch params["sort"].(type) {
-	case nil:
-		art.Sort = 0
-	case float64:
-		art.Sort = uint8(params["sort"].(float64))
-	case string:
-		tmp,_ := strconv.Atoi(params["sort"].(string))
-		art.Sort = uint8(tmp)
+	//if comment is forbidden
+	allow_comment := params["allow_comment"].(bool)
+	if allow_comment {
+		art.AllowComment = 1
+	} else {
+		art.AllowComment = 0
 	}
+
 	//do with created_at
 	the_time := params["create_at"].(string)
 	if the_time == "" {

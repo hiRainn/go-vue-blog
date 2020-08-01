@@ -4,6 +4,7 @@ import (
 	"blog/route/bac"
 	"github.com/gin-gonic/gin"
 	b "blog/controller/bac"
+	f "blog/controller/front"
 
 )
 
@@ -20,6 +21,9 @@ func Initroute() *gin.Engine {
 	//------------auth && password ----------------
 	//log in
 	r.POST("/bac/auth",b.Auth)
+
+	//---------------route for app ----------------
+	r.GET("article", f.GetArticle)
 
 
 	return r
