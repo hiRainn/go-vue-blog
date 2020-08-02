@@ -52,7 +52,7 @@
 				</el-col>
 			</el-form-item>
 			
-			<el-form-item :label="$t('article.no_comment')">
+			<el-form-item :label="$t('article.allow_comment')">
 				<el-col :span="2">
 					<el-switch v-model="form.allow_comment" active-color="#13ce66" :active-text="$t('os.yes')">
 					</el-switch>

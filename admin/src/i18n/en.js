@@ -56,7 +56,7 @@ module.exports = {
 		'is_origin':'original',
 		"reprint_from":'reprint from',
 		'reprint_msg':'the address where you reprint the article',
-		'no_comment':'comment',
+		'allow_comment':'comments',
 		'sort':'sort',
 		'sort_content':'0-255,higher value higher position',
 		'title_rule':'please enter title',

@@ -1,9 +1,9 @@
 <template>
 	<div class="" style="margin-top: 0px;padding-top: 0px;">
-		<el-col :span="3" >
+		<el-col :span="3">
 			<div :style="compute_style"></div>
 			<el-menu :style="style" :default-active="active" :router="true" text-color="#fff" background-color="#1a1918" :select="handleClickOutside"
-			 class="el-menu-vertical-demo sideBar">
+			 class="el-menu-vertical-demo">
 				<el-menu-item index="/">
 					<i class="el-icon-menu"></i>
 					<span slot="title" class="menu-span">{{$t('menu.index')}}</span>
@@ -42,10 +42,10 @@
 			return {
 				active: '',
 				menu_list: [],
-				style: 'top',
 				style: {
 					height: "100vh",
 					position:'fixed',
+					width:'200px',
 					top:'0px'
 				},
 				compute_style:{
@@ -86,7 +86,7 @@
 	.sideBar {
 		background-color: #1a1918;
 	}
-
+	
 	.menu-span {
 		text-decoration: none !important;
 		font-size: 18px !important;
