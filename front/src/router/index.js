@@ -37,6 +37,17 @@ const Routes = [{
 	// 	]
 	// },
 	{
+		path: '/article',
+		component: Layout,
+		hidden: false,
+		children: [{
+			path: '',
+			meta:{title:"article"},
+			component: () => import('@/views/article/articles'),
+			hidden: false
+		}, ]
+	},
+	{
 		path: '/',
 		component: Layout,
 		hidden: false,

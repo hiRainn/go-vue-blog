@@ -1,17 +1,16 @@
 import request from '@/utils/request'
 
-export function checkInit(query) {
+
+export function init() {
   return request({
-    url: '/check_init',
+    url: '/info',
     method: 'get',
-    params: query
   })
 }
 
-export function init(data) {
-  return request({
-    url: '/init',
-    method: 'post',
-    data: data
-  })
+export function getCateArticle() {
+	return request({
+	  url: '/cate_article',
+	  method: 'get',
+	})
 }

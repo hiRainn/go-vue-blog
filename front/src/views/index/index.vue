@@ -2,10 +2,7 @@
 	<div id="page">
 		<span>this is heihei's home</span>
 		<div style="width: 100%" class="flex-container column">
-			<video id="video" src="../../static/audios/yhys.mp3" muted="true" onpagehide="auto" controls="controls" autoplay="autoplay"
-			 loop="loop">
-
-			</video>
+			
 
 			<img id="img" class="play" style="transform: translate(-1584.4%, 121.5%) scale(1)" :src="sound" @click="play()">
 
@@ -42,7 +39,6 @@
 			} else { // 已播放点击则暂停
 				this.video.pause(); //暂停控制
 			}
-			alert(1)
 		}
 	}
 </script>

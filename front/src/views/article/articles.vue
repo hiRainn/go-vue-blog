@@ -1,34 +1,30 @@
 <template>
 	<div>
-		<button @click="dian"></button>
+		<ArticleItem :list="list"/>
 	</div>
 </template>
 
 <script>
-	import {getArticles} from '@/api/article.js'
+	import ArticleItem from '@/components/ArticleItem'
 	export default {
 		name :'init',
+		components: {
+			ArticleItem,
+		},
 		data () {
 			return {
-				initForm:{
-					
-				}
+				list:[]
 			}
 		},
 		methods:{
 			getArticles() {
-				getArticles().then( response => {
-					console.log(response)
-				}).catch(err => {
-					console.log(err)
-				}) 
+				alert(1)
 			},
 			dian() {
 				alert(1)
 			}
 		},
 		mounted() {
-			this.getArticles()
 		}
 		
 	}

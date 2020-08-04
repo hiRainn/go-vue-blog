@@ -8,13 +8,14 @@ import (
 type BlogCate struct {
 	Id int `json:"id";gorm:"PRIMARY_KEY;AUTO_INCREMENT;NOT NULL;type:tinyint;UNSIGNED"`
 	CateName string `json:"cate_name";gorm:"type:varchar(32);NOT NULL;DEFAULT:''"`
-	Num uint8 `json:"num";gorm:"type:smallint(3);unsigned;NOT NULL;DEFAULT:0"`
+	Num uint16 `json:"num";gorm:"type:smallint(3);unsigned;NOT NULL;DEFAULT:0"`
 }
 
 type SelectCate struct {
 	Id int	`json:"id"`
 	Name string `json:"name"`
 }
+
 
 //get tag_list by condition
 func (c *BlogCate) GetList(condition map[string] interface{}) ([]*BlogCate,*errcode.ERRCODE) {
@@ -67,10 +68,18 @@ func (c *BlogCate) CheckNameRepeat() bool {
 	return true
 }
 //add category
-func (c *BlogCate) AddCate(cate *BlogCate) int {
+func (c *BlogCate) AddCate() int {
 	res := 0
-	if err :=db.Create(cate).Error; err == nil {
-		res =  cate.Id
+	if err :=db.Create(c).Error; err == nil {
+		res =  c.Id
 	}
 	return res
+}
+
+func (c *BlogCate) MenuCate() ([]BlogCate ,error) {
+	var mc []BlogCate
+	if err := db.Table("blog_cate").Where("num <> 0").Find(&mc).Error; err != nil {
+		return mc,err
+	}
+	return mc ,nil
 }

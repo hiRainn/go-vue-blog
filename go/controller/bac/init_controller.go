@@ -40,7 +40,7 @@ func BacInit(ctx *gin.Context) {
 	var params map[string] interface{}
 	if err := ctx.BindJSON(&params); err != nil {
 		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
-		return ;
+		return
 	}
 	//get username,nickname,intro
 	auth.Username, _  = params["username"].(string)
@@ -62,11 +62,11 @@ func BacInit(ctx *gin.Context) {
 
 	if auth.Password == "" {
 		ctx.JSON(http.StatusOK,errcode.EmptyPassError.GetH())
-		return ;
+		return
 	}
 	if auth.Password != repeat {
 		ctx.JSON(http.StatusOK,errcode.RepeatPassError.GetH())
-		return ;
+		return
 	}
 	auth.Password = utils.PassEncry(auth.Password)
 
@@ -75,13 +75,13 @@ func BacInit(ctx *gin.Context) {
 	lang := params["language"].(string)
 
 	conf := []model.BlogConfig{
-	 	model.BlogConfig{Key: "title",Value: title},
-	 	model.BlogConfig{Key: "subtitle", Value: subtitle},
-		model.BlogConfig{Key: "language", Value: lang},
+	 	{Key: "title",Value: title},
+	 	{Key: "subtitle", Value: subtitle},
+		{Key: "language", Value: lang},
 	}
 	if title == "" {
 		ctx.JSON(http.StatusOK,errcode.BlogNameEmpty.GetH())
-		return ;
+		return
 	}
 	//start translate
 	tx := model.DB().Begin()
@@ -89,14 +89,14 @@ func BacInit(ctx *gin.Context) {
 		tx.Rollback()
 		//ctx.JSON(http.StatusOK,gin.H{"data":date})
 		ctx.JSON(http.StatusOK,errcode.InsertAuthError.GetH())
-		return ;
+		return
 	}
 	for _ , v := range conf {
 		c := &model.BlogConfig{Key: v.Key,Value: v.Value}
 		if err2 := tx.Create(c).Error;err2 != nil {
 			tx.Rollback()
 			ctx.JSON(http.StatusOK,errcode.InsertConfError.GetH())
-			return ;
+			return
 		}
 	}
 	tx.Commit()

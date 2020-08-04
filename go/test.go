@@ -11,10 +11,9 @@ type tt struct {
 }
 
 func main() {
-	var params []string
-
-	fmt.Println(params != nil)
-
+	var p tt
+	p.name = "10"
+	fmt.Println(p)
 
 
 

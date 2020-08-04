@@ -43,7 +43,7 @@ func AddCategory(ctx *gin.Context) {
 		return ;
 	}
 	//add cate
-	res := cate.AddCate(cate)
+	res := cate.AddCate()
 	if res == 0 {
 		ctx.JSON(http.StatusOK,errcode.AddCateGoryError.GetH())
 		return ;

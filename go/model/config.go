@@ -16,7 +16,7 @@ func (conf *BlogConfig) Add() uint8 {
 
 func (conf *BlogConfig) Find() ([]BlogConfig, error ) {
 	var config []BlogConfig
-	res := db.First(&config)
+	res := db.Find(&config)
 	return config, res.Error
 }
 

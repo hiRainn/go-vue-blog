@@ -8,12 +8,13 @@ import (
 	"strconv"
 )
 
+
 //is_self eq 0 and sort for is_top desc sort desc
 func GetArticle(ctx *gin.Context) {
 	page_num := ctx.DefaultQuery("page_size","0") //number of crticle per page
 	p := ctx.DefaultQuery("p","1")
 	cate_id := ctx.DefaultQuery("cate_id","0")
-	tag_id,_ := ctx.GetQueryArray("tag_id[]")
+	tag_id:= ctx.DefaultQuery("tag_id","")
 	title := ctx.DefaultQuery("title","")
 	var page_size int
 	if page_num == "" || page_num == "0" {

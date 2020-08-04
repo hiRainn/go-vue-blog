@@ -53,6 +53,7 @@ func (err * ERRCODE) GetH() gin.H {
 var (
 	Ok = &ERRCODE{code: 0, msg: "ok"}
 	// ------------  system error   -----------
+	SystemError = &ERRCODE{code: 10000,msg: "system error"}
 	ErrParams = &ERRCODE{code: 10001, msg: "error params"}
 	FileOverMax = &ERRCODE{code: 10101, msg: "over size"}
 	ParamError = &ERRCODE{code: 10301,msg: "params error"}

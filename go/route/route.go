@@ -23,6 +23,10 @@ func Initroute() *gin.Engine {
 	r.POST("/bac/auth",b.Auth)
 
 	//---------------route for app ----------------
+	//get base info
+	r.GET("info",f.Index)
+	//get cate_article
+	r.GET("cate_article",f.GetCateMenu)
 	r.GET("article", f.GetArticle)
 
 
