@@ -1,6 +1,10 @@
 <template>
   <div>
-	  asddsa
+	  <div class="item" v-for="item in itemList">
+		  <span class="title"><router-link :to="'/article/' + item.id" style="font-size: 24px;">{{item.title}}</router-link></span>
+		  <el-divider></el-divider>
+	  </div>
+	  
   </div>
 </template>
 
@@ -16,13 +20,22 @@ export default {
     },
   },
   computed: {
-    isExternal() {
-      return isExternal(this.iconClass)
+    itemList() {
+      return this.list
     },
   }
 }
 </script>
 
 <style scoped>
-
+	.item{
+		text-align: left;
+	}
+	a {
+		text-decoration: none;
+	}
+	
+	.router-link-active {
+		text-decoration: none;
+	}
 </style>

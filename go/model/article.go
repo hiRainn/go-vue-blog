@@ -33,8 +33,25 @@ type AdminArticleList struct {
 	NewViews uint16 `json:"new_views"`
 	NewComments uint16 `json:"new_comments"`
 	PostAt string `json:"post_at"`
+	IsSelf uint8 `json:"is_self"`
+	IsTop uint8 `json:"is_top"`
+	IsOriginal uint8 `json:"is_original"`
 }
-const OFFSET = 15
+
+type AppArticleList struct {
+	Model
+	Title string `json:"title"`
+	CateName string `json:"cate_name"`
+	CateId uint8 `json:"cate_id"`
+	TagName string `json:"tag_name"`
+	PostAt string `json:"post_at"`
+	Content string `json:"content"`
+	View int `json:"view"`
+	Comment int `json:"comment"`
+	IsOriginal uint8 `json:"is_original"`
+	IsTop uint8 `json:"is_top"`
+	AllowComment uint8 `json:"allow_comment"`
+}
 
 //you must be in a transaction when post a article ,so must get handle of db
 func(art *BlogArticle) AddArticle(tx *gorm.DB) (int,*errcode.ERRCODE){
@@ -80,7 +97,9 @@ func (art *BlogArticle) DelArticleById() *errcode.ERRCODE {
 func (art *BlogArticle) GetArticleList (condition map[string]interface{}, page map[string]int) ([]AdminArticleList, int, error) {
 	var list []AdminArticleList
 
-	field := "a.id,a.title,bc.cate_name,group_concat(bt.tag_name) as tags,from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at,count(v.id) as views,count(c.id) as comments"
+	field := "a.id,a.title,bc.cate_name,group_concat(bt.tag_name) as tags"
+	field = field + ",from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at"
+	field = field + ",count(v.id) as views,count(c.id) as comments,a.is_self,a.is_original,is_top"
 	offset := (page["page"] - 1) * page["page_size"]
 	res := db.Table("blog_article a").Select(field)
 	if condition["title"] != nil {
@@ -103,6 +122,38 @@ func (art *BlogArticle) GetArticleList (condition map[string]interface{}, page m
 	var count int
 	res.Count(&count)
 	res = res.Offset(offset).Limit(page["page_size"]).Order("a.id desc").Find(&list)
+
+	return list,count,res.Error
+}
+
+func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page map[string]int) ([]AppArticleList,int,error) {
+	var list []AppArticleList
+	field := "a.id,a.title,bc.cate_name,group_concat(bt.tag_name) as tags,left(a.content,200) as content"
+	field = field + ",from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at,allow_comment"
+	field = field + ",count(v.id) as views,count(c.id) as comments,a.is_original,is_top"
+	offset := (page["page"] - 1) * page["page_size"]
+	res := db.Table("blog_article a").Select(field)
+	if condition["title"] != nil {
+		res = res.Where("`title` like ?","%" + condition["title"].(string) + "%")
+	}
+	if condition["cate_id"] != nil {
+		res = res.Where("`cate_id` = ?",condition["cate_id"].(int))
+	}
+	if condition["tag_id"] != nil {
+		for _,v := range condition["tag_id"].([]string) {
+			res = res.Where("find_in_set(?,tags_ids)",v)
+		}
+	}
+	res = res.Where("a.is_self = ?",0)
+	res = res.Where("a.status = ?", 0)
+	res = res.Joins("left join blog_cate bc on a.cate_id = bc.id")
+	res = res.Joins("left join blog_comment c on a.id = c.article_id")
+	res = res.Joins("left join blog_tags bt on FIND_IN_SET(bt.id,a.tags_ids)")
+	res = res.Joins("left join blog_view v on a.id = v.article_id")
+	res = res.Group("a.id")
+	var count int
+	res.Count(&count)
+	res = res.Offset(offset).Limit(page["page_size"]).Order("a.is_top desc,a.created_at desc").Find(&list)
 
 	return list,count,res.Error
 }

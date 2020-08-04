@@ -41,6 +41,18 @@ const Routes = [{
 		component: Layout,
 		hidden: false,
 		children: [{
+			path: ':name/:id',
+			meta:{title:"article"},
+			component: () => import('@/views/article/articles'),
+			hidden: false
+		},
+		{
+			path: ':id',
+			meta:{},
+			component: () => import('@/views/article/content'),
+			hidden: false
+		},
+			,{
 			path: '',
 			meta:{title:"article"},
 			component: () => import('@/views/article/articles'),

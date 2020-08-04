@@ -13,7 +13,7 @@ type tt struct {
 func main() {
 	var p tt
 	p.name = "10"
-	fmt.Println(p)
+	fmt.Println(len(p.name))
 
 
 

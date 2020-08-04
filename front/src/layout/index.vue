@@ -238,7 +238,7 @@
 						var data = r.data
 						for(var p in data) {
 							this.menu_list.push({
-								index:'/article?cate_id=' + data[p]['id'],
+								index:'/article/cate_id/' + data[p]['id'],
 								name : data[p]['cate_name'] + '(' + data[p]['num'] + ')'
 							})
 						}
@@ -325,7 +325,7 @@
 		text-decoration: none;
 	}
 	p {
-	  margin: 5px 0px;
+	  margin: 5px;
 	  font-size: 2em;
 	  font-weight: 600;
 	}
