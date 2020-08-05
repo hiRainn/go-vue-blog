@@ -128,9 +128,9 @@ func (art *BlogArticle) GetArticleList (condition map[string]interface{}, page m
 
 func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page map[string]int) ([]AppArticleList,int,error) {
 	var list []AppArticleList
-	field := "a.id,a.title,bc.cate_name,group_concat(bt.tag_name) as tags,left(a.content,200) as content"
+	field := "a.id,a.title,bc.cate_name,group_concat(bt.tag_name) as tag_name,left(a.content,200) as content"
 	field = field + ",from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at,allow_comment"
-	field = field + ",count(v.id) as views,count(c.id) as comments,a.is_original,is_top"
+	field = field + ",count(v.id) as views,count(c.id) as comments,a.is_original,is_top,a.cate_id"
 	offset := (page["page"] - 1) * page["page_size"]
 	res := db.Table("blog_article a").Select(field)
 	if condition["title"] != nil {
@@ -140,9 +140,7 @@ func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page
 		res = res.Where("`cate_id` = ?",condition["cate_id"].(int))
 	}
 	if condition["tag_id"] != nil {
-		for _,v := range condition["tag_id"].([]string) {
-			res = res.Where("find_in_set(?,tags_ids)",v)
-		}
+		res = res.Where("find_in_set(?,tags_ids)",condition["tag_id"].(int))
 	}
 	res = res.Where("a.is_self = ?",0)
 	res = res.Where("a.status = ?", 0)

@@ -17,8 +17,14 @@ module.exports = {
 		'repeat_rule':'Entered passwords differ',
 		'title_rule':'title is not allow empty',
     },
+	article:{
+		'load_text':'click for more',
+		'loading_text':'loading',
+		'nomore_text':'no more',
+		'publish':'Published on '
+	},
 	menu:{
-		'index':'index',
+		'index':'home',
 		'article':'article'
 	},
 	select:{

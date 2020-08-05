@@ -30,15 +30,7 @@
 			}
 		},
 		mounted() {
-			this.video = document.getElementById("video")
-			this.video.addEventListener('click', this.mulo);
-			this.mulo('autolpay');
-			this.mulo('muted');
-			if (this.video.paused) { //如果已暂停则播放
-				this.video.play(); //播放控制
-			} else { // 已播放点击则暂停
-				this.video.pause(); //暂停控制
-			}
+			
 		}
 	}
 </script>

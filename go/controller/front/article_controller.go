@@ -14,7 +14,8 @@ func GetArticle(ctx *gin.Context) {
 	page_num := ctx.DefaultQuery("page_size","0") //number of crticle per page
 	p := ctx.DefaultQuery("p","1")
 	cate_id := ctx.DefaultQuery("cate_id","0")
-	tag_id:= ctx.DefaultQuery("tag_id","")
+	tag:= ctx.DefaultQuery("tag","")
+
 	var page_size int
 	if page_num == "" || page_num == "0" {
 		page_size = 20
@@ -26,8 +27,14 @@ func GetArticle(ctx *gin.Context) {
 	if cate_id != "0" && cate_id != "" {
 		condition["cate_id"],_ = strconv.Atoi(cate_id)
 	}
-	if len(tag_id) != 0 {
-		condition["tag_id"] = tag_id
+	if len(tag) != 0 {
+		var tags model.BlogTags
+		tags.TagName = tag
+		if err :=tags.GetInfo(); err != nil {
+			ctx.JSON(http.StatusOK,err.GetH())
+			return
+		}
+		condition["tag_id"] = tags.Id
 	}
 	//page information
 	page := make(map[string]int)

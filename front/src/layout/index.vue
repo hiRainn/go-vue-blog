@@ -75,7 +75,7 @@
 					<el-col :offset="1" :span="22">
 						<el-row>
 							<el-col :span="17">
-								<div style="border:1px solid #11B95C;height: 800px;">
+								<div>
 									<el-row :hidden="!show_breadcumb">
 										<div class="breadcumb">
 											<el-breadcrumb separator-class="el-icon-arrow-right">
@@ -86,10 +86,13 @@
 											</el-breadcrumb>
 										</div>
 									</el-row>
+									<el-row>
+										<app-main />
+									</el-row>
 								</div>
 							</el-col>
 							<el-col :span="7">
-								<div style="border:1px solid #1682E6;height: 300px;">
+								<div>
 									<el-row style="margin-top: 20px;">
 										<el-col :span="8" :offset="1">
 											<el-avatar :size="70" :src="avatar"></el-avatar>
@@ -142,11 +145,11 @@
 						<el-row>
 							<!-- content -->
 							<el-col :span="17">
-								<div style="border:1px solid #11B95C;height: 800px;">
+								<div>
 									<el-row :hidden="!show_breadcumb">
 										<div class="breadcumb">
 											<el-breadcrumb separator-class="el-icon-arrow-right">
-											  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+											  <el-breadcrumb-item :to="{ path: '/' }"><i class="el-icon-house"></i>{{$t('menu.index')}}</el-breadcrumb-item>
 											  <el-breadcrumb-item>活动管理</el-breadcrumb-item>
 											  <el-breadcrumb-item>活动列表</el-breadcrumb-item>
 											  <el-breadcrumb-item>活动详情</el-breadcrumb-item>
@@ -159,7 +162,7 @@
 								</div>
 							</el-col>
 							<el-col :span="7">
-								<div style="border:1px solid #1682E6;height: 300px;">
+								<div>
 									<el-row style="margin-top: 20px;">
 										<el-col :span="8" :offset="1">
 											<el-avatar :size="70" :src="avatar"></el-avatar>
@@ -176,8 +179,7 @@
 					<el-col :span="4"></el-col>
 				</el-row>
 			</div>
-	
-
+			<el-backtop></el-backtop>
 	</div>
 </template>
 

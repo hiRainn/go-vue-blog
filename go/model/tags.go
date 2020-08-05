@@ -16,6 +16,13 @@ type SelectTags struct {
 	Name string `json:"name"`
 }
 
+func (t *BlogTags) GetInfo() *errcode.ERRCODE{
+	if db.Where(t).First(t).Error != nil {
+		return errcode.ParamError
+	}
+	return nil
+}
+
 //get all tags for select
 func (t *BlogTags) GetSelectList() ([]*SelectTags,*errcode.ERRCODE) {
 	var list []*SelectTags
