@@ -61,5 +61,12 @@ func GetArticle (ctx *gin.Context) {
 	}
 	article_id ,_ := strconv.Atoi(id)
 	go ViewArticle("article",ctx.ClientIP(),article_id)
+	var art model.BlogArticle
+	art.Id = article_id
+	if err := art.GetArticleById(); err != nil {
+		ctx.JSON(http.StatusOK,err.GetH())
+		return
+	}
+
 
 }

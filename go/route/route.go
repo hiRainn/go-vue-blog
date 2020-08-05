@@ -29,6 +29,8 @@ func Initroute() *gin.Engine {
 	r.GET("cate_article",f.GetCateMenu)
 	r.GET("article", f.GetArticleList)
 	r.GET("article/:id",f.GetArticle)
+	r.GET("comment/:id",f.GetArticleComment)
+	r.POST("comment",f.PostComment)
 
 
 	return r

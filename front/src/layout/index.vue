@@ -48,12 +48,11 @@
 						</el-drawer>
 					</header>
 				</el-row>
-				<el-row>
+				<el-row v-if="this.$route.path == '/'">
 					<el-col :offset="5" :span="14">
 						<el-avatar :size="100" :src="avatar" fit="contain" style="margin-top: 20px;" icon="el-icon-user-solid"></el-avatar>
 						<div class="phone-author-name"><b>{{author.nickname}}</b></div>
 					</el-col>
-					
 					<el-col :span="5"></el-col>
 				</el-row>
 			</div>
@@ -104,10 +103,10 @@
 							<!-- content -->
 							<el-col :sm="17" :xs="24">
 								<div>
-									<el-row :hidden="!show_breadcumb">
+									<el-row :hidden="!Cshow_breadcumb">
 										<div class="breadcumb">
 											<el-breadcrumb separator-class="el-icon-arrow-right">
-											  <el-breadcrumb-item><i class="el-icon-s-home"></i>{{$t('menu.index')}}</el-breadcrumb-item>
+											  <el-breadcrumb-item to="/"><i class="el-icon-s-home" @click="show_breadcumb=false">{{$t('menu.index')}}</i></el-breadcrumb-item>
 											  <el-breadcrumb-item>活动管理</el-breadcrumb-item>
 											  <el-breadcrumb-item>活动列表</el-breadcrumb-item>
 											  <el-breadcrumb-item>活动详情</el-breadcrumb-item>
@@ -229,6 +228,11 @@
 					this.show_breadcumb = true
 				}
 				this.active = index
+			}
+		},
+		computed:{
+			Cshow_breadcumb() {
+				return this.show_breadcumb;
 			}
 		},
 		mounted() {
