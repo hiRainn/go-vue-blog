@@ -1,5 +1,17 @@
 <template>
 	<div class="" style="margin-top: 0px;padding-top: 0px;">
+			<!-- header hidden under phone and pad -->
+			<div class="hidden-sm-and-down">
+				<el-row>
+					<div class="header">
+						<header class="pc-header">
+							<el-col :offset="3" :span="14">
+								<p class="pc-title" id="mytitle">{{blog.title}}</p>
+							</el-col>
+						</header>
+					</div>
+				</el-row>
+			</div>
 			<!-- menu for phone -->
 			<div class="hidden-sm-and-up">
 				<el-row>
@@ -32,18 +44,6 @@
 						          <el-menu-item index="1-4-1">选项1</el-menu-item>
 						        </el-submenu>
 						      </el-submenu>
-						      <el-menu-item index="2">
-						        <i class="el-icon-menu"></i>
-						        <span slot="title">导航二</span>
-						      </el-menu-item>
-						      <el-menu-item index="3" disabled>
-						        <i class="el-icon-document"></i>
-						        <span slot="title">导航三</span>
-						      </el-menu-item>
-						      <el-menu-item index="4">
-						        <i class="el-icon-setting"></i>
-						        <span slot="title">导航四</span>
-						      </el-menu-item>
 						    </el-menu>
 						</el-drawer>
 					</header>
@@ -60,68 +60,22 @@
 			<!-- menu for pad -->
 			<div class="hidden-xs-only hidden-lg-and-up">
 				<el-row class="pad-menu">
-					<el-col :offset="1" :span="23"></el-col>
-					<el-menu  default-active="" :router="true" text-color="#303133" active-text-color="#409EFF" @select="select_menu"  class="el-menu-demo pc-menu" mode="horizontal">
-						<el-menu-item index="/">{{$t('menu.index')}}</el-menu-item>
-						<el-submenu index="/article">
-							<template slot="title"><span @click="goArticle">{{$t('menu.article')}}</span></template>
-							<el-menu-item v-for="item in menu_list" :index="item.index">{{item.name}}</el-menu-item>
-						</el-submenu>
-						<el-menu-item index="3" disabled>消息中心</el-menu-item>
-						<el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
-					</el-menu>
-				</el-row>
-				<el-row>
-					<el-col :offset="1" :span="22">
-						<el-row>
-							<el-col :span="17">
-								<div>
-									<el-row :hidden="!show_breadcumb">
-										<div class="breadcumb">
-											<el-breadcrumb separator-class="el-icon-arrow-right">
-											  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-											  <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-											  <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-											  <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-											</el-breadcrumb>
-										</div>
-									</el-row>
-									<el-row>
-										<app-main />
-									</el-row>
-								</div>
-							</el-col>
-							<el-col :span="7">
-								<div>
-									<el-row style="margin-top: 20px;">
-										<el-col :span="8" :offset="1">
-											<el-avatar :size="70" :src="avatar"></el-avatar>
-										</el-col>
-										<el-col style="text-align: left;" :span="15"> 
-											<div><b>{{author.nickname}}</b></div>
-											<div style="font-size: 12px;">{{author.intro}}</div>
-										</el-col>
-									</el-row>
-								</div>
-							</el-col>
-						</el-row>
+					<el-col :offset="1" :span="18">
+						<el-menu  :default-active="active" :router="true" text-color="#303133" active-text-color="#409EFF" @select="select_menu"  class="el-menu-demo pc-menu" mode="horizontal">
+							<el-menu-item index="/">{{$t('menu.index')}}</el-menu-item>
+							<el-submenu index="/article">
+								<template slot="title"><span @click="goArticle">{{$t('menu.article')}}</span></template>
+								<el-menu-item v-for="item in menu_list" :index="item.index">{{item.name}}</el-menu-item>
+							</el-submenu>
+							<el-menu-item index="3" disabled>消息中心</el-menu-item>
+							<el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+						</el-menu>
 					</el-col>
-					<el-col :span="1"></el-col>
 				</el-row>
+				
 			</div>
 			<!-- menu for pc -->
 			<div class="hidden-md-only hidden-md-and-down">
-				<el-row>
-					<div class="header">
-						<el-col :span="24" class="hidden-md-and-down">
-							<header class="pc-header">
-								<el-col :offset="3" :span="14">
-									<p class="pc-title" id="mytitle">{{blog.title}}</p>
-								</el-col>
-							</header>
-						</el-col>
-					</div>
-				</el-row>
 				<el-row class="pc-menu">
 					<el-col :offset="3" :span="14">
 						<el-menu  :default-active="active" :router="true" @select="select_menu" text-color="#303133" active-text-color="#409EFF" class="el-menu-demo pc-menu" mode="horizontal">
@@ -140,16 +94,20 @@
 						</video>
 					</el-col>
 				</el-row>
+				
+			</div>
+			
+			<div class="content">
 				<el-row>
-					<el-col :offset="4" :span="16">
+					<el-col :md="{span:16,offset:4}" :xs="{span:22,offset:1}" :sm="{span:22,offset:1}">
 						<el-row>
 							<!-- content -->
-							<el-col :span="17">
+							<el-col :sm="17" :xs="24">
 								<div>
 									<el-row :hidden="!show_breadcumb">
 										<div class="breadcumb">
 											<el-breadcrumb separator-class="el-icon-arrow-right">
-											  <el-breadcrumb-item :to="{ path: '/' }"><i class="el-icon-house"></i>{{$t('menu.index')}}</el-breadcrumb-item>
+											  <el-breadcrumb-item><i class="el-icon-s-home"></i>{{$t('menu.index')}}</el-breadcrumb-item>
 											  <el-breadcrumb-item>活动管理</el-breadcrumb-item>
 											  <el-breadcrumb-item>活动列表</el-breadcrumb-item>
 											  <el-breadcrumb-item>活动详情</el-breadcrumb-item>
@@ -161,7 +119,7 @@
 									</el-row>
 								</div>
 							</el-col>
-							<el-col :span="7">
+							<el-col :sm="7" :xs="0">
 								<div>
 									<el-row style="margin-top: 20px;">
 										<el-col :span="8" :offset="1">
@@ -176,7 +134,7 @@
 							</el-col>
 						</el-row>
 					</el-col>
-					<el-col :span="4"></el-col>
+					<el-col :md="4" :xs="1" :sm="1" ></el-col>
 				</el-row>
 			</div>
 			<el-backtop></el-backtop>
@@ -321,7 +279,7 @@
 	.breadcumb {
 		height: 30px;
 		line-height: 30px;
-		margin: 10px;
+		margin-top: 10px;
 	}
 	.router-link-active {
 		text-decoration: none;
