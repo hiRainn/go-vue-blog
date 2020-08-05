@@ -11,7 +11,6 @@ type BlogArticle struct {
 	ModifyAt int64 `json:"modify_at";gorm:"type:int(10);default:0;not null"`
 	CateId int `json:"cate_id";gorm:"type:int;not null;default:0"`
 	Content string `json:"content";gorm:"type:varchar(20000);not null;default:''"`
-	View int `json:"view";gorm:"type:int;not null;default:0"`
 	IsTop uint8 `json:"is_top";gorm:"type:tinyint;unsigned;not null;default:0"`
 	IsOriginal uint8 `json:"is_original";gorm:"type:tinyint;unsigned;not null;default:0"`
 	ReprintFrom string `json:"reprint_from";gorm:"type varchar(200);not null;default:''"`
@@ -46,8 +45,8 @@ type AppArticleList struct {
 	TagName string `json:"tag_name"`
 	PostAt string `json:"post_at"`
 	Content string `json:"content"`
-	View int `json:"view"`
-	Comment int `json:"comment"`
+	Views int `json:"views"`
+	Comments int `json:"comments"`
 	IsOriginal uint8 `json:"is_original"`
 	IsTop uint8 `json:"is_top"`
 	AllowComment uint8 `json:"allow_comment"`
@@ -97,9 +96,9 @@ func (art *BlogArticle) DelArticleById() *errcode.ERRCODE {
 func (art *BlogArticle) GetArticleList (condition map[string]interface{}, page map[string]int) ([]AdminArticleList, int, error) {
 	var list []AdminArticleList
 
-	field := "a.id,a.title,bc.cate_name,group_concat(bt.tag_name) as tags"
+	field := "a.id,a.title,bc.cate_name,bt.tag_name as tags"
 	field = field + ",from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at"
-	field = field + ",count(v.id) as views,count(c.id) as comments,a.is_self,a.is_original,is_top"
+	field = field + ",v.views,c.comments,a.is_self,a.is_original,is_top"
 	offset := (page["page"] - 1) * page["page_size"]
 	res := db.Table("blog_article a").Select(field)
 	if condition["title"] != nil {
@@ -115,9 +114,9 @@ func (art *BlogArticle) GetArticleList (condition map[string]interface{}, page m
 	}
 	res = res.Where("a.status = ?", condition["status"].(int))
 	res = res.Joins("left join blog_cate bc on a.cate_id = bc.id")
-	res = res.Joins("left join blog_comment c on a.id = c.article_id")
-	res = res.Joins("left join blog_tags bt on FIND_IN_SET(bt.id,a.tags_ids)")
-	res = res.Joins("left join blog_view v on a.id = v.article_id")
+	res = res.Joins("left join (select a.id,count(c.id) as comments from blog_article a left join blog_comment c on a.id=c.article_id group by a.id) as c on c.id = a.id")
+	res = res.Joins("left join (select a.id,group_concat(bt.tag_name) as tag_name from blog_article a left join blog_tags bt on find_in_set(bt.id,a.tags_ids) group by a.id) as bt on bt.id = a.id")
+	res = res.Joins("left join (select a.id,count(v.id) as views from blog_article a left join blog_view v on a.id=v.article_id group by a.id) as v on v.id = a.id")
 	res = res.Group("a.id")
 	var count int
 	res.Count(&count)
@@ -128,9 +127,9 @@ func (art *BlogArticle) GetArticleList (condition map[string]interface{}, page m
 
 func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page map[string]int) ([]AppArticleList,int,error) {
 	var list []AppArticleList
-	field := "a.id,a.title,bc.cate_name,group_concat(bt.tag_name) as tag_name,left(a.content,200) as content"
+	field := "a.id,a.title,bc.cate_name,bt.tag_name,left(a.content,200) as content"
 	field = field + ",from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at,allow_comment"
-	field = field + ",count(v.id) as views,count(c.id) as comments,a.is_original,is_top,a.cate_id"
+	field = field + ",v.views,c.comments,a.is_original,is_top,a.cate_id"
 	offset := (page["page"] - 1) * page["page_size"]
 	res := db.Table("blog_article a").Select(field)
 	if condition["title"] != nil {
@@ -145,9 +144,9 @@ func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page
 	res = res.Where("a.is_self = ?",0)
 	res = res.Where("a.status = ?", 0)
 	res = res.Joins("left join blog_cate bc on a.cate_id = bc.id")
-	res = res.Joins("left join blog_comment c on a.id = c.article_id")
-	res = res.Joins("left join blog_tags bt on FIND_IN_SET(bt.id,a.tags_ids)")
-	res = res.Joins("left join blog_view v on a.id = v.article_id")
+	res = res.Joins("left join (select a.id,count(c.id) as comments from blog_article a left join blog_comment c on a.id=c.article_id group by a.id) as c on c.id = a.id")
+	res = res.Joins("left join (select a.id,group_concat(bt.tag_name) as tag_name from blog_article a left join blog_tags bt on find_in_set(bt.id,a.tags_ids) group by a.id) as bt on bt.id = a.id")
+	res = res.Joins("left join (select a.id,count(v.id) as views from blog_article a left join blog_view v on a.id=v.article_id group by a.id) as v on v.id = a.id")
 	res = res.Group("a.id")
 	var count int
 	res.Count(&count)

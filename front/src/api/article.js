@@ -7,3 +7,10 @@ export function getArticles(query) {
     params: query
   })
 }
+
+export function GetArticleByid(id) {
+	return request({
+		url : '/article/' + id,
+		method:'get'
+	})
+}

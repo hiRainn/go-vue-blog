@@ -19,7 +19,6 @@
 		getArticles
 	} from '@/api/article.js'
 	export default {
-		name: 'init',
 		components: {
 			ArticleItem,
 		},

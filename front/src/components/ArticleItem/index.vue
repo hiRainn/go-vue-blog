@@ -2,15 +2,17 @@
   <div>
 	  <div class="item" v-for="item in itemList">
 		  <el-row>
-			  <span class="title">{{item.title}}</span>
+			  <span class="title">
+					<router-link style="font-size: 22px;color: #303133;" :to="'/article/' + item.id" >{{item.title}}</router-link>
+			  </span>
 		  </el-row>
 		  <el-row>
 			  <span class="info">{{$t('article.publish')}} {{item.post_at}}</span>
 			  <span class="info">
 				  <router-link style="color: #2C3E50;" :to="'/article/cate_id/' + item.cate_id" >{{item.cate_name}}</router-link>
 			  </span>
-			  <i class="el-icon-view">{{item.view}}</i>
-			  <i class="el-icon-chat-dot-square">{{item.comment}}</i>
+			  <i class="el-icon-view">{{item.views}}</i>
+			  <i class="el-icon-chat-dot-square">{{item.comments}}</i>
 		  </el-row>
 		  <el-row class="content">
 			  {{item.content}}

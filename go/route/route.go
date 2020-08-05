@@ -27,7 +27,8 @@ func Initroute() *gin.Engine {
 	r.GET("info",f.Index)
 	//get cate_article
 	r.GET("cate_article",f.GetCateMenu)
-	r.GET("article", f.GetArticle)
+	r.GET("article", f.GetArticleList)
+	r.GET("article/:id",f.GetArticle)
 
 
 	return r

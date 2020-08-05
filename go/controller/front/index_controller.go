@@ -5,6 +5,7 @@ import (
 	"blog/pkg/errcode"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 //get information index page
@@ -41,5 +42,19 @@ func GetCateMenu(ctx *gin.Context) {
 	} else {
 		ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 	}
+}
 
+func ViewArticle(module, ip string, article_id int) {
+	var view model.BlogView
+	view.Ip = ip
+	view.Module = module
+	view.FindRecord()
+	if view.Id == 0 || view.CreatedAt  + 10 < time.Now().Unix() {
+		if article_id != 0 {
+			view.ArticleId = article_id
+		}
+		view.Id=0
+		view.CreatedAt = time.Now().Unix()
+		view.AddRecord()
+	}
 }

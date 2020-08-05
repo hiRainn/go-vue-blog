@@ -6,11 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 
 //is_self eq 0 and sort for is_top desc sort desc
-func GetArticle(ctx *gin.Context) {
+func GetArticleList(ctx *gin.Context) {
 	page_num := ctx.DefaultQuery("page_size","0") //number of crticle per page
 	p := ctx.DefaultQuery("p","1")
 	cate_id := ctx.DefaultQuery("cate_id","0")
@@ -43,5 +44,22 @@ func GetArticle(ctx *gin.Context) {
 	var art model.BlogArticle
 	res,count,_ := art.GetAppArticleList(condition,page)
 
+	//simple to process content format
+	for i,_ := range res {
+		res[i].Content = strings.Replace(res[i].Content,"#","",-1)
+		res[i].Content = strings.Replace(res[i].Content,"-",",",-1)
+	}
+
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"p":page["page"],"page_size":page_size,"total":count}))
+}
+
+func GetArticle (ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
+		return
+	}
+	article_id ,_ := strconv.Atoi(id)
+	go ViewArticle("article",ctx.ClientIP(),article_id)
+
 }
