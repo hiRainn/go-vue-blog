@@ -15,8 +15,8 @@
 			<!-- menu for phone -->
 			<div class="hidden-sm-and-up">
 				<el-row>
-					<header class="phone-header">
-						<el-button @click="drawer = true" type="" style="float: left;background-color: #001528;border: none;">
+					<header class="phone-header" style="display: block;">
+						<el-button @click="drawer = true" type="" style="background-color: #001528;border: none;display: inline-block;">
 						  <i class="el-icon-s-unfold"></i>
 						</el-button>
 						<span class="phone-title">{{ blog.title}}</span>
@@ -133,10 +133,12 @@
 							</el-col>
 						</el-row>
 					</el-col>
-					<el-col :md="4" :xs="1" :sm="1" ></el-col>
+					<el-col :md="4" :xs="1" :sm="1" >
+						<el-backtop></el-backtop>
+					</el-col>
 				</el-row>
 			</div>
-			<el-backtop></el-backtop>
+			
 	</div>
 </template>
 
@@ -257,11 +259,13 @@
 		height: 40px;
 		border: 1px solid black;
 		background-color: #001528;
+		text-align: left;
+		width: 100%;
+		display: block;
 	}
 	.phone-title {
 		color:#FFF8E6;
 		line-height:40px;
-		float: left;
 	}
 	.pc-title{
 		float: left;

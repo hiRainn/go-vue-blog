@@ -64,7 +64,7 @@ var (
 	InsertAuthError = &ERRCODE{code: 20301,msg: "insert auth error"}
 	InsertConfError = &ERRCODE{code: 20401,msg: "insert conf error"}
 
-	//------------- functions error  ------------
+	//-------------admin functions error  ------------
 	AuthError = &ERRCODE{code: 300001,msg: "token is not exists"}
 	InitError = &ERRCODE{code:30101, msg:"init error"}
 	EmptyPassError = &ERRCODE{code:30301, msg: "empty password"}
@@ -90,6 +90,10 @@ var (
 
 	UploadFileError = &ERRCODE{code: 30398,msg: "upload file error"}
 	UploadFileSaveError = &ERRCODE{code: 30399,msg: "upload file save error"}
+
+	//-------------app functions error  ------------
+	GetCommentsError = &ERRCODE{code: 90201,msg: "get comments error"}
+	CommentError =&ERRCODE{code: 90202,msg: "comment faild"}
 )
 
 

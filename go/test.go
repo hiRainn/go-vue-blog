@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -11,11 +12,9 @@ type tt struct {
 }
 
 func main() {
-	var p tt
-	p.name = "10"
-	fmt.Println(len(p.name))
+	dir, _ := os.Getwd()
 
-
+	fmt.Println(dir)
 
 }
 

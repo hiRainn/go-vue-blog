@@ -63,10 +63,11 @@ func GetArticle (ctx *gin.Context) {
 	go ViewArticle("article",ctx.ClientIP(),article_id)
 	var art model.BlogArticle
 	art.Id = article_id
-	if err := art.GetArticleById(); err != nil {
+	if res,err := art.GetAppArticle(); err != nil {
 		ctx.JSON(http.StatusOK,err.GetH())
 		return
+	} else {
+		ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 	}
-
 
 }

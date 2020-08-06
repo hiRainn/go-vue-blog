@@ -8,9 +8,24 @@ export function getArticles(query) {
   })
 }
 
-export function GetArticleByid(id) {
+export function getArticleByid(id) {
 	return request({
 		url : '/article/' + id,
 		method:'get'
+	})
+}
+
+export function getComments(id){
+	return request({
+		url : '/comment/' + id,
+		method:'get'
+	})
+}
+
+export function commentArticle(data){
+	return request({
+		url : '/comment',
+		method:'post',
+		data:data
 	})
 }

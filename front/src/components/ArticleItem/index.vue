@@ -30,7 +30,6 @@
 
 <script>
 
-
 export default {
   name: 'ArticleItem',
   props: {
@@ -75,5 +74,8 @@ export default {
 	.tag{
 		margin-top: 10px;
 		margin-right:5px;
+	}
+	.el-divider--horizontal{
+		margin:15px 0px
 	}
 </style>

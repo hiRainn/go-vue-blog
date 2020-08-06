@@ -49,7 +49,7 @@ func ViewArticle(module, ip string, article_id int) {
 	view.Ip = ip
 	view.Module = module
 	view.FindRecord()
-	if view.Id == 0 || view.CreatedAt  + 10 < time.Now().Unix() {
+	if view.Id == 0 || view.CreatedAt  + 1800 < time.Now().Unix() {
 		if article_id != 0 {
 			view.ArticleId = article_id
 		}

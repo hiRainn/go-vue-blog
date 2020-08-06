@@ -21,7 +21,18 @@ module.exports = {
 		'load_text':'click for more',
 		'loading_text':'loading',
 		'nomore_text':'no more',
-		'publish':'Published on '
+		'publish':'Published on ',
+		'modify':'Modified on ',
+		
+	},
+	comment:{
+		'name':'your name',
+		'email':'email',
+		'save':'Save my name, email in this browser for the next time I comment.',
+		'content':'comment',
+		'comments':'comments',
+		'email_msg':'Your email address will not be published.',
+		'comment_button':'post comment',
 	},
 	menu:{
 		'index':'home',
