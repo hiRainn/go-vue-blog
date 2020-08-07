@@ -1,12 +1,12 @@
 <template>
 	<div class="comment-wrap">
-		<el-input type="textarea" id="textpanel" rows="3" v-model="content"></el-input>
+		<el-input type="textarea" id="textpanel" rows="3" v-model="com_content"></el-input>
 		<!-- <el-input type="textarea" class="comment-input" placeholder="" id="textpanel" v-model="content"></el-input> -->
 		<div class="opration">
 			<div class="emoji-panel-btn" @click="showEmojiPanel">
 				<img src="./assets/img/face_logo.png" />
 			</div>
-			<el-button @click="saveComment" round size="small" style="float: right;" :disabled="content.trim() == ''">{{buttonText}}</el-button>
+			<el-button @click="saveComment" round size="small" style="float: right;" :disabled="com_content.trim() == ''">{{buttonText}}</el-button>
 		</div>
 		<el-row>
 			<emoji-panel @emojiClick="appendEmoji" v-if="isShowEmojiPanel"></emoji-panel>
@@ -21,13 +21,18 @@
 				type: String,
 				default: '提交'
 			},
+			content: {
+				type: String,
+				default: ''
+			},
 		},
 		data() {
 			return {
-				content: "",
+				com_content:this.content,
 				isShowEmojiPanel: false,
 			}
 		},
+		
 		components: {
 			EmojiPanel
 		},
@@ -35,7 +40,7 @@
 			saveComment() {
 				// this.comments.push(this.content.replace(/:.*?:/g, this.emoji)); // 替换":"符号包含的字符串,通过emoji方法生成表情<span></span>
 				this.isShowEmojiPanel = false;
-				this.$emit('submit', this.content)
+				this.$emit('submit', this.com_content)
 			},
 			showEmojiPanel() {
 				this.isShowEmojiPanel = !this.isShowEmojiPanel;
@@ -43,9 +48,12 @@
 			appendEmoji(text) {
 				const el = document.getElementById("textpanel");
 				this.isShowEmojiPanel = false;
-				this.content = el.value + ":" + text + ":";
+				this.com_content = el.value + ":" + text + ":";
+			},
+			cleanContent(){
+				this.com_content = ''
 			}
-		}
+		},
 	};
 </script>
 <style lang="scss">

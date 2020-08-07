@@ -60,7 +60,8 @@ func GetArticle (ctx *gin.Context) {
 		return
 	}
 	article_id ,_ := strconv.Atoi(id)
-	go ViewArticle("article",ctx.ClientIP(),article_id)
+	token := ctx.GetHeader("X-Token")
+	go ViewRecord("article",ctx.ClientIP(),article_id,token)
 	var art model.BlogArticle
 	art.Id = article_id
 	if res,err := art.GetAppArticle(); err != nil {

@@ -1,10 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"os"
-	"time"
-)
+import "fmt"
 
 type tt struct {
 	name string
@@ -12,26 +8,21 @@ type tt struct {
 }
 
 func main() {
-	dir, _ := os.Getwd()
+	aaa := make([]interface{},4)
 
-	fmt.Println(dir)
+	aaa[0] = "10"
+	aaa[1] = 100
+	aaa[2] = 20
+	aaa[3] = 5
+	test(&aaa)
+
+	fmt.Println(aaa)
 
 }
 
-func test(args ...interface{}) {
-	for i:=0;i<=1000000;i++ {
-		i = i + 1
-	}
-	time.Sleep(time.Second * 30)
+func test(arr *[]interface{}) {
+	*arr = append((*arr)[:1],(*arr)[2:]...)
+	fmt.Println(arr)
 }
 
-func reverseString(s []byte)  []byte {
 
-	l := len(s)
-	for i:=0; i< len(s) / 2; i ++ {
-		tmp := s[l - i - 1];
-		s[l - i - 1] = s[i]
-		s[i] = tmp
-	}
-	return s
-}

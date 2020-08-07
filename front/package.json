@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
     "js-cookie": "^2.2.1",
+    "js-md5": "^0.7.3",
     "mavon-editor": "^2.9.0",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.1",

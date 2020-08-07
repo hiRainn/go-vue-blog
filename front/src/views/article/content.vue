@@ -10,15 +10,15 @@
 				<router-link style="color: #2C3E50;" :to="'/article/cate_id/' + article.cate_id">{{article.cate_name}}</router-link>
 			</span>
 			<i class="el-icon-view">{{article.views}}</i>
-			<i class="el-icon-chat-dot-square">{{article.comments}}</i>
+			<i class="el-icon-chat-dot-square">{{ comment_number }}</i>
 		</el-row>
 		<el-row>
 			<mavon-editor ref='md' :language="language" :editable="false" codeStyle="atelier-lakeside-dark" v-model="article.content"
 			 :toolbarsFlag="false" defaultOpen="preview" :subfield="false"></mavon-editor>
 		</el-row>
-		
+
 		<el-row class="comment-list">
-			<comment-list :comments="comment_list"></comment-list>
+			<comment-list :comments="getCommentList"></comment-list>
 		</el-row>
 		<el-row class="comment">
 			<span>{{$t('comment.email_msg')}}</span>
@@ -31,10 +31,10 @@
 				</el-form-item>
 
 				<el-form-item :label="$t('comment.content')">
-					<comment @submit="comment"></comment>
+					<comment @submit="comment" :content="form.content" ref="comment"></comment>
 				</el-form-item>
 				<el-form-item>
-					<el-checkbox v-model="save">{{$t('comment.save')}}</el-checkbox>
+					<el-checkbox v-model="save" @change="setLocal">{{$t('comment.save')}}</el-checkbox>
 				</el-form-item>
 			</el-form>
 
@@ -47,7 +47,9 @@
 
 <script>
 	import {
-		getArticleByid,getComments,commentArticle
+		getArticleByid,
+		getComments,
+		commentArticle
 	} from '@/api/article.js'
 	import {
 		mavonEditor
@@ -64,25 +66,27 @@
 		},
 		data() {
 			return {
-				label_position:'top',
+				label_position: 'top',
 				language: "en",
 				show_modify_time: true,
-				save:false,
-				comment_list:[],
-				comment_active:[1,2],
-				comment_number:0,
+				save: false,
+				comment_list: [],
+				comment_active: [1, 2],
+				comment_number: 0,
 				article: {
 
 				},
 				form: {
 					name: '',
-					email:'',
-					content:'',
-					id:''
+					email: '',
+					content: '',
+					article_id: '',
+					submit: false  //this to tag whether the submit is maybe-sensitive
 				}
 			}
 		},
 		methods: {
+			//get article
 			getContent(id) {
 				getArticleByid(id).then(r => {
 					if (r.code != 0) {
@@ -96,31 +100,95 @@
 					console.log(e)
 				})
 			},
+			//get comment
 			getComments(id) {
-				getComments(id).then( r => {
-					if(r.code) {
+				getComments(id).then(r => {
+					if (r.code) {
 						this.$alert(r.msg)
-						return ;
+						return;
 					} else {
 						this.comment_list = r.data.list
 						this.comment_number = r.data.total
 					}
-				}).catch( e => {
+				}).catch(e => {
 					console.log(e)
 				})
 			},
+			//post comment
 			comment(value) {
-				
 				this.form.content = value
 				this.form.article_id = parseInt(this.$route.params.id)
-				commentArticle(this.form).then( r => {
-					console.log(r)
-				}).catch( e => {
+				commentArticle(this.form).then(r => {
+					this.form.submit = false;
+					if (r.code) {
+						console.log(r)
+						return;
+					}
+					if (r.data.status && !r.data.submit) {
+						var sensitive = ''
+						for (let p in r.data.msg) {
+							sensitive = sensitive + p + ' '
+						}
+						sensitive = sensitive + '. ' + this.$i18n.t('os.sensitive_word_check')
+						this.$confirm(this.$i18n.t('os.sensitive_word_notice') + sensitive, this.$i18n.t('os.tips'), {
+							confirmButtonText: this.$i18n.t('comment.continue'),
+							cancelButtonText: this.$i18n.t('comment.edit'),
+							type: 'warning'
+						}).then(() => {
+							this.form.submit = true
+							this.comment(this.form.content)
+							return
+						}).catch(() => {
+							return
+						});
+					} else {
+						this.$message({
+							type: 'success',
+							message: this.$i18n.t('comment.success')
+						});
+						var data = {
+							name: this.form.name,
+							content: this.htmlEscape(this.form.content),
+							
+						}
+						this.comment_list.push(data)
+						if(r.data.status == 0) {
+							this.comment_number++
+						}
+						this.form.content = ''
+						this.$refs.comment.cleanContent()
+					}
+
+				}).catch(e => {
 					console.log(e)
 				})
-				
-				
+			},
+			setLocal(val) {
+				if(val) {
+					localStorage.setItem('comment_name',this.form.name)
+					localStorage.setItem('comment_email',this.form.email)
+					localStorage.setItem('comment_save',1)
+				} else {
+					localStorage.removeItem('comment_name')
+					localStorage.removeItem('comment_email')
+					localStorage.removeItem('comment_save')
+				}
+			},
+			htmlEscape(text){
+			  return text.replace(/[<>"&]/g, function(match, pos, originalText){
+			    switch(match){
+			    case "<": return "&lt;";
+			    case ">":return "&gt;";
+			    case "&":return "&amp;";
+			    case "\"":return "&quot;";
+			  }
+			  });
 			}
+		},
+		computed:{
+			getCommentList(){
+				return this.comment_list
+			},
 		},
 		mounted() {
 			var id = this.$route.params.id
@@ -132,6 +200,13 @@
 			}
 			this.language = language
 			
+			//get comment info 
+			var save = localStorage.getItem('comment_save')
+			if(save) {
+				this.save = true
+				this.form.name = localStorage.getItem('comment_name')
+				this.form.email = localStorage.getItem('comment_email')
+			}
 		}
 	}
 </script>
@@ -141,20 +216,24 @@
 		margin: 0px;
 		float: left;
 	}
+
 	a {
 		text-decoration: none;
 	}
-	.comment{
+
+	.comment {
 		text-align: left;
 		margin-top: 30px;
 		padding: 15px;
-		background-color:#fbfbfb ;
+		background-color: #fbfbfb;
 	}
-	.comment-list{
+
+	.comment-list {
 		text-align: left;
 		margin-top: 30px;
 		/* background-color:#fbfbfb ; */
 	}
+
 	.title {
 		font-size: 24px;
 	}
@@ -166,9 +245,11 @@
 	.subinfo {
 		text-align: left;
 	}
-	.el-icon-arrow-right > i{
+
+	.el-icon-arrow-right>i {
 		display: none !important;
 	}
+
 	.info {
 		color: #606266;
 		margin-right: 15px;

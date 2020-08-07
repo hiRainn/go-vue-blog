@@ -4,7 +4,7 @@
 			<div class="hidden-sm-and-down">
 				<el-row>
 					<div class="header">
-						<header class="pc-header">
+						<header class="pc-header" style="background-image: url('/static/img/37.jpg');">
 							<el-col :offset="3" :span="14">
 								<p class="pc-title" id="mytitle">{{blog.title}}</p>
 							</el-col>
@@ -252,8 +252,8 @@
 <style lang="scss" scoped>
 	
 	.pc-header {
-		height: 100px;
-		border: 1px solid black;
+		height: 140px;
+		// border: 1px solid black;
 	}
 	.phone-header {
 		height: 40px;

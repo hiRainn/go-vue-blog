@@ -5,6 +5,7 @@ type BlogView struct {
 	ArticleId int `json:"article_id";gorm:"type:int;unsigned;not null;default:0"`
 	Ip string `json:"ip";gorm:"type:varchar(64);default:'';not null;"`
 	Module string `json:"module";gorm:"type:varchar(32);default:'';not null"`
+	Token string `json:"token";gorm:"type:char(64);not null;default:''"`
 }
 
 func (v *BlogView) AddRecord() {

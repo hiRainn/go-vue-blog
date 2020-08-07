@@ -44,15 +44,15 @@ func GetCateMenu(ctx *gin.Context) {
 	}
 }
 
-func ViewArticle(module, ip string, article_id int) {
+func ViewRecord(module, ip string, article_id int,token string) {
 	var view model.BlogView
 	view.Ip = ip
+	view.ArticleId = article_id
 	view.Module = module
 	view.FindRecord()
+
 	if view.Id == 0 || view.CreatedAt  + 1800 < time.Now().Unix() {
-		if article_id != 0 {
-			view.ArticleId = article_id
-		}
+		view.Token = token
 		view.Id=0
 		view.CreatedAt = time.Now().Unix()
 		view.AddRecord()

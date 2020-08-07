@@ -1,6 +1,5 @@
 <template>
 	<div class="comment-wrap">
-		
 		<div class="comments-list">
 			<div class="comments-list-item" v-for="(item,index) in comments" v-bind:key="index">
 				<div class="comments-list-item-heading">
@@ -10,6 +9,8 @@
 				<div class="comments-list-item-content" v-html="item.content"></div>
 			</div>
 		</div>
+		
+		<hr>
 		
 	</div>
 </template>
@@ -36,8 +37,8 @@
 		},
 		updated(){
 			for(let p in this.comments) {
+				this.comments[p]['name'] = this.comments[p]['name']
 				this.comments[p]['content'] = this.comments[p]['content'].replace(/:.*?:/g, this.emoji);
-				console.log(this.comments[p]['content'])
 			}
 		},
 	};

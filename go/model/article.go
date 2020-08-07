@@ -164,7 +164,7 @@ func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page
 	res = res.Joins("left join blog_cate bc on a.cate_id = bc.id")
 	res = res.Joins("left join (select a.id,group_concat(bt.tag_name) as tag_name from blog_article a left join blog_tags bt on find_in_set(bt.id,a.tags_ids) group by a.id) as bt on bt.id = a.id")
 	res = res.Joins("left join blog_view v on v.article_id = a.id")
-	res = res.Joins("left join blog_comment c on c.article_id = a.id")
+	res = res.Joins("left join blog_comment c on c.article_id = a.id and c.status = 0")
 	res = res.Group("a.id")
 	var count int
 	res.Count(&count)
@@ -184,7 +184,7 @@ func (art *BlogArticle) GetAppArticle() (*AppArticleList,*errcode.ERRCODE) {
 	res = res.Joins("left join blog_cate bc on a.cate_id = bc.id")
 	res = res.Joins("left join (select a.id,group_concat(bt.tag_name) as tag_name from blog_article a left join blog_tags bt on find_in_set(bt.id,a.tags_ids) group by a.id) as bt on bt.id = a.id")
 	res = res.Joins("left join blog_view v on v.article_id = a.id")
-	res = res.Joins("left join blog_comment c on c.article_id = a.id")
+	res = res.Joins("left join blog_comment c on c.article_id = a.id and c.status = 0")
 	res = res.Group("a.id")
 	if err := res.Find(app).Error; err != nil {
 		return app,errcode.DataBaseError
