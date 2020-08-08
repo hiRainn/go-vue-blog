@@ -5,6 +5,7 @@ import (
 	"blog/pkg/errcode"
 	"blog/pkg/status"
 	"blog/service/SensitiveWords/tool"
+
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -26,8 +27,17 @@ func GetArticleComment(ctx *gin.Context) {
 		return
 	} else {
 		//process the data to [{id,children:[{id,children:[]}]
-
-		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":list,"total":total}))
+		//var res []tree
+		//getTree(&list,&res,0)
+		//func gettree2 faster then gettree
+		test := make(map[int]model.AppCommentList)
+		for k,v := range list {
+			test[k] = v
+		}
+		var res2 []tree
+		getTree2(&test,&res2,0)
+		//ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"total":total,"counter1":counter1,"counter2":counter2}))
+		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"total":total}))
 	}
 }
 
@@ -77,24 +87,33 @@ func PostComment(ctx *gin.Context){
 	}
 }
 
+var counter1 int = 0
+var counter2 int = 0
 type tree struct {
-	id int
-	pid int
-	data model.AppCommentList
-	children *[]tree
+	Data model.AppCommentList `json:"data"`
+	Children *[]tree `json:"children"`
 }
-func getTree(list *[]model.AppCommentList,res *map[int]tree,pid int) *map[int]tree {
-	for k,v := range *list {
-		if v.Pid == 0 {
-			(*res)[v.Id] = tree{id: v.Id,pid: v.Pid,data: v,children: &[]tree{}}
-			//delete this key
-			*list = append((*list)[:k], (*list)[k+1:]...)
-			getTree(list,res,v.Id)
-		} else {
-
+func getTree(list *[]model.AppCommentList,res *[]tree,pid int) {
+	for _,v := range *list {
+		if v.Pid == pid {
+			data := tree{Data: v, Children: &[]tree{}}
+			*res = append(*res, data)
+			getTree(list, data.Children, v.Id)
 		}
+		counter1++
 	}
-	return res
+}
+
+func getTree2(list *map[int]model.AppCommentList,res *[]tree,pid int) {
+	for k,v := range *list {
+		if v.Pid == pid {
+			data := tree{Data: v, Children: &[]tree{}}
+			*res = append(*res, data)
+			delete(*list,k)
+			getTree2(list, data.Children, v.Id)
+		}
+		counter2 ++
+	}
 }
 
 

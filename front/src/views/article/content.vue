@@ -147,6 +147,7 @@
 							message: this.$i18n.t('comment.success')
 						});
 						var data = {
+							
 							name: this.form.name,
 							content: this.htmlEscape(this.form.content),
 							

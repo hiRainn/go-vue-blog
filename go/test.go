@@ -7,22 +7,20 @@ type tt struct {
 	age int
 }
 
+func (t *tt) test() {
+	fmt.Println("aaa")
+}
+
 func main() {
-	aaa := make([]interface{},4)
+	 a := []int{1,2,3}
+	 test(a)
 
-	aaa[0] = "10"
-	aaa[1] = 100
-	aaa[2] = 20
-	aaa[3] = 5
-	test(&aaa)
-
-	fmt.Println(aaa)
+	 fmt.Println(a)
 
 }
 
-func test(arr *[]interface{}) {
-	*arr = append((*arr)[:1],(*arr)[2:]...)
-	fmt.Println(arr)
+func test(a []int) {
+	a[0] = 10
 }
 
 

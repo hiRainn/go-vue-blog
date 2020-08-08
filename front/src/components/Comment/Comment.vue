@@ -102,7 +102,6 @@
 
 				.comments-list-item-content {
 					margin: 10px 0px;
-					border-bottom: 1px solid #cccccc;
 
 					&:last-child {
 						border-bottom: 0;
