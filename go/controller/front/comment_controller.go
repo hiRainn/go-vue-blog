@@ -37,7 +37,7 @@ func GetArticleComment(ctx *gin.Context) {
 		var res2 []tree
 		getTree2(&test,&res2,0)
 		//ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"total":total,"counter1":counter1,"counter2":counter2}))
-		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"total":total}))
+		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res2,"total":total}))
 	}
 }
 
