@@ -1,7 +1,25 @@
 <template>
 	<div class="comment-wrap">
 		<a-row class="row-comment-list">
-			<comment-list :comments="getCommentList" :replayText="replayText" :reportText="reportText" class="hidden-xs-only"></comment-list>
+			<comment-list 
+			@clickReplay="clickReplay"  
+			@clickReport="clickReport" 
+			@clickUnlike="clickUnlike" 
+			@clickLike="clickLike" 
+			:comments="getCommentList" 
+			:showLike="showLike"
+			:showUnlike="showUnlike"
+			:showReplay="showReplay"
+			:showReport="showReport"
+			:showEmail="showEmail"
+			:showName="showName"
+			:AnonymousText="AnonymousText"
+			:like="like"
+			:unlike="unlike"
+			:likeColor="likeColor"
+			:unlikeColor="unlikeColor"
+			:replayText="replayText" 
+			:reportText="reportText" />
 			<comment-list-phone :comments="getCommentList" class="hidden-sm-and-up"></comment-list-phone>
 		</a-row>
 		
@@ -59,6 +77,10 @@
 			list:{
 				type:Array,
 				default:[]
+			},
+			AnonymousText:{
+				type: String,
+				default: '匿名用户'
 			},
 			tipText:{
 				type: String,
@@ -120,14 +142,6 @@
 				type:Boolean,
 				default:true
 			},
-			showReport:{
-				type:Boolean,
-				default:true
-			},
-			showReplay:{
-				type:Boolean,
-				default:true
-			},
 			showName:{
 				type:Boolean,
 				default:false
@@ -139,6 +153,14 @@
 			showTip:{
 				type:Boolean,
 				default:false
+			},
+			likeColor:{
+				type: String,
+				default: 'red',//mixed
+			},
+			unlikeColor:{
+				type: String,
+				default: 'gray',//mixed
 			},
 		},
 		data() {
@@ -168,6 +190,7 @@
 			CommentListPhone
 		},
 		methods: {
+			
 			cancle() {
 				this.form.pid = 0;
 				$('#replay').insertAfter($('#areplay'))
@@ -215,6 +238,21 @@
 					localStorage.setItem('comment_email',this.form.email)
 				}
 			},
+			clickReplay(id) {
+				this.form.pid = parseInt(id)
+				var id = '#replay_' + this.form.pid
+				$('#replay').appendTo($(id))
+				$("html,body").animate({scrollTop: $("#replay").offset().top - "100" + "px"}, 400);
+			},
+			clickReport(id) {
+				this.$emit('clickReport',id)
+			},
+			clickUnlike(id) {
+				this.$emit('clickUnlike',id)
+			},
+			clickLike(id) {
+				this.$emit('clickLike',id)
+			},
 		},
 		mounted(){
 			//get comment info
@@ -224,15 +262,6 @@
 				this.form.name = localStorage.getItem('comment_name')
 				this.form.email = localStorage.getItem('comment_email')
 			}
-			//bond pc replay
-			var that = this
-			$('.comments-list').on('click','.replay_pc',function() {
-				that.form.pid = parseInt($(this).attr('data'))
-				var id = '#replay_' + $(this).attr('data')
-				$('#replay').appendTo($(id))
-				$("html,body").animate({scrollTop: $("#replay").offset().top - "100" + "px"}, 400);
-			
-			})
 		}
 	};
 </script>

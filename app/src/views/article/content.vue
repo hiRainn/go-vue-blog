@@ -22,7 +22,10 @@
 		</a-row>
 		<a-row>
 			<comment 
-				@submit="comment" 
+				@submit="comment"
+				@clickUnlike="clickUnlike" 
+				@clickLike="clickLike" 
+				:showReport="false"
 				:reportText="'举报'" 
 				:showName="true" 
 				:showEmail="true"
@@ -169,7 +172,13 @@
 			    case "\"":return "&quot;";
 			  }
 			  });
-			}
+			},
+			clickUnlike(id) {
+				alert('ulike' + id)
+			},
+			clickLike(id) {
+				alert('like' + id)
+			},
 		},
 		computed:{
 			getCommentList(){
