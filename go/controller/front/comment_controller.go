@@ -29,15 +29,22 @@ func GetArticleComment(ctx *gin.Context) {
 		//process the data to [{id,children:[{id,children:[]}]
 		//var res []tree
 		//getTree(&list,&res,0)
-		//func gettree2 faster then gettree
-		test := make(map[int]model.AppCommentList)
-		for k,v := range list {
-			test[k] = v
-		}
-		var res2 []tree
-		getTree2(&test,&res2,0)
+
+
+		////func gettree2 faster then gettree
+		//test := make(map[int]model.AppCommentList)
+		//for k,v := range list {
+		//	test[k] = v
+		//}
+		//var res2 []tree
+		//getTree2(&test,&res2,0)
+
+		//get floor struct
+		var res3 []floor
+		getFloor(list,&res3,0)
+
 		//ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"total":total,"counter1":counter1,"counter2":counter2}))
-		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res2,"total":total}))
+		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res3,"total":total}))
 	}
 }
 
@@ -87,6 +94,35 @@ func PostComment(ctx *gin.Context){
 	}
 }
 
+type floor struct {
+	FloorNumber int `json:"floor_number"`
+	ShowFloorNumber bool `json:"show_floor_number"`
+	Data model.AppCommentList `json:"data"`
+	Children *[]floor `json:"children"`
+}
+
+//get 2 floors struct
+func getFloor(list []model.AppCommentList,res *[]floor,pid int) {
+	tpm_pointer := new([]floor)
+	for _,v := range list {
+		if v.Pid == pid {
+
+			data := floor{Data: v,Children: &[]floor{}}
+			if pid == 0 {
+				tpm_pointer = data.Children
+				data.ShowFloorNumber = true
+			} else {
+				tpm_pointer = res
+			}
+			*res = append(*res,data)
+			getFloor(list,tpm_pointer,v.Id)
+		}
+	}
+	for k,_ := range *res {
+		(*res)[k].FloorNumber = k+1
+	}
+}
+
 var counter1 int = 0
 var counter2 int = 0
 type tree struct {
@@ -100,7 +136,6 @@ func getTree(list *[]model.AppCommentList,res *[]tree,pid int) {
 			*res = append(*res, data)
 			getTree(list, data.Children, v.Id)
 		}
-		counter1++
 	}
 }
 

@@ -2,25 +2,34 @@ package main
 
 import "fmt"
 
+
+
 type tt struct {
 	name string
 	age int
 }
 
+type Test int
+
+func (t Test) Write() int{
+	return 1
+}
+
 func (t *tt) test() {
-	fmt.Println("aaa")
+
 }
 
 func main() {
-	 a := []int{1,2,3}
-	 test(a)
+	var a Test
 
-	 fmt.Println(a)
+	fmt.Println(a.Write())
+
+
 
 }
 
-func test(a []int) {
-	a[0] = 10
+func test(a map[int]string) {
+	delete(a,1)
 }
 
 
