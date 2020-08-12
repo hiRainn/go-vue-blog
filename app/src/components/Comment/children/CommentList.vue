@@ -11,7 +11,8 @@
 						<a-row>
 							<a-col :span="20">
 								<span class="comments-list-item-username">{{item.data.name || AnonymousText}}</span>
-								<span v-if="item.data.replayName">  @ {{ item.data.replayName || AnonymousText}}</span>
+								<span>---id:{{item.data.id}}---name:{{item.data.name}}-----pid:{{item.data.pid}}</span>
+								<span >  {{getReplayName(item.data.pid)}}</span>
 							</a-col>
 							<a-col :span="4">
 								<span class="time">{{item.data.created_at || ''}}</span>
@@ -213,51 +214,34 @@
 				}
 			},
 			getReplayName() {
-				return function(id) {
-					console.log(this.replayName[146])
-					return this.replayName[id] || this.AnonymousText
+				return function(pid) {
+					if(pid === 0 || this.replayName[pid] == undefined) {
+						return ''
+					} else {
+						return '@ ' + this.replayName[pid]
+					}
 				}
-				
-			}
+			},
 		},
 		//for update new data
 		updated() {
+			//loop twice for any kind of sort
 			for (let p in this.comments) {
+				//this for updated function 
 				this.comments[p]['data']['name'] = this.comments[p]['data']['name']
 				this.comments[p]['data']['content'] = this.comments[p]['data']['content'].replace(/:.*?:/g, this.emoji);
-				//get replayName
-				if(this.comments[p]['children'].length > 0) {
-					for (let q in this.comments[p]['children']) {
-						this.replayName[this.comments[p]['children'][q]['data']['id']] = this.comments[p]['children'][q]['data']['name']
-						//not @ if direct replay 
-						if(this.comments[p]['children'][q]['data']['pid'] != this.comments[p]['data']['id']) {
-							this.comments[p]['children'][q]['data']['replayName'] = this.replayName[this.comments[p]['children'][q]['data']['pid']]
-							if(this.comments[p]['children'][q]['data']['replayName'] == undefined) {
-								this.comments[p]['children'][q]['data']['replayName'] = false
-							}
-						}
-					} 
-				} 
+				this.replayName[this.comments[p]['data']['id']] = this.comments[p]['data']['name']
 			}
-			console.log(1)
-			
 		},
-		mounted() {
+		created() {
+			//loop twice for any kind of sort 
 			for (let p in this.comments) {
+				//this for updated function 
 				this.comments[p]['data']['name'] = this.comments[p]['data']['name']
 				this.comments[p]['data']['content'] = this.comments[p]['data']['content'].replace(/:.*?:/g, this.emoji);
-				//get replayName
-				if( this.comments[p]['data']['pid'] == 0) {
-					this.comments[p]['data']['replayName'] = false
-				} else {
-					this.replayName[this.comments[p]['data']['id']] = this.comments[p]['data']['name']
-				}
-		
+				this.replayName[this.comments[p]['data']['id']] = this.comments[p]['data']['name']
 			}
-			
 		},
-		
-
 	};
 </script>
 <style lang="scss">

@@ -2,7 +2,9 @@
 	<div class="comment-wrap">
 		<a-row class="row-comment-list">
 			<a-col  :xs="0" :md="24">
+				<!-- v-if for async  -->
 				<comment-list
+				v-if="list.length > 0" 
 				@Replay="Replay"  
 				@clickReport="clickReport" 
 				@clickUnlike="clickUnlike" 
@@ -21,7 +23,7 @@
 				:reportText="reportText" />
 			</a-col>
 			<a-col  :xs="24" :md="0">
-				<comment-list-phone :comments="list" class="hidden-sm-and-up"></comment-list-phone>
+				<!-- <comment-list-phone :comments="list" class="hidden-sm-and-up"></comment-list-phone> -->
 			</a-col>
 		</a-row>
 		
@@ -202,25 +204,25 @@
 					this.form.email = this.form.email
 				}
 				this.$emit('submit', this.form , r => {
-					//update list   r =  { id:, content:, name:,   created_at:， }
+					//update list   r =  { id:, content:, name:,   created_at:，pid:, }
 					if(r) {
 						var data = {
-							data :{id:r.id, name:r.name, content:r.content, created_at:r.created_at},
+							data :{id:r.id, name:r.name, content:r.content, pid:this.form.pid, created_at:r.created_at},
 							children:[]
 						}
 						if(this.form.pid == 0) {
+							//comment article direct
 							let length = this.list.length 
-							// this.list.push(data)
 							this.$set(this.list,length,data)
 						} else {
 							for(let p in this.list) {
 								let length = this.list[p]['children'].length
-								//2nd level
+								//replay the comment of article
 								if(this.list[p]['data']['id'] == this.form.pid) {
 									this.$set(this.list[p]['children'],length,data)
 									break;
 								}
-								//3rd level
+								//replay the comment of comment
 								if(this.list[p]['children'].length > 0) {
 									for (let q in this.list[p]['children']) {
 										if(this.list[p]['children'][q]['data']['id'] == this.form.pid) {
@@ -292,7 +294,7 @@
 		updated(){
 			
 		},
-		mounted(){
+		created(){
 			//get comment info
 			var save = localStorage.getItem('comment_save')
 			if(save) {
