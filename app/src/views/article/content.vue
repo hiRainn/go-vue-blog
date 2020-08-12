@@ -25,12 +25,14 @@
 				@submit="comment"
 				@clickUnlike="clickUnlike" 
 				@clickLike="clickLike" 
-				:showReport="false"
+				@clickReport="clickReport"
+				:allowComment="Boolean(article.allow_comment)"
+				:showReport="true"
 				:reportText="'举报'" 
 				:showName="true" 
 				:showEmail="true"
 				:replayText="'回复'" 
-				:list="getCommentList" 
+				:list="comment_list" 
 				:content="form.content" 
 				ref="comment" />
 		</a-row>
@@ -110,7 +112,7 @@
 				})
 			},
 			//post comment
-			comment(value) {
+			comment(value,car) {
 				this.form.pid = value.pid
 				this.form.name = value.name
 				this.form.email = value.email
@@ -128,34 +130,31 @@
 							sensitive = sensitive + p + ' '
 						}
 						sensitive = sensitive + '. ' + this.$i18n.t('os.sensitive_word_check')
-						this.$confirm(this.$i18n.t('os.sensitive_word_notice') + sensitive, this.$i18n.t('os.tips'), {
-							confirmButtonText: this.$i18n.t('comment.continue'),
-							cancelButtonText: this.$i18n.t('comment.edit'),
-							type: 'warning'
-						}).then(() => {
-							this.form.submit = true
-							this.comment(this.form.content)
-							return
-						}).catch(() => {
-							return
+						this.$confirm({
+							content:this.$i18n.t('os.sensitive_word_notice') + sensitive, 
+							title:this.$i18n.t('os.tips'),
+							okText: this.$i18n.t('comment.continue'),
+							cancelText: this.$i18n.t('comment.edit'),
+							onOk: () => {
+								this.form.submit = true
+								this.comment(this.form,car)
+							},
+							onCancel(){}
 						});
 					} else {
-						this.$message({
-							type: 'success',
-							message: this.$i18n.t('comment.success')
-						});
+						 this.$message.success(this.$i18n.t('comment.success'));
+						
 						var data = {
 							id:r.data.id,
 							name: this.form.name,
 							content: this.htmlEscape(this.form.content),
-							
 						}
 						
 						if(r.data.status == 0) {
 							this.comment_number++
 						}
 						this.form.content = ''
-						this.$refs.comment.cleanContent()
+						car(data)
 					}
 
 				}).catch(e => {
@@ -173,17 +172,16 @@
 			  }
 			  });
 			},
-			clickUnlike(id) {
-				alert('ulike' + id)
+			clickUnlike(row,car) {
+				// item.data.unlike_number++
+				car(true)
 			},
-			clickLike(id) {
-				alert('like' + id)
+			clickLike(row,car) {
+				car(true)
 			},
-		},
-		computed:{
-			getCommentList(){
-				return this.comment_list
-			},
+			clickReport(row,car) {
+				car(true)
+			}
 		},
 		mounted() {
 			var id = this.$route.params.id

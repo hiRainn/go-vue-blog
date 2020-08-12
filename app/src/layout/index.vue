@@ -14,7 +14,7 @@
 		<a-row>
 			<!-- menu for phone -->
 			<a-row>
-				<a-col :xs="24" :md="0" :xl="0">
+				<a-col :xs="24" :md="0">
 					<a-affix :offset-top="0" :offsetBottom="0">
 						<a-row>
 							<header class="phone-header" style="display: block;">
