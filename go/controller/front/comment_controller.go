@@ -40,7 +40,8 @@ func GetArticleComment(ctx *gin.Context) {
 		//getTree2(&test,&res2,0)
 
 		//get floor struct
-		var res3 []floor
+		//var res3 []floor
+		res3 := make([]floor,0)
 		getFloor(list,&res3,0)
 
 		//ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"total":total,"counter1":counter1,"counter2":counter2}))
@@ -76,6 +77,7 @@ func PostComment(ctx *gin.Context){
 	c.Status = status.CommentCheck.GetCode()
 	c.CreatedAt = time.Now().Unix()
 	c.Token = token
+	c.FloorId,_ = c.GetFloorIdByPid(c.Pid)
 
 	//sensitive words check
 	msg := tool.GetMap().FindAllSensitive(c.Content)
@@ -87,6 +89,7 @@ func PostComment(ctx *gin.Context){
 		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"status":c.Status,"msg":msg,"submit":submit}))
 		return
 	}
+
 	if err := c.AddComment();err!= nil {
 		ctx.JSON(http.StatusOK,err.GetH())
 	} else {
@@ -105,7 +108,8 @@ type floor struct {
 func getFloor(list []model.AppCommentList,res *[]floor,pid int) {
 	tpm_pointer := new([]floor)
 	for _,v := range list {
-		if v.Pid == pid {
+		//get by floor_id   if
+		if v.FloorId == pid {
 
 			data := floor{Data: v,Children: &[]floor{}}
 			if pid == 0 {

@@ -32,6 +32,13 @@ func Initroute() *gin.Engine {
 	r.GET("comment/:id",f.GetArticleComment)
 	r.POST("comment",f.PostComment)
 
+	//right_info
+	r.GET("friends",f.GetFriendsLink)
+	r.GET("latest_comments",f.GetLatestComments)
+	r.GET("tags",f.GetTagsNum)
+	r.GET("most",f.GetClickMostArticle)
+	r.GET("stat",f.GetStat)
+
 
 
 	return r

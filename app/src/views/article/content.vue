@@ -26,6 +26,12 @@
 				@clickUnlike="clickUnlike" 
 				@clickLike="clickLike" 
 				@clickReport="clickReport"
+				@cancleReport="cancleReport"
+				@cancleLike="cancleLike"
+				@cancleUnlike="cancleUnlike"
+				:hideNumber="1"
+				repeatType="cancle"
+				:title="comment_number?('当前共 ' + comment_number + ' 条评论'):'当前还没有评论，快来评论第一条吧~'"
 				:allowComment="Boolean(article.allow_comment)"
 				:showReport="true"
 				:reportText="'举报'" 
@@ -35,9 +41,6 @@
 				:list="comment_list" 
 				:content="form.content" 
 				ref="comment" />
-		</a-row>
-		<a-row style="height: 200px;">
-
 		</a-row>
 	</div>
 </template>
@@ -67,7 +70,6 @@
 				show_modify_time: true,
 				save: false,
 				comment_list: [],
-				comment_active: [1, 2],
 				comment_number: 0,
 				article: {
 
@@ -181,9 +183,18 @@
 			},
 			clickReport(row,car) {
 				car(true)
+			},
+			cancleReport(row,car) {
+				car(true)
+			},
+			cancleLike(row,car) {
+				car(true)
+			},
+			cancleUnlike(row,car) {
+				car(true)
 			}
 		},
-		mounted() {
+		created() {
 			var id = this.$route.params.id
 			this.getContent(id)
 			this.getComments(id)

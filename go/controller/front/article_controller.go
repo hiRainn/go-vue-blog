@@ -17,6 +17,10 @@ func GetArticleList(ctx *gin.Context) {
 	cate_id := ctx.DefaultQuery("cate_id","0")
 	tag:= ctx.DefaultQuery("tag","")
 
+	//record view
+	token := ctx.GetHeader("X-Token")
+	go ViewRecord("article_list",ctx.ClientIP(),0,token)
+
 	var page_size int
 	if page_num == "" || page_num == "0" {
 		page_size = 20
@@ -53,6 +57,7 @@ func GetArticleList(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"p":page["page"],"page_size":page_size,"total":count}))
 }
 
+//get article info by id  ---- content page
 func GetArticle (ctx *gin.Context) {
 	id := ctx.Param("id")
 	if id == "" {
@@ -70,5 +75,5 @@ func GetArticle (ctx *gin.Context) {
 	} else {
 		ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 	}
-
 }
+

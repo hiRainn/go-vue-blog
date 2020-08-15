@@ -16,6 +16,10 @@ type BlogAuth struct{
 	Intro string `json:"intro";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
 	City string `json:"city";gorm:"type:varchar(100);NOT NULL;DEFAULT:''"`
 	Email string `json:"email";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
+	Github string `json:"github";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
+	Twitter string `json:"twitter";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
+	Facebook string `json:"facebook";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
+	Weibo string `json:"weibo";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
 }
 
 type Info struct{
@@ -24,6 +28,10 @@ type Info struct{
 	Gender uint8 `json:"gender"`
 	City string `json:"city"`
 	Email string `json:"email"`
+	Github string `json:"github"`
+	Twitter string `json:"twitter"`
+	Facebook string `json:"facebook"`
+	Weibo string `json:"weibo"`
 }
 
 //check auth

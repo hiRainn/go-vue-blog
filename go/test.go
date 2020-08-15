@@ -20,9 +20,9 @@ func (t *tt) test() {
 }
 
 func main() {
-	var a Test
+	var res3 []int
 
-	fmt.Println(a.Write())
+	fmt.Println(res3 == nil)
 
 
 

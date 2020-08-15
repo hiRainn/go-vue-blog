@@ -2,7 +2,8 @@ module.exports = {
 	os:{
 		'tips':'notice',
 		'sensitive_word_notice':'this(these) word(s) maybe sensitve :',
-		'sensitive_word_check':'it will be showed after the blogger checks if you continue posting.Now only you can see it.'
+		'sensitive_word_check':'it will be showed after the blogger checks if you continue posting.Now only you can see it.',
+		'site':'Site Statistic',
 	},
     login:{
         'title' : 'blog name',
@@ -28,6 +29,7 @@ module.exports = {
 		'nomore_text':'no more',
 		'publish':'Published on ',
 		'modify':'Modified on ',
+		'more':'more'
 	},
 	comment:{
 		'name':'your name',
@@ -39,14 +41,30 @@ module.exports = {
 		'comment_button':'post comment',
 		'continue':'continue && post',
 		'edit':"canle && edit",
-		'success':'comment success'
+		'success':'comment success',
+		'anonymous':'Anonymous'
 	},
 	menu:{
 		'index':'home',
 		'article':'article',
-		'all_article':'all'
+		'all_article':'all',
+		'last_comments':'Latest Comments',
+		'tags':'Tags',
+		'friends':'Friends Link',
+		'click_most':'Click Most'
 	},
 	select:{
 		'select':'select'
+	},
+	stat:{
+		'today':'Today',
+		'week':'Week',
+		'month':'Month',
+		'year':'Year',
+		'total':'Total',
+		'article':'Article',
+		'comments':'Comment',
+		'message':'Msg',
+		'like':'Like'
 	}
 }

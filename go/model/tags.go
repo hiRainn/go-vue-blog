@@ -14,6 +14,7 @@ type BlogTags struct {
 type SelectTags struct {
 	Id int	`json:"id"`
 	Name string `json:"name"`
+	Num int `json:"num"`
 }
 
 func (t *BlogTags) GetInfo() *errcode.ERRCODE{
@@ -24,10 +25,10 @@ func (t *BlogTags) GetInfo() *errcode.ERRCODE{
 }
 
 //get all tags for select
-func (t *BlogTags) GetSelectList() ([]*SelectTags,*errcode.ERRCODE) {
-	var list []*SelectTags
+func (t *BlogTags) GetSelectList() ([]SelectTags,*errcode.ERRCODE) {
+	var list []SelectTags
 	var err *errcode.ERRCODE
-	res := db.Table("blog_tags").Select("id,tag_name as name").Order("id desc").Find(&list)
+	res := db.Table("blog_tags").Select("id,tag_name as name,num").Order("num desc").Find(&list)
 	if res.Error != nil {
 		if res.RecordNotFound() {
 			err = nil

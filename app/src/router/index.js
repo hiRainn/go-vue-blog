@@ -67,5 +67,5 @@ const Routes = [
 
 export default new VueRouter({
 	mode: 'history',
-	routes: Routes
+	routes: Routes,
 })

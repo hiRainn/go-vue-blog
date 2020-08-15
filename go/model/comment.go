@@ -11,8 +11,10 @@ type BlogComment struct {
 	Name string `json:"name";gorm:"type:varchar(64);not null;default:''"`
 	Email string `json:"email";gorm:"type:varchar(128);not null;default:''"`
 	Pid int `json:"pid";gorm:"type:int;unsigned;not null;default:0"`
+	FloorId int `json:"floor_id";gorm:"type:int;unsigned;not null;default:0"`
 	Content string `json:"content";gorm:"type:varchar(3000);not null;default:''"`
 	IsView uint8 `json:"is_view";gorm:"type:tinyint;unsigned;not null;default:0"`
+	AdminView uint8 `json:"admin_view";gorm:"type:tinyint;unsigned;not null;default:0"`
 	IsAdmin uint8 `json:"is_admin";gorm:"type tinyint;unsigned;not null;default:0"`
 	Level uint8 `json:"level";gorm:"type:tinyint;unsigned;not null;default:0"`
 	Token string `json:"token";gorm:"type:char(64);not null;default:''"`
@@ -23,17 +25,26 @@ type AppCommentList struct {
 	Status uint8 `json:"status"`
 	Content string `json:"content"`
 	Name string `json:"name"`
+	FloorId int `json:"floor_id"`
 	Pid int `json:"pid"`
-	CreatedAt int `json:"created_at"`
+	CreatedAt string `json:"created_at"`
 	IsAdmin uint8 `json:"is_admin"`
 	Level uint8 `json:"level"`
+}
+
+type LatestComment struct {
+	Id int `json:"id"`
+	ArticleId int `json:"article_id"`
+	ArticleTitle string `json:"article_title"`
+	Content string `json:"content"`
+	Name string `json:"name"`
 }
 
 //app get comment list
 func (c *BlogComment) GetCommentsByArticleId(token string) ([]AppCommentList,int,*errcode.ERRCODE) {
 	var app []AppCommentList
 	var number int
-	res := db.Table("blog_comment").Where("article_id = ?",c.ArticleId)
+	res := db.Table("blog_comment c").Select("from_unixtime(c.created_at,'%Y-%m-%d %H:%i') as created_at,c.*").Where("article_id = ?",c.ArticleId)
 	if token == "" {
 		res = res.Where("status = ?",0)
 	} else {
@@ -49,9 +60,31 @@ func (c *BlogComment) GetCommentsByArticleId(token string) ([]AppCommentList,int
 	}
 }
 
+func (c *BlogComment) GetFloorIdByPid(pid int) (int,*errcode.ERRCODE) {
+	var comment BlogComment
+	if db.Where("id = ?",pid).Find(&comment).Error != nil {
+		return 0,errcode.DataBaseError
+	}
+	if comment.FloorId != 0 {
+		return comment.FloorId,nil
+	}
+	return comment.Id,nil
+}
+
 func (c *BlogComment) AddComment() *errcode.ERRCODE {
 	if db.Create(c).Error != nil {
 		return errcode.CommentError
 	}
 	return nil
+}
+
+func (c * BlogComment) GetLastComment() ([]LatestComment,error) {
+	latest := make([]LatestComment,0)
+	res := db.Table("blog_comment c")
+	res = res.Select("c.id,a.id as article_id,a.title as article_title,c.name,left(c.content,70) as content")
+	res = res.Joins("left join blog_article a on c.article_id = a.id")
+	res = res.Where("c.status = 0 and a.status = 0")
+	res = res.Limit(10)
+	res = res.Order("c.id desc").Find(&latest)
+	return latest,res.Error
 }

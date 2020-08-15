@@ -1,6 +1,6 @@
 <template>
   <div>
-	  <div class="item" v-for="item in itemList">
+	  <div class="item" v-for="item in list">
 		  <a-row>
 			  <span class="title">
 					<router-link style="font-size: 22px;color: #303133;" :to="'/article/' + item.id" >{{item.title}}</router-link>
@@ -15,7 +15,7 @@
 			  <a-icon type="message" />{{item.comments}}
 		  </a-row>
 		  <a-row class="content">
-			  {{item.content}}
+			  {{item.content.replace(/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]+$/im,'')}}...<router-link style="color: #398aec;" :to="'/article/' + item.id ">[{{$t('article.more')}}]</router-link>
 		  </a-row>
 		  <a-row class="tag">
 			  <a-tag type="info" class="tag" color="#606266" v-if="item.tag_name != false" v-for="(v,k) in item.tag_name.split(',')">
@@ -38,10 +38,12 @@ export default {
       required: true
     },
   },
+  methods:{
+	  
+  },
   computed: {
-    itemList() {
-      return this.list
-    },
+   
+	
   }
 }
 </script>

@@ -53,6 +53,12 @@ type AppArticleList struct {
 	AllowComment uint8 `json:"allow_comment"`
 }
 
+type ClickMost struct {
+	Id int `json:"id"`
+	Title string `json:"title"`
+	Num int `json:"num"`
+}
+
 
 //you must be in a transaction when post a article ,so must get handle of db
 func(art *BlogArticle) AddArticle(tx *gorm.DB) (int,*errcode.ERRCODE){
@@ -190,4 +196,17 @@ func (art *BlogArticle) GetAppArticle() (*AppArticleList,*errcode.ERRCODE) {
 		return app,errcode.DataBaseError
 	}
 	return app,nil
+}
+
+func (art *BlogArticle) GetClickMost() ([]ClickMost,error) {
+	most := make([]ClickMost,0)
+	res := db.Table("blog_article a ").Select("a.id,a.title,count(v.id) as num")
+	res = res.Joins("left join blog_view v on a.id = v.article_id")
+	res = res.Order("num desc").Limit(10).Group("a.id").Find(&most)
+	return most,res.Error
+}
+
+func (art *BlogArticle) GetAppArticleNum() (int,error) {
+	res := 0
+	return res,db.Where("status = 0 and is_self = 0").Count(&res).Error
 }
