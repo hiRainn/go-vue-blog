@@ -15,3 +15,8 @@ func (v *BlogView) AddRecord() {
 func (v *BlogView) FindRecord() {
 	db.Where(v).Order("created_at desc").First(v)
 }
+
+func (v *BlogView) StatViews(timestamp int) (int,error) {
+	var views int
+	return views,db.Table("blog_view").Where("created_at >= ?",timestamp).Count(&views).Error
+}

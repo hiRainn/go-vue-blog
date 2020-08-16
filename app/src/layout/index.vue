@@ -283,6 +283,7 @@
 		getFriendsLink,
 		getLatestComment,
 		getTags,
+		getStat,
 		getClickMost
 	} from '@/api/init.js'
 	import {
@@ -304,6 +305,7 @@
 				comments: [],
 				menu_list: [],
 				article_list: [],
+				stat:[],
 				style: 'top',
 				author: {
 
@@ -431,6 +433,17 @@
 					console.log(e)
 				})
 			},
+			getStat() {
+				getStat().then(r => {
+					if (r.code) {
+						console.log(r)
+						return
+					}
+					this.stat = r.data
+				}).catch(e => {
+					console.log(e)
+				})
+			},
 			show() {
 				if (this.$route.path == "" || this.$route.path == '/') {
 					this.show_breadcumb = false
@@ -461,6 +474,7 @@
 			this.getLatestComment()
 			this.getTags()
 			this.getClickMost()
+			this.getStat()
 		}
 	}
 </script>

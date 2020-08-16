@@ -11,7 +11,8 @@ var (
 
 	CommentCheck = &Status{code: 1, info: "wait to check"}
 	CommentNotPass = &Status{code: 2, info: "comment not pass"}
-	CommentNoSee = &Status{code: 3, info: "don't wanna see"}
+	CommentReport = &Status{code: 3, info: "be reported"}
+	CommentDelete = &Status{code: 9, info: "be deleted"}
 )
 
 func (s *Status) GetCode() uint8 {

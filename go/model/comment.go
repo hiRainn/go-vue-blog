@@ -16,7 +16,6 @@ type BlogComment struct {
 	IsView uint8 `json:"is_view";gorm:"type:tinyint;unsigned;not null;default:0"`
 	AdminView uint8 `json:"admin_view";gorm:"type:tinyint;unsigned;not null;default:0"`
 	IsAdmin uint8 `json:"is_admin";gorm:"type tinyint;unsigned;not null;default:0"`
-	Level uint8 `json:"level";gorm:"type:tinyint;unsigned;not null;default:0"`
 	Token string `json:"token";gorm:"type:char(64);not null;default:''"`
 }
 
@@ -29,7 +28,6 @@ type AppCommentList struct {
 	Pid int `json:"pid"`
 	CreatedAt string `json:"created_at"`
 	IsAdmin uint8 `json:"is_admin"`
-	Level uint8 `json:"level"`
 }
 
 type LatestComment struct {
@@ -44,14 +42,14 @@ type LatestComment struct {
 func (c *BlogComment) GetCommentsByArticleId(token string) ([]AppCommentList,int,*errcode.ERRCODE) {
 	var app []AppCommentList
 	var number int
+	//comments check status is not allowed to see,but reported or deleted are allowed cause maybe they are replayed
 	res := db.Table("blog_comment c").Select("from_unixtime(c.created_at,'%Y-%m-%d %H:%i') as created_at,c.*").Where("article_id = ?",c.ArticleId)
+	no_see := status.CommentCheck.GetCode()
 	if token == "" {
-		res = res.Where("status = ?",0)
+		res = res.Where("status <> ?",no_see)
 	} else {
-		 want_to_see := []int8{int8(status.OK.GetCode()),int8(status.CommentCheck.GetCode()),int8(status.CommentNotPass.GetCode())}
-		 res = res.Where("(status in (?) and token = ?) or status = 0",want_to_see,token)
+		res = res.Where("token = ? or status <> ?",token, no_see)
 	}
-
 	res.Count(&number)
 	if res.Find(&app).Error != nil {
 		return app,0,errcode.GetCommentsError
@@ -87,4 +85,14 @@ func (c * BlogComment) GetLastComment() ([]LatestComment,error) {
 	res = res.Limit(10)
 	res = res.Order("c.id desc").Find(&latest)
 	return latest,res.Error
+}
+
+func (c *BlogComment) GetCommentNumber() (int,error) {
+	var res int
+	return res,db.Table("blog_comment").Where("status <> ? and article_id <> 0",status.CommentCheck.GetCode()).Count(&res).Error
+}
+
+func (c *BlogComment) GetMsgNumber() (int,error) {
+	var res int
+	return res,db.Table("blog_comment").Where("status <> ? and article_id = 0",status.CommentCheck.GetCode()).Count(&res).Error
 }

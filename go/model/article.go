@@ -208,5 +208,5 @@ func (art *BlogArticle) GetClickMost() ([]ClickMost,error) {
 
 func (art *BlogArticle) GetAppArticleNum() (int,error) {
 	res := 0
-	return res,db.Where("status = 0 and is_self = 0").Count(&res).Error
+	return res,db.Table("blog_article").Where("status = 0 and is_self = 0").Count(&res).Error
 }

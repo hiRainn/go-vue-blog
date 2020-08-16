@@ -42,3 +42,10 @@ export function getClickMost() {
 	  method: 'get',
 	})
 }
+
+export function getStat() {
+	return request({
+	  url: '/stat',
+	  method: 'get',
+	})
+}

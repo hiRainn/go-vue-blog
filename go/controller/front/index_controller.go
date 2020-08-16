@@ -44,6 +44,25 @@ func GetStat(ctx *gin.Context) {
 	//get article_nums
 	var a model.BlogArticle
 	res["article_num"],_ = a.GetAppArticleNum()
+	//get like number
+
+	//get comments number
+	var c model.BlogComment
+	res["comments_number"],_ = c.GetCommentNumber()
+	res["msg_number"],_ = c.GetMsgNumber()
+
+	//get stat
+	var v model.BlogView
+	timeStr := time.Now().Format("2006-01-02")
+	t, _ := time.Parse("2006-01-02", timeStr)
+	today0Clock := int(t.Unix())
+	res["today"] ,_ = v.StatViews(today0Clock)
+	res["week"],_ = v.StatViews(today0Clock - 7 * 86400)
+	res["month"],_ = v.StatViews(today0Clock - 30 * 86400)
+	res["year"],_ = v.StatViews(today0Clock - 365 * 86400)
+	res["total"],_ = v.StatViews(0)
+
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 
 }
 
