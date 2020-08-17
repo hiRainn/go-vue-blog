@@ -44,7 +44,12 @@ func GetStat(ctx *gin.Context) {
 	//get article_nums
 	var a model.BlogArticle
 	res["article_num"],_ = a.GetAppArticleNum()
+	//first article
+	_ = a.GetFirstArticle()
+	res["first_day"] = a.CreatedAt
 	//get like number
+	var l model.BlogLike
+	res["like_number"] = l.GetIndexLike()
 
 	//get comments number
 	var c model.BlogComment

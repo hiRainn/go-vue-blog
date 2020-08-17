@@ -22,7 +22,6 @@
 				  <router-link style="font-size: 12px;margin-right: 5px;padding: 0px;margin: 0px ;" :to="'/article/tag/' + v" >{{v}}</router-link>
 			  </a-tag>
 		  </a-row>
-		  <a-divider></a-divider>
 	  </div>
 	  
   </div>
@@ -50,7 +49,12 @@ export default {
 
 <style scoped>
 	.item{
+		background: #fff;
+		border: 1px solid #eee;
 		text-align: left;
+		border-radius: 10px;
+		padding: 10px;
+		margin-bottom: 20px;
 	}
 	a {
 		text-decoration: none;

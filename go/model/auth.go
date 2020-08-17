@@ -13,7 +13,8 @@ type BlogAuth struct{
 	Nickname string `json:"nickname";gorm:"type:varchar(32);NOT NULL;DEFAULT:''"`
 	Birthday int64 `json:"birthday";;gorm:"type:smallint(3);NOT NULL;DEFAULT:0"`
 	Gender uint8 `json:"gender";gorm:"type:smallint(3);unsigned;NOT NULL;DEFAULT:0"`
-	Intro string `json:"intro";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
+	Sign string `json:"sign";gorm:"type:varchar(256);NOT NULL;DEFAULT:''"`
+	Intro string `json:"intro";gorm:"type:varchar(4000);NOT NULL;DEFAULT:''"`
 	City string `json:"city";gorm:"type:varchar(100);NOT NULL;DEFAULT:''"`
 	Email string `json:"email";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
 	Github string `json:"github";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
@@ -24,7 +25,7 @@ type BlogAuth struct{
 
 type Info struct{
 	Nickname string `json:"nickname"`
-	Intro string `json:"intro"`
+	Sign string `json:"sign"`
 	Gender uint8 `json:"gender"`
 	City string `json:"city"`
 	Email string `json:"email"`

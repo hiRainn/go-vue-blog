@@ -16,9 +16,15 @@ func (err *ERRCODE) GetErr() {
 	fmt.Printf("Error - %d, message : %s ,error : %s",err.code, err.msg, err.err)
 }
 
+func (err *ERRCODE) SetOk(data interface{}) gin.H {
+	return gin.H{"code": 0 ,"msg": "ok","data": data}
+}
+
 func (err *ERRCODE) SetData(data interface{}) gin.H {
-	err.data = data
-	return gin.H{"code":err.code,"msg":err.msg,"data":err.data}
+	if err.code != 0 {
+		err.data = data
+	}
+	return gin.H{"code":err.code,"msg":err.msg,"data":data}
 }
 
 // return gin.H

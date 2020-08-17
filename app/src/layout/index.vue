@@ -1,22 +1,12 @@
 <template>
-	<div class="" style="margin-top: 0px;padding-top: 0px;">
-		<!-- header hidden under phone and pad -->
-		<a-row>
-			<a-col class="header" :xs="0" :md="0" :xl="24">
-				<header class="pc-header" style="background-image: url('/static/img/37.jpg');">
-					<a-col :offset="3" :span="14">
-						<p class="pc-title" id="mytitle">{{blog.title}}</p>
-					</a-col>
-				</header>
-			</a-col>
-		</a-row>
+	<div style="margin-top: 0px;padding-top: 50px;background: #add8c6;">
 		<!-- menu -->
-		<a-row>
+		<a-row class="fix">
 			<!-- menu for phone -->
 			<a-row>
-				<a-col :xs="24" :md="0">
-					<a-affix :offset-top="0" :offsetBottom="0">
-						<a-row>
+				<a-col :xs="24" :md="0" >
+					<!-- <a-affix :offsetTop="0" :style="{ position: 'absolute', top: 0, left: 0}"> -->
+					
 							<header class="phone-header" style="display: block;">
 								<a-button @click="drawer = true" class="phone-title-botton">
 									<a-icon type="menu-fold" v-if="drawer" />
@@ -40,18 +30,22 @@
 												{{item.name}}
 											</a-menu-item>
 										</a-sub-menu>
+										<a-menu-item key="/filing" :disabled="$route.path == '/filing'">
+											<a-icon type="database" />
+											{{$t('menu.filing')}}
+										</a-menu-item>
 									</a-menu>
 								</a-drawer>
 							</header>
-						</a-row>
-					</a-affix>
+						
+					<!-- </a-affix> -->
 				</a-col>
 			</a-row>
 
 
 			<!-- menu for pad && pc -->
-			<a-row>
-				<a-affix :offset-top="0" :offsetBottom="0">
+			<a-row >
+				<!-- <a-affix :offsetTop="0" > -->
 					<a-col class="pp-menu" :xs="0" :md="24">
 						<a-col :md="{offset:1,span:22}" :lg="{offset:3,span:14}" :xs="0">
 							<a-menu @click="menuClick" :selectable="false" class="pp-menu" mode="horizontal">
@@ -68,6 +62,10 @@
 										{{item.name}}
 									</a-menu-item>
 								</a-sub-menu>
+								<a-menu-item key="/filing" :disabled="$route.path == '/filing'">
+									<a-icon type="database" />
+									{{$t('menu.filing')}}
+								</a-menu-item>
 							</a-menu>
 						</a-col>
 						<a-col :md="1" :lg="0" :xs="0"></a-col>
@@ -77,13 +75,20 @@
 							</video>
 						</a-col>
 					</a-col>
-				</a-affix>
+				<!-- </a-affix> -->
 			</a-row>
-
 		</a-row>
+		
+		<!-- banner -->
+		<!-- <a-row>
+			<a-col :xs="0" :xl="24"> 
+				<div id="banner" :style="{width:getClientWidth}">
+				</div>
+			</a-col>
+		</a-row> -->
 
 		<!-- phone header -->
-		<a-row v-if="this.$route.path == '/'">
+		<a-row v-if="this.$route.path == '/'" >
 			<a-col :xs="24" :md="0">
 				<a-row>
 					<a-col :offset="5" :span="14">
@@ -97,12 +102,12 @@
 
 
 		<!-- body -->
-		<a-row>
+		<a-row style="margin-top:20px">
 			<a-col :xl="{span:16,offset:4}" :xs="{span:22,offset:1}">
 				<a-row>
 					<!-- content -->
 					<a-col :md="18" :xs="24">
-						<a-row :hidden="!Cshow_breadcumb" class="breadcrumb">
+						<!-- <a-row :hidden="!Cshow_breadcumb" class="breadcrumb">
 							<a-breadcrumb separator="/" style="float: left;margin: 5px;font-size: 14px ;">
 								<a-breadcrumb-item>
 									<template>
@@ -114,7 +119,7 @@
 									</template>
 								</a-breadcrumb-item>
 							</a-breadcrumb>
-						</a-row>
+						</a-row> -->
 						<a-row>
 							<app-main />
 						</a-row>
@@ -137,7 +142,7 @@
 
 							</a-row type="flex" justify="center" class="side-info-item">
 							<a-row class="side-info-item" type="flex" justify="start">
-								<span> {{author.intro}}</span>
+								<span> {{author.sign}}</span>
 							</a-row>
 
 							<a-row v-if="author.city" type="flex" justify="start" class="">
@@ -173,19 +178,28 @@
 						</a-row>
 
 						<a-row class="side-info-center">
-							<a-row type="flex">
+							<template v-if="statHide">
+							  <a-skeleton active />
+							</template>
+							<a-row type="flex" v-if="!statHide">
 								<a-col :span="6">
-									<a-statistic :valueStyle="{'font-size':'14px'}" :title="$t('stat.article')" :value="112893" />
+									<a-statistic :valueStyle="{'font-size':'14px'}" :title="$t('stat.article')" :value="stat.article_num" />
 								</a-col>
 								<a-col :span="6">
-									<a-statistic :valueStyle="{'font-size':'14px'}" :title="$t('stat.like')" :value="2893" />
+									<a-statistic :valueStyle="{'font-size':'14px'}" :title="$t('stat.like')" :value="stat.like_number" />
 								</a-col>
 								<a-col :span="6">
-									<a-statistic :valueStyle="{'font-size':'14px'}" :title="$t('stat.comments')" :value="12893" />
+									<a-statistic :valueStyle="{'font-size':'14px'}" :title="$t('stat.comments')" :value="stat.comments_number" />
 								</a-col>
 								<a-col :span="6">
-									<a-statistic :valueStyle="{'font-size':'14px'}" :title="$t('stat.message')" :value="2893" />
+									<a-statistic :valueStyle="{'font-size':'14px'}" :title="$t('stat.message')" :value="stat.msg_number" />
 								</a-col>
+							</a-row>
+							<a-row v-if="!statHide">
+								<span style="font-size: 14px;">
+									{{getDay}}
+								</span>
+								
 							</a-row>
 
 						</a-row>
@@ -246,15 +260,28 @@
 
 							</a-row>
 						</a-row>
-
+						
 						<a-row class="side-info">
+							<template v-if="statHide">
+							  <a-skeleton active />
+							</template>
 							<a-row>
 								<b style="font-size: 19px;">{{$t('os.site')}}</b>
 							</a-row>
-							<a-row>
-								<span style="font-size: 15px;margin-right: 20px;" class="friend-link" v-for="(item,index) in links">
-									<a style="font-size: 15px;color: #2C3E50;" target="_blank" :href="item.link">{{item.name}}</a>
-								</span>
+							<a-row class="stat" v-if="!statHide">
+								<span>{{$t('stat.today')}}:</span><span>{{stat.today}}</span>
+							</a-row>
+							<a-row class="stat" v-if="!statHide">
+								<span>{{$t('stat.week')}}:</span><span>{{stat.week}}</span>
+							</a-row>
+							<a-row class="stat" v-if="!statHide">
+								<span>{{$t('stat.month')}}:</span><span>{{stat.month}}</span>
+							</a-row>
+							<a-row class="stat" v-if="!statHide">
+								<span>{{$t('stat.year')}}:</span><span>{{stat.year}}</span>
+							</a-row>
+							<a-row class="stat" v-if="!statHide">
+								<span>{{$t('stat.total')}}:</span><span>{{stat.total}}</span>
 							</a-row>
 						</a-row>
 					</a-col>
@@ -297,6 +324,7 @@
 		},
 		data() {
 			return {
+				statHide:true,
 				tags: [],
 				avatar: "http://localhost:8080/static/images/avatar.jpg",
 				drawer: false,
@@ -440,6 +468,7 @@
 						return
 					}
 					this.stat = r.data
+					this.statHide = false
 				}).catch(e => {
 					console.log(e)
 				})
@@ -465,6 +494,17 @@
 					}
 				}
 			},
+			getDay() {
+				var template = this.$i18n.t('stat.first_day')
+				var day = this.stat.first_day
+				var time = parseInt(new Date().getTime() / 1000)
+				var data = Math.ceil((time - day) / 86400)
+				return template.replace('{Number}',data)
+			},
+			getClientWidth() {
+				return document.body.clientWidth + 'px'
+				
+			}
 		},
 		created() {
 			this.show()
@@ -475,6 +515,8 @@
 			this.getTags()
 			this.getClickMost()
 			this.getStat()
+			console.log(this.$refs)
+			console.log(this.$refs.container)
 		}
 	}
 </script>
@@ -491,15 +533,30 @@
 	// 		padding: 0px;
 	// 	}
 	// }
-
-
-	.pc-header {
-		height: 140px;
-		// border: 1px solid black;
+	.fix{
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		z-index: 999;
+	}
+	
+	#banner {
+		background: url('/static/img/banner.jpg') no-repeat;
+		height: 365px;margin-top: -50px;
+		display: inline-block;
+		background-position: center;
 	}
 
+	
+	.stat> span {
+		font-size: 16px;
+	}
+
+
+
 	.phone-header {
-		height: 40px;
+		height: 50px;
 		border: 1px solid black;
 		background-color: #001528;
 		text-align: left;
@@ -509,16 +566,18 @@
 
 	.phone-title {
 		color: #FFF8E6;
-		line-height: 40px;
+		line-height: 50px;
+		font-size: 18px;
 	}
 
 	.phone-title-botton {
+		background-color: #001528;
 		background-color: rgba(256, 256, 256, 0);
 		color: #FFFFFF;
 		border: none;
 		display: inline-block;
 		float: left;
-		line-height: 40px;
+		line-height: 50px;
 	}
 
 
@@ -528,6 +587,7 @@
 
 	.pp-menu {
 		background: #F0C78A;
+		// background: rgba(0,0,0,0.5);
 		height: 50px;
 		color: #000000;
 		line-height: 50px;
@@ -545,6 +605,7 @@
 	}
 
 	.side-info {
+		background: #fff;
 		margin: 20px 10px;
 		border: 1px solid #eee;
 		border-radius: 5px;
@@ -555,6 +616,7 @@
 	}
 
 	.side-info-center {
+		background: #fff;
 		margin: 20px 10px;
 		border: 1px solid #eee;
 		border-radius: 5px;

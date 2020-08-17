@@ -47,6 +47,7 @@ module.exports = {
 	menu:{
 		'index':'home',
 		'article':'article',
+		'filing':'filing',
 		'all_article':'all',
 		'last_comments':'Latest Comments',
 		'tags':'Tags',
@@ -65,6 +66,7 @@ module.exports = {
 		'article':'Article',
 		'comments':'Comment',
 		'message':'Msg',
-		'like':'Like'
+		'like':'Like',
+		'first_day':"running {Number} days since first blog~"
 	}
 }

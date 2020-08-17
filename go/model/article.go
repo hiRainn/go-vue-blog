@@ -94,19 +94,6 @@ func (art *BlogArticle) GetArticleById() *errcode.ERRCODE {
 	return nil
 }
 
-//app get article to view
-func (art *BlogArticle) GetAppArticleById() *errcode.ERRCODE {
-	res := db.Table("")
-	if res.Error != nil {
-		if res.RecordNotFound() {
-			return errcode.DataNotExists
-		} else {
-			return errcode.DataBaseError
-		}
-	}
-	return nil
-}
-
 func (art *BlogArticle) DelArticleById() *errcode.ERRCODE {
 	res := db.Where("id = ?",art.Id).Delete(art)
 	if res.Error != nil {
@@ -210,3 +197,8 @@ func (art *BlogArticle) GetAppArticleNum() (int,error) {
 	res := 0
 	return res,db.Table("blog_article").Where("status = 0 and is_self = 0").Count(&res).Error
 }
+
+func (art *BlogArticle) GetFirstArticle() error {
+	return db.Order("created_at desc").Where("created_at <> 0 and is_self = 0").First(art).Error
+}
+

@@ -51,6 +51,17 @@ const Routes = [
 		}, ]
 	},
 	{
+		path: '/filing',
+		component: Layout,
+		hidden: false,
+		children: [{
+			path: '',
+			meta:{title:"heihei's home"},
+			component: () => import('@/views/index/filing'),
+			hidden: false
+		}, ]
+	},
+	{
 		path: '/',
 		component: Layout,
 		hidden: false,

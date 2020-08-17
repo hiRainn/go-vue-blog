@@ -29,3 +29,10 @@ export function commentArticle(data){
 		data:data
 	})
 }
+
+export function getAllArticles() {
+	return request({
+		url : '/filing',
+		method:'get'
+	})
+}

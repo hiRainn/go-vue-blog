@@ -1,13 +1,24 @@
 <template>
 	<div class="container">
-
-		<a-row>
+		<a-row v-if="articleHide">
+			<a-row class="item">
+				<a-skeleton active />
+			</a-row>
+			<a-row class="item">
+				<a-skeleton active />
+			</a-row>
+			<a-row class="item">
+				<a-skeleton active />
+			</a-row>
+			
+		</a-row>
+		<a-row v-if="!articleHide">
 			<ArticleItem :list="list" />
 		</a-row>
 
 		<a-row>
-			<a-button v-if="!noMore" :loading="loading" @click="nextPage()">{{C_load_text}}</a-button>
-			<a-button disabled v-if="noMore">{{nomore_text}}</a-button>
+			<a-button v-if="!noMore && !articleHide" :loading="loading" @click="nextPage()">{{C_load_text}}</a-button>
+			<a-button disabled v-if="noMore  && !articleHide">{{nomore_text}}</a-button>
 		</a-row>
 
 	</div>
@@ -24,6 +35,7 @@
 		},
 		data() {
 			return {
+				articleHide:true,
 				loading_text: this.$i18n.t('article.load_text'),
 				nomore_text: this.$i18n.t('article.nomore_text'),
 				count: 10,
@@ -59,6 +71,7 @@
 						}
 						this.page.p = data.p
 						this.page.total = data.total
+						this.articleHide = false
 					}
 				}).catch(e => {
 					console.log(e)
@@ -90,4 +103,12 @@
 </script>
 
 <style>
+	.item{
+		background: #fff;
+		border: 1px solid #eee;
+		text-align: left;
+		border-radius: 10px;
+		padding: 10px;
+		margin-bottom: 20px;
+	}
 </style>

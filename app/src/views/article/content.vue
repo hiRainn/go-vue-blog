@@ -1,5 +1,9 @@
 <template>
-	<div>
+	<div class="item">
+		<div v-if="contentHide">
+			 <a-skeleton  :paragraph="{ rows: 50 }" />
+		</div>
+		<div v-if="!contentHide">
 		<a-row>
 			<h2 class="title">{{article.title}}</h2>
 		</a-row>
@@ -42,6 +46,7 @@
 				:content="form.content" 
 				ref="comment" />
 		</a-row>
+		</div>
 	</div>
 </template>
 
@@ -65,7 +70,7 @@
 		},
 		data() {
 			return {
-				
+				contentHide:true,
 				language: "en",
 				show_modify_time: true,
 				save: false,
@@ -95,6 +100,7 @@
 						this.show_modify_time = false
 					}
 					this.article = r.data
+					this.contentHide = false;
 				}).catch(e => {
 					console.log(e)
 				})
@@ -212,6 +218,15 @@
 </script>
 
 <style scoped="scoped">
+	.item{
+		background: #fff;
+		border: 1px solid #eee;
+		text-align: left;
+		border-radius: 10px;
+		padding: 10px;
+		margin-bottom: 20px;
+	}
+	
 	.title {
 		margin: 0px;
 		float: left;

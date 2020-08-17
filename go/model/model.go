@@ -24,7 +24,7 @@ func init() {
 
 	} else {
 		db.SingularTable(true)
-		db.AutoMigrate(&BlogArticle{},&BlogAuth{},&BlogConfig{},&BlogCate{},&BlogTags{},&BlogComment{},&BlogView{},&BlogFriends{})
+		db.AutoMigrate(&BlogArticle{},&BlogAuth{},&BlogConfig{},&BlogCate{},&BlogTags{},&BlogComment{},&BlogView{},&BlogFriends{},&BlogLike{})
 		db.LogMode(true)
 	}
 }
