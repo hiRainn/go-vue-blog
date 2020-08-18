@@ -271,7 +271,7 @@
 					row.item.data.unlike = 0
 				}
 				if (row.item.data.unlike == 0) {
-					this.$emit('clickLike', row.item.data, r => {
+					this.$emit('clickUnlike', row.item.data, r => {
 						var id = row.item.data.id
 						var color = this.unlikeColor
 						if (r) {
@@ -289,7 +289,7 @@
 					})
 				} else {
 					if (this.repeatType == 'cancle') {
-						this.$emit('cancleLike', row.item.data, r => {
+						this.$emit('cancleUnlike', row.item.data, r => {
 							if (r) {
 								row.item.data.unlike = 0
 								row.item.data.unlike_number--
@@ -494,6 +494,7 @@
 	}
 
 	.comment-under {
+		padding-right: 25px;
 		border-bottom: none !important
 	}
 

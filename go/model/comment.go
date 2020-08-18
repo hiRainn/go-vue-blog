@@ -28,6 +28,11 @@ type AppCommentList struct {
 	Pid int `json:"pid"`
 	CreatedAt string `json:"created_at"`
 	IsAdmin uint8 `json:"is_admin"`
+	LikeNumber int `json:"like_number"`
+	UnlikeNumber int `json:"unlike_number"`
+	Like uint8 `json:"like"`
+	Unlike uint8 `json:"unlike"`
+	Report uint8 `json:"report"`
 }
 
 type LatestComment struct {
@@ -43,13 +48,18 @@ func (c *BlogComment) GetCommentsByArticleId(token string) ([]AppCommentList,int
 	var app []AppCommentList
 	var number int
 	//comments check status is not allowed to see,but reported or deleted are allowed cause maybe they are replayed
-	res := db.Table("blog_comment c").Select("from_unixtime(c.created_at,'%Y-%m-%d %H:%i') as created_at,c.*").Where("article_id = ?",c.ArticleId)
+	res := db.Table("blog_comment c")
+	res = res.Select("from_unixtime(c.created_at,'%Y-%m-%d %H:%i') as created_at,c.*,l.like_number,l.like,d.unlike_number,d.unlike,r.report")
+	res = res.Where("c.article_id = ?",c.ArticleId)
 	no_see := status.CommentCheck.GetCode()
 	if token == "" {
-		res = res.Where("status <> ?",no_see)
+		res = res.Where("c.status <> ?",no_see)
 	} else {
-		res = res.Where("token = ? or status <> ?",token, no_see)
+		res = res.Where("c.token = ? or c.status <> ?",token, no_see)
 	}
+	res = res.Joins("left join (select comment_id,count(type) as like_number,(select count(1) from blog_like where type = ? and token = ? and token <> '') as `like`  from blog_like where type = ? group by comment_id) l on c.id = l.comment_id",status.Like.GetCode(),token,status.Like.GetCode())
+	res = res.Joins("left join (select comment_id,count(type) as unlike_number,(select count(1) from blog_like where type = ? and token = ? and token <> '') as `unlike` from blog_like where type = ? group by comment_id) d on c.id = d.comment_id",status.Dislike.GetCode(),token,status.Dislike.GetCode())
+	res = res.Joins("left join (select comment_id,(select count(1) from blog_like where type = ? and token = ? and token <> '') as `report` from blog_like where type = ? group by comment_id) r on c.id = r.comment_id",status.Report.GetCode(),token,status.Report.GetCode())
 	res.Count(&number)
 	if res.Find(&app).Error != nil {
 		return app,0,errcode.GetCommentsError

@@ -62,6 +62,39 @@ const Routes = [
 		}, ]
 	},
 	{
+		path: '/message',
+		component: Layout,
+		hidden: false,
+		children: [{
+			path: '',
+			meta:{title:"heihei's home"},
+			component: () => import('@/views/message/message'),
+			hidden: false
+		}, ]
+	},
+	{
+		path: '/about',
+		component: Layout,
+		hidden: false,
+		children: [{
+			path: '',
+			meta:{title:"heihei's home"},
+			component: () => import('@/views/index/about'),
+			hidden: false
+		}, ]
+	},
+	{
+		path: '/licence',
+		component: Layout,
+		hidden: false,
+		children: [{
+			path: '',
+			meta:{title:"heihei's home"},
+			component: () => import('@/views/index/licence'),
+			hidden: false
+		}, ]
+	},
+	{
 		path: '/',
 		component: Layout,
 		hidden: false,

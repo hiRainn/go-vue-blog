@@ -13,6 +13,7 @@
 			  </span>
 			  <a-icon type="eye" />{{item.views}}
 			  <a-icon type="message" />{{item.comments}}
+			  <a-icon type="heart" />{{item.like_number}}
 		  </a-row>
 		  <a-row class="content">
 			  {{item.content.replace(/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]+$/im,'')}}...<router-link style="color: #398aec;" :to="'/article/' + item.id ">[{{$t('article.more')}}]</router-link>

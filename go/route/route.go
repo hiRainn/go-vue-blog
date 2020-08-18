@@ -31,6 +31,8 @@ func Initroute() *gin.Engine {
 	r.GET("article/:id",f.GetArticle)
 	r.GET("comment/:id",f.GetArticleComment)
 	r.POST("comment",f.PostComment)
+	r.GET("message",f.GetMessage)
+	r.POST("message",f.PostComment)
 
 	//right_info
 	r.GET("friends",f.GetFriendsLink)
@@ -38,6 +40,17 @@ func Initroute() *gin.Engine {
 	r.GET("tags",f.GetTagsNum)
 	r.GET("most",f.GetClickMostArticle)
 	r.GET("stat",f.GetStat)
+	r.GET("filing",f.GetFiling)
+
+	//like/dislike/report
+	r.POST("like",f.Like)
+	r.POST("dislike",f.DisLike)
+	r.POST("report",f.Report)
+	r.DELETE("like",f.CancleLike)
+	r.DELETE("dislike",f.CancleDislile)
+	r.DELETE("report",f.CancleReport)
+	r.POST("like_article",f.Like)
+	r.GET("about",f.AboutMe)
 
 
 

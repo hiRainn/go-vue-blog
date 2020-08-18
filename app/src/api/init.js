@@ -49,3 +49,12 @@ export function getStat() {
 	  method: 'get',
 	})
 }
+
+export function About() {
+	return request({
+	  url: '/about',
+	  method: 'get',
+	})
+}
+
+

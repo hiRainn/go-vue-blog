@@ -1,54 +1,22 @@
 <template>
-	<div style="margin-top: 0px;padding-top: 50px;background: #add8c6;">
+	<div id="container" style="margin-top: 0px;padding-top: 50px;background: #fefbf1;">
 		<!-- menu -->
 		<a-row class="fix">
 			<!-- menu for phone -->
 			<a-row>
-				<a-col :xs="24" :md="0" >
+				<a-col :xs="24" :md="0">
 					<!-- <a-affix :offsetTop="0" :style="{ position: 'absolute', top: 0, left: 0}"> -->
-					
-							<header class="phone-header" style="display: block;">
-								<a-button @click="drawer = true" class="phone-title-botton">
-									<a-icon type="menu-fold" v-if="drawer" />
-									<a-icon type="menu-unfold" v-if="!drawer" />
-								</a-button>
-								<span class="phone-title">{{ blog.title}}</span>
 
-								<a-drawer :maskClosable="true" :bodyStyle="{padding:'24px 0px'}" width="200" placement="left" :closable="false"
-								 :visible.async="drawer" @close="ondrawerClose">
-									<a-menu mode="vertical" @click="menuClick" :selectable="false">
-										<a-menu-item key="/" :disabled="($route.path == '' || $route.path == '/')">
-											<a-icon type="home" />
-											{{$t('menu.index')}}
-										</a-menu-item>
-										<a-sub-menu key="article">
-											<span slot="title">
-												<a-icon type="book" />
-												<span>{{$t('menu.article')}}</span>
-											</span>
-											<a-menu-item v-for="item in menu_list" :key="item.key" :disabled="$route.path == item.key">
-												{{item.name}}
-											</a-menu-item>
-										</a-sub-menu>
-										<a-menu-item key="/filing" :disabled="$route.path == '/filing'">
-											<a-icon type="database" />
-											{{$t('menu.filing')}}
-										</a-menu-item>
-									</a-menu>
-								</a-drawer>
-							</header>
-						
-					<!-- </a-affix> -->
-				</a-col>
-			</a-row>
+					<header class="phone-header" style="display: block;">
+						<a-button @click="drawer = true" class="phone-title-botton">
+							<a-icon type="menu-fold" v-if="drawer" />
+							<a-icon type="menu-unfold" v-if="!drawer" />
+						</a-button>
+						<span class="phone-title">{{ blog.title}}</span>
 
-
-			<!-- menu for pad && pc -->
-			<a-row >
-				<!-- <a-affix :offsetTop="0" > -->
-					<a-col class="pp-menu" :xs="0" :md="24">
-						<a-col :md="{offset:1,span:22}" :lg="{offset:3,span:14}" :xs="0">
-							<a-menu @click="menuClick" :selectable="false" class="pp-menu" mode="horizontal">
+						<a-drawer :maskClosable="true" :bodyStyle="{padding:'24px 0px'}" width="200" placement="left" :closable="false"
+						 :visible.async="drawer" @close="ondrawerClose">
+							<a-menu mode="vertical" @click="menuClick" :selectable="false">
 								<a-menu-item key="/" :disabled="($route.path == '' || $route.path == '/')">
 									<a-icon type="home" />
 									{{$t('menu.index')}}
@@ -66,19 +34,67 @@
 									<a-icon type="database" />
 									{{$t('menu.filing')}}
 								</a-menu-item>
+								<a-menu-item key="/message" :disabled="$route.path == '/message'">
+									<a-icon type="form" />
+									{{$t('menu.msg')}}
+								</a-menu-item>
+								<a-menu-item key="/about" :disabled="$route.path == '/about'">
+									<a-icon type="smile" />
+									{{$t('menu.about')}}
+								</a-menu-item>
 							</a-menu>
-						</a-col>
-						<a-col :md="1" :lg="0" :xs="0"></a-col>
-						<a-col :md="0" :lg="{offset:2,span:4}" :xs="0">
-							<video id="video" src="../static/audios/yhys.mp3" muted="true" onpagehide="auto" controls="controls" autoplay="autoplay"
-							 loop="loop" style="display: inline-block;height: 46px;width: 100%;margin:2px;line-height: 50px;">
-							</video>
-						</a-col>
+						</a-drawer>
+					</header>
+
+					<!-- </a-affix> -->
+				</a-col>
+			</a-row>
+
+
+			<!-- menu for pad && pc -->
+			<a-row>
+				<!-- <a-affix :offsetTop="0" > -->
+				<a-col class="pp-menu" :xs="0" :md="24">
+					<a-col :md="{offset:1,span:22}" :lg="{offset:3,span:14}" :xs="0">
+						<a-menu @click="menuClick" :selectable="false" class="pp-menu" mode="horizontal">
+							<a-menu-item key="/" :disabled="($route.path == '' || $route.path == '/')">
+								<a-icon type="home" />
+								{{$t('menu.index')}}
+							</a-menu-item>
+							<a-sub-menu key="article">
+								<span slot="title">
+									<a-icon type="book" />
+									<span>{{$t('menu.article')}}</span>
+								</span>
+								<a-menu-item v-for="item in menu_list" :key="item.key" :disabled="$route.path == item.key">
+									{{item.name}}
+								</a-menu-item>
+							</a-sub-menu>
+							<a-menu-item key="/filing" :disabled="$route.path == '/filing'">
+								<a-icon type="database" />
+								{{$t('menu.filing')}}
+							</a-menu-item>
+							<a-menu-item key="/message" :disabled="$route.path == '/message'">
+								<a-icon type="form" />
+								{{$t('menu.msg')}}
+							</a-menu-item>
+							<a-menu-item key="/about" :disabled="$route.path == '/about'">
+								<a-icon type="smile" />
+								{{$t('menu.about')}}
+							</a-menu-item>
+						</a-menu>
 					</a-col>
+					<a-col :md="1" :lg="0" :xs="0"></a-col>
+					<a-col :md="0" :lg="{offset:2,span:4}" :xs="0">
+						<video id="video" src="../static/audios/yhys.mp3" muted="true" onpagehide="auto" controls="controls" autoplay="autoplay"
+						 loop="loop" style="display: inline-block;height: 46px;width: 100%;margin:2px;line-height: 50px;">
+						</video>
+					</a-col>
+				</a-col>
 				<!-- </a-affix> -->
 			</a-row>
 		</a-row>
-		
+
 		<!-- banner -->
 		<!-- <a-row>
 			<a-col :xs="0" :xl="24"> 
@@ -88,7 +104,7 @@
 		</a-row> -->
 
 		<!-- phone header -->
-		<a-row v-if="this.$route.path == '/'" >
+		<a-row v-if="this.$route.path == '/'">
 			<a-col :xs="24" :md="0">
 				<a-row>
 					<a-col :offset="5" :span="14">
@@ -179,7 +195,7 @@
 
 						<a-row class="side-info-center">
 							<template v-if="statHide">
-							  <a-skeleton active />
+								<a-skeleton active />
 							</template>
 							<a-row type="flex" v-if="!statHide">
 								<a-col :span="6">
@@ -199,7 +215,7 @@
 								<span style="font-size: 14px;">
 									{{getDay}}
 								</span>
-								
+
 							</a-row>
 
 						</a-row>
@@ -260,10 +276,10 @@
 
 							</a-row>
 						</a-row>
-						
+
 						<a-row class="side-info">
 							<template v-if="statHide">
-							  <a-skeleton active />
+								<a-skeleton active />
 							</template>
 							<a-row>
 								<b style="font-size: 19px;">{{$t('os.site')}}</b>
@@ -290,6 +306,35 @@
 			<a-col :md="4" :xs="1" :sm="1">
 				<a-back-top />
 			</a-col>
+		</a-row>
+		<!-- footer -->
+		<a-row>
+			<footer style="margin-top: 20px;">
+				<a-row>
+					<span>
+						Copyright © 2020 <a href="http://sorahei.com">嘿嘿</a>
+					</span>
+					<span style="margin-left: 3px;">
+						<a href="https://github.com/hirainn" target="_blank">
+							<icon-font type="icon-github" :style="{color:'#25292e'  }" />
+						</a>
+					</span>
+					<span style="margin-left: 3px;">
+						<a href="https://twitter.com/HhheyW">
+							<icon-font type="icon-twitter" :style="{color:'#25292e'  }" />
+						</a>
+					</span>
+				</a-row>
+				<a-row>
+					<span>
+						<a href="/licence">Licence</a>
+					</span>
+					<span style="margin-left: 3px;">
+						www.sorahei.com All rights reserved.
+					</span>
+
+				</a-row>
+			</footer>
 		</a-row>
 
 
@@ -324,7 +369,7 @@
 		},
 		data() {
 			return {
-				statHide:true,
+				statHide: true,
 				tags: [],
 				avatar: "http://localhost:8080/static/images/avatar.jpg",
 				drawer: false,
@@ -333,7 +378,7 @@
 				comments: [],
 				menu_list: [],
 				article_list: [],
-				stat:[],
+				stat: [],
 				style: 'top',
 				author: {
 
@@ -499,11 +544,11 @@
 				var day = this.stat.first_day
 				var time = parseInt(new Date().getTime() / 1000)
 				var data = Math.ceil((time - day) / 86400)
-				return template.replace('{Number}',data)
+				return template.replace('{Number}', data)
 			},
 			getClientWidth() {
 				return document.body.clientWidth + 'px'
-				
+
 			}
 		},
 		created() {
@@ -515,41 +560,33 @@
 			this.getTags()
 			this.getClickMost()
 			this.getStat()
-			console.log(this.$refs)
-			console.log(this.$refs.container)
+		},
+		mounted() {
+			document.body.style.background = '#fefbf1'
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	// .Myanchor {
-	// 	display: inline-block;
 
-	// 	.ant-anchor {
-	// 		display: inline;
-	// 	}
-
-	// 	.ant-anchor-link {
-	// 		padding: 0px;
-	// 	}
-	// }
-	.fix{
+	.fix {
 		position: fixed;
 		left: 0;
 		right: 0;
 		top: 0;
 		z-index: 999;
 	}
-	
+
 	#banner {
 		background: url('/static/img/banner.jpg') no-repeat;
-		height: 365px;margin-top: -50px;
+		height: 365px;
+		margin-top: -50px;
 		display: inline-block;
 		background-position: center;
 	}
 
-	
-	.stat> span {
+
+	.stat>span {
 		font-size: 16px;
 	}
 

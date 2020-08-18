@@ -56,5 +56,6 @@
 	body{
 		margin: 0px;
 		padding: 0px;
+		background: #fefbf1;
 	}
 </style>

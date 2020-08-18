@@ -42,7 +42,7 @@
 				loading: false,
 				page: {
 					p: 1,
-					page_size: 8,
+					page_size: 5,
 					total: 0
 				},
 				list: []

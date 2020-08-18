@@ -36,3 +36,13 @@ export function getAllArticles() {
 		method:'get'
 	})
 }
+
+export function likeArticle(data) {
+	return request({
+		url : '/like_article',
+		method:'post',
+		data:data
+	})
+}
+
+

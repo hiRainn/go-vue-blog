@@ -2,6 +2,7 @@ package model
 
 import (
 	"blog/pkg/errcode"
+	"blog/pkg/status"
 	"github.com/jinzhu/gorm"
 )
 
@@ -51,12 +52,20 @@ type AppArticleList struct {
 	IsOriginal uint8 `json:"is_original"`
 	IsTop uint8 `json:"is_top"`
 	AllowComment uint8 `json:"allow_comment"`
+	LikeNumber int `json:"like_number"`
+	Like int8 `json:"like"`
 }
 
 type ClickMost struct {
 	Id int `json:"id"`
 	Title string `json:"title"`
 	Num int `json:"num"`
+}
+
+type TimeLine struct {
+	Id int `json:"id"`
+	Title string `json:"title"`
+	CreatedAt string `json:"created_at"`
 }
 
 
@@ -137,7 +146,7 @@ func (art *BlogArticle) GetArticleList (condition map[string]interface{}, page m
 
 func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page map[string]int) ([]AppArticleList,int,error) {
 	var list []AppArticleList
-	field := "a.id,a.title,bc.cate_name,bt.tag_name,left(a.content,200) as content,a.is_original,is_top,a.cate_id"
+	field := "a.id,a.title,bc.cate_name,bt.tag_name,left(a.content,200) as content,a.is_original,is_top,a.cate_id,l.like_number"
 	field = field + ",from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at,allow_comment"
 	field = field + ",from_unixtime(a.modify_at,'%Y-%m-%d %H:%i') as modify_at"
 	field = field + ",count(distinct v.id) as views,count(distinct c.id) as comments"
@@ -152,12 +161,12 @@ func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page
 	if condition["tag_id"] != nil {
 		res = res.Where("find_in_set(?,tags_ids)",condition["tag_id"].(int))
 	}
-	res = res.Where("a.is_self = ?",0)
-	res = res.Where("a.status = ?", 0)
+	res = res.Where("a.is_self = 0 and a.status = 0")
 	res = res.Joins("left join blog_cate bc on a.cate_id = bc.id")
 	res = res.Joins("left join (select a.id,group_concat(bt.tag_name) as tag_name from blog_article a left join blog_tags bt on find_in_set(bt.id,a.tags_ids) group by a.id) as bt on bt.id = a.id")
 	res = res.Joins("left join blog_view v on v.article_id = a.id")
 	res = res.Joins("left join blog_comment c on c.article_id = a.id and c.status = 0")
+	res = res.Joins("left join (select article_id,count(1) as like_number from blog_like where type = ? and comment_id = 0 group by article_id) l on a.id = l.article_id",status.Like.GetCode())
 	res = res.Group("a.id")
 	var count int
 	res.Count(&count)
@@ -166,18 +175,19 @@ func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page
 	return list,count,res.Error
 }
 
-func (art *BlogArticle) GetAppArticle() (*AppArticleList,*errcode.ERRCODE) {
+func (art *BlogArticle) GetAppArticle(token string) (*AppArticleList,*errcode.ERRCODE) {
 	app := new(AppArticleList)
 	field := "a.id,a.title,bc.cate_name,bt.tag_name,a.content,a.is_original,is_top,a.cate_id"
 	field = field + ",from_unixtime(a.created_at,'%Y-%m-%d %H:%i') as post_at,allow_comment"
-	field = field + ",from_unixtime(a.modify_at,'%Y-%m-%d %H:%i') as modify_at"
+	field = field + ",from_unixtime(a.modify_at,'%Y-%m-%d %H:%i') as modify_at,l.like_number,l.like"
 	field = field + ",count(distinct v.id) as views,count(distinct c.id) as comments"
 	res := db.Table("blog_article a").Select(field)
-	res = res.Where("a.id = ?",art.Id)
+	res = res.Where("a.id = ? and is_self  = 0",art.Id)
 	res = res.Joins("left join blog_cate bc on a.cate_id = bc.id")
 	res = res.Joins("left join (select a.id,group_concat(bt.tag_name) as tag_name from blog_article a left join blog_tags bt on find_in_set(bt.id,a.tags_ids) group by a.id) as bt on bt.id = a.id")
 	res = res.Joins("left join blog_view v on v.article_id = a.id")
 	res = res.Joins("left join blog_comment c on c.article_id = a.id and c.status = 0")
+	res = res.Joins("left join (select article_id,count(type) as like_number,(select count(1) from blog_like where type = ? and token = ? and article_id = ? and comment_id = 0 and token <> '') as `like`  from blog_like where type = ? and article_id = ? and comment_id = 0 group by article_id) l on a.id = l.article_id",status.Like.GetCode(),token,art.Id,status.Like.GetCode(),art.Id)
 	res = res.Group("a.id")
 	if err := res.Find(app).Error; err != nil {
 		return app,errcode.DataBaseError
@@ -200,5 +210,14 @@ func (art *BlogArticle) GetAppArticleNum() (int,error) {
 
 func (art *BlogArticle) GetFirstArticle() error {
 	return db.Order("created_at desc").Where("created_at <> 0 and is_self = 0").First(art).Error
+}
+
+func (art *BlogArticle) GetAllArticles() ([]TimeLine,error) {
+	list := make([]TimeLine,0)
+	res := db.Table("blog_article")
+	res = res.Select("id,title,from_unixtime(created_at,'%Y-%m-%d %H:%i') as created_at")
+	res = res.Where("is_self = 0 and status = 0")
+	res = res.Order("created_at desc").Find(&list)
+	return list,res.Error
 }
 

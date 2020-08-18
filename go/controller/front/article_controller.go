@@ -69,7 +69,7 @@ func GetArticle (ctx *gin.Context) {
 	go ViewRecord("article",ctx.ClientIP(),article_id,token)
 	var art model.BlogArticle
 	art.Id = article_id
-	if res,err := art.GetAppArticle(); err != nil {
+	if res,err := art.GetAppArticle(token); err != nil {
 		ctx.JSON(http.StatusOK,err.GetH())
 		return
 	} else {

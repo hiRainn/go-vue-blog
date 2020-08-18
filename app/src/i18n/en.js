@@ -29,7 +29,8 @@ module.exports = {
 		'nomore_text':'no more',
 		'publish':'Published on ',
 		'modify':'Modified on ',
-		'more':'more'
+		'more':'more',
+		'like':'like'
 	},
 	comment:{
 		'name':'your name',
@@ -42,12 +43,17 @@ module.exports = {
 		'continue':'continue && post',
 		'edit':"canle && edit",
 		'success':'comment success',
-		'anonymous':'Anonymous'
+		'anonymous':'Anonymous',
+		'cancle_like':'you have liked it!',
+		'cancle_dislike':'you have disliked it!',
+		'cancke_report':'you have reported it!'
 	},
 	menu:{
 		'index':'home',
 		'article':'article',
 		'filing':'filing',
+		'msg':'message',
+		'about':'about me',
 		'all_article':'all',
 		'last_comments':'Latest Comments',
 		'tags':'Tags',

@@ -13,6 +13,24 @@ import (
 	"html"
 )
 
+func GetMessage(ctx *gin.Context) {
+
+	var c model.BlogComment
+	token := ctx.GetHeader("X-Token")
+	c.ArticleId = 0
+	if list,total,err := c.GetCommentsByArticleId(token);err!=nil {
+		ctx.JSON(http.StatusOK,err.GetH())
+		return
+	} else {
+		res3 := make([]floor,0)
+		getFloor(list,&res3,0)
+
+		//ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res,"total":total,"counter1":counter1,"counter2":counter2}))
+		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"list":res3,"total":total}))
+	}
+}
+
+
 func GetArticleComment(ctx *gin.Context) {
 	id := ctx.Param("id")
 	if id == "" {
@@ -56,10 +74,7 @@ func PostComment(ctx *gin.Context){
 		return
 	}
 	article_id,_ := params["article_id"].(float64)
-	if article_id == 0.00 {
-		ctx.JSON(http.StatusOK,errcode.ParamError.SetData(article_id))
-		return
-	}
+
 	name,_ := params["name"].(string)
 	email,_ := params["email"].(string)
 	pid,_ := params["pid"].(float64)

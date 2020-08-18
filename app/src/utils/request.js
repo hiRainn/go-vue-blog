@@ -3,6 +3,7 @@ import {
 	getToken
 } from '@/utils/auth'
 import md5 from 'js-md5';
+import Message from 'ant-design-vue'
 
 axios.defaults.baseURL = "http://localhost:8080"
 
@@ -19,7 +20,7 @@ service.interceptors.request.use(
 		// do something before request is sent
 		var name = localStorage.getItem("comment_name")
 		var email = localStorage.getItem("comment_email")
-		if (name != null && email != null) {
+		if (name != null && email != null && email != '' && name != '') {
 			config.headers['X-Token'] = md5(name + email)
 		}
 		return config
@@ -46,14 +47,7 @@ service.interceptors.response.use(
 	response => {
 		const res = response.data
 
-		// code 30101 is checkinit
-		if (res.code != 0) {
-			
-			this.$message.error(res.msg || 'Error');
-			return Promise.reject(new Error(res.msg || 'Error'))
-		} else {
-			return res
-		}
+		return res
 	},
 	error => {
 		console.log('err' + error) // for debug

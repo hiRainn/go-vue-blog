@@ -100,6 +100,11 @@ var (
 	//-------------app functions error  ------------
 	GetCommentsError = &ERRCODE{code: 90201,msg: "get comments error"}
 	CommentError =&ERRCODE{code: 90202,msg: "comment faild"}
+	LikeError = &ERRCODE{code: 90203,msg: "like fail"}
+	LikeRepeat = &ERRCODE{code: 90204,msg: "like repeat"}
+	DislikeRepeat = &ERRCODE{code: 90205,msg: "dislike repeat"}
+	ReportRepeat = &ERRCODE{code: 90206,msg: "repoet repeat"}
+	CancleFail = &ERRCODE{code: 90207,msg: "canle fail"}
 )
 
 

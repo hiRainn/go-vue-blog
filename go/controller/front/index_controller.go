@@ -108,7 +108,19 @@ func GetClickMostArticle(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(most))
 }
 
+func GetFiling(ctx *gin.Context) {
+	token := ctx.GetHeader("X-Token")
+	go ViewRecord("filing",ctx.ClientIP(),0,token)
+	var a model.BlogArticle
+	list,_ := a.GetAllArticles()
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(list))
+}
 
+func AboutMe(ctx *gin.Context) {
+	var a model.BlogAuth
+	about,_ := a.About()
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(about.Intro))
+}
 
 func ViewRecord(module, ip string, article_id int,token string) {
 	var view model.BlogView

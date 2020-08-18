@@ -35,6 +35,10 @@ type Info struct{
 	Weibo string `json:"weibo"`
 }
 
+type About struct {
+	Intro string `json:"intro"`
+}
+
 //check auth
 func (auth *BlogAuth) CheckAuth() *errcode.ERRCODE {
 	res := db.Where(&auth).First(&auth)
@@ -63,5 +67,15 @@ func (auth *BlogAuth) GetInfo() (*Info,error) {
 	}
 	return info,nil
 }
+
+func (auth *BlogAuth) About() (*About,error) {
+	info := new(About)
+	if err := db.Table("blog_auth").Scan(info).Error; err != nil {
+		return info,err
+	}
+	return info,nil
+}
+
+
 
 
