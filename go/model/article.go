@@ -19,6 +19,9 @@ type BlogArticle struct {
 	IsSelf uint8 `json:"is_self";gorm:"type:tinyint;unsigned;not null;default:0"`
 	Sort uint8 `json:"sort";gorm:"type:tinyint;unsigned;not null;default:0"` // sort for articles  recommended
 	TagsIds string `json:"tags_ids";gorm:"type varchar(100);not null;default:''"`
+	Views int `json:"views";gorm:"type:int;NOT NULL;DEFAULT:0"`
+	Comments int `json:"comments";gorm:"type:int;NOT NULL;DEFAULT:0"`
+	LikeNumber int `json:"like_number";gorm:"type:int;NOT NULL;DEFAULT:0"`
 
 
 }
@@ -170,7 +173,7 @@ func (art *BlogArticle) GetAppArticleList(condition map[string]interface{}, page
 	res = res.Group("a.id")
 	var count int
 	res.Count(&count)
-	res = res.Offset(offset).Limit(page["page_size"]).Order("a.is_top desc,a.created_at desc").Find(&list)
+	res = res.Offset(offset).Limit(page["page_size"]).Order("a.is_top desc,a.sort desc,a.created_at desc").Find(&list)
 
 	return list,count,res.Error
 }
@@ -209,7 +212,7 @@ func (art *BlogArticle) GetAppArticleNum() (int,error) {
 }
 
 func (art *BlogArticle) GetFirstArticle() error {
-	return db.Order("created_at desc").Where("created_at <> 0 and is_self = 0").First(art).Error
+	return db.Order("created_at asc").Where("created_at <> 0 and is_self = 0").First(art).Error
 }
 
 func (art *BlogArticle) GetAllArticles() ([]TimeLine,error) {

@@ -9,7 +9,9 @@
 		  <a-row>
 			  <span class="info">{{$t('article.publish')}} {{item.post_at}}</span>
 			  <span class="info">
-				  <router-link style="color: #2C3E50;" :to="'/article/cate_id/' + item.cate_id" >{{item.cate_name}}</router-link>
+				  <router-link style="color: #2C3E50;" :to="'/article/cate_id/' + item.cate_id" >
+					<span @click="clickUrl">{{item.cate_name}}</span>
+				  </router-link>
 			  </span>
 			  <a-icon type="eye" />{{item.views}}
 			  <a-icon type="message" />{{item.comments}}
@@ -19,7 +21,7 @@
 			  {{item.content.replace(/[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]+$/im,'')}}...<router-link style="color: #398aec;" :to="'/article/' + item.id ">[{{$t('article.more')}}]</router-link>
 		  </a-row>
 		  <a-row class="tag">
-			  <a-tag type="info" class="tag" color="#606266" v-if="item.tag_name != false" v-for="(v,k) in item.tag_name.split(',')">
+			  <a-tag @click="clickUrl" type="info" class="tag" color="#606266" v-if="item.tag_name != false" v-for="(v,k) in item.tag_name.split(',')">
 				  <router-link style="font-size: 12px;margin-right: 5px;padding: 0px;margin: 0px ;" :to="'/article/tag/' + v" >{{v}}</router-link>
 			  </a-tag>
 		  </a-row>
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-
+import $ from 'jquery'
 export default {
   name: 'ArticleItem',
   props: {
@@ -39,7 +41,14 @@ export default {
     },
   },
   methods:{
-	  
+	  clickUrl() {
+	  	var target_offset = $("#container").offset();
+	  	var target_top = target_offset.top;
+	  	//goto that anchor by setting the body scroll top to anchor top
+	  	$('html, body').animate({
+	  		scrollTop: target_top
+	  	}, 500);
+	  },
   },
   computed: {
    

@@ -119,6 +119,8 @@ func GetFiling(ctx *gin.Context) {
 func AboutMe(ctx *gin.Context) {
 	var a model.BlogAuth
 	about,_ := a.About()
+	token := ctx.GetHeader("X-Token")
+	go ViewRecord("about",ctx.ClientIP(),0,token)
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(about.Intro))
 }
 

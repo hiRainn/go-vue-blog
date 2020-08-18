@@ -396,6 +396,7 @@ func getTagsIds(tx *gorm.DB,params map[string]interface{}) ([]int,*errcode.ERRCO
 				tags = append(tags,id)
 			} else {
 				// create tags and return id
+				tag.Id = 0
 				tag_id := tag.AddCate(tx)
 				// add fail
 				if tag_id == 0 {

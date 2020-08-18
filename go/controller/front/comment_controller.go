@@ -108,6 +108,7 @@ func PostComment(ctx *gin.Context){
 	if err := c.AddComment();err!= nil {
 		ctx.JSON(http.StatusOK,err.GetH())
 	} else {
+
 		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"status":c.Status,"id":c.Id,"submit":submit}))
 	}
 }

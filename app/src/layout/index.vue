@@ -255,8 +255,8 @@
 								<b style="font-size: 19px;">{{$t('menu.tags')}}</b>
 							</a-row>
 							<a-row>
-								<router-link :to="'/article/cate_id' + item.id" v-for="(item,index) in tags">
-									<a-tag :color="colorArray[Math.round(Math.random()*10)]" v-if="item.num > 0" style="margin-top: 8px;">
+								<router-link :to="'/article/tag/' + item.name" v-for="(item,index) in tags">
+									<a-tag @click="clickTag" :color="colorArray[Math.round(Math.random()*10)]" v-if="item.num > 0" style="margin-top: 8px;">
 										{{item.name}}({{item.num}})
 									</a-tag>
 								</router-link>
@@ -342,6 +342,7 @@
 </template>
 
 <script>
+	import $ from 'jquery'
 	import {
 		Icon
 	} from 'ant-design-vue';
@@ -394,6 +395,14 @@
 			}
 		},
 		methods: {
+			clickTag() {
+				var target_offset = $("#container").offset();
+				var target_top = target_offset.top;
+				//goto that anchor by setting the body scroll top to anchor top
+				$('html, body').animate({
+					scrollTop: target_top
+				}, 500);
+			},
 			menuClick(item) {
 				if (item.key == '/') {
 					this.show_breadcumb = false
@@ -407,6 +416,12 @@
 						path: item.key
 					})
 					this.drawer = false
+					var target_offset = $("#container").offset();
+					var target_top = target_offset.top;
+					//goto that anchor by setting the body scroll top to anchor top
+					$('html, body').animate({
+						scrollTop: target_top
+					}, 500);
 				}
 			},
 			ondrawerClose() {
@@ -568,7 +583,6 @@
 </script>
 
 <style lang="scss" scoped>
-
 	.fix {
 		position: fixed;
 		left: 0;

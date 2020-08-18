@@ -17,6 +17,9 @@ type BlogComment struct {
 	AdminView uint8 `json:"admin_view";gorm:"type:tinyint;unsigned;not null;default:0"`
 	IsAdmin uint8 `json:"is_admin";gorm:"type tinyint;unsigned;not null;default:0"`
 	Token string `json:"token";gorm:"type:char(64);not null;default:''"`
+	LikeNumber int `json:"like_number";gorm:"type:int;NOT NULL;DEFAULT:0"`
+	UnlikeNumber int `json:"unlike_number";gorm:"type:int;NOT NULL;DEFAULT:0"`
+	ReportNumber int `json:"report_number";gorm:"type:int;NOT NULL;DEFAULT:0"`
 }
 
 type AppCommentList struct {
