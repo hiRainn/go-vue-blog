@@ -108,7 +108,7 @@
 			<a-col :xs="24" :md="0">
 				<a-row>
 					<a-col :offset="5" :span="14">
-						<a-avatar :size="100" :src="avatar" style="margin-top: 20px;"></a-avatar>
+						<a-avatar :size="100" :src="author.avatar" style="margin-top: 20px;"></a-avatar>
 						<div class="phone-author-name"><b>{{author.nickname}}</b></div>
 					</a-col>
 					<a-col :span="5"></a-col>
@@ -145,7 +145,7 @@
 						<!-- info -->
 						<a-row class="side-info">
 							<a-row type="flex" class="side-info-item" justify="center">
-								<a-avatar :size="100" :src="avatar" style="margin-top: 20px;"></a-avatar>
+								<a-avatar :size="100" :src="author.avatar" style="margin-top: 20px;"></a-avatar>
 							</a-row>
 							<a-row type="flex" justify="center" align="top" class="side-info-item">
 								<a-col><b style="font-size: 20px;">{{author.nickname}}</b></a-col>
@@ -432,6 +432,9 @@
 					if (r.code != 0) {
 						this.$alert(r.msg)
 						return;
+					}
+					if (r.data.author.avatar.indexOf('http') < 0 ) {
+						r.data.author.avatar = 'http://' + r.data.author.avatar
 					}
 					this.author = r.data.author
 					this.blog = r.data.blog_info

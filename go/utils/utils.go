@@ -20,7 +20,7 @@ func PassEncry(pass string) string {
 	return Md5(pass + Md5(conf.Salt))
 }
 
-func YmdTotimestamp(date string) int64 {
+func YmdhmTotimestamp(date string) int64 {
 	layout := "2006-01-02 15:04"
 	loc,_ := time.LoadLocation("Local")
 	the_time,err := time.ParseInLocation(layout,date,loc)
@@ -30,6 +30,19 @@ func YmdTotimestamp(date string) int64 {
 		return the_time.Unix()
 	}
 }
+
+func YmdTotimestamp(date string) int64 {
+	layout := "2006-01-02"
+	loc,_ := time.LoadLocation("Local")
+	the_time,err := time.ParseInLocation(layout,date,loc)
+	if err != nil {
+		return 0
+	} else {
+		return the_time.Unix()
+	}
+}
+
+
 
 //set token
 func GetShuffledStr(l int) string {

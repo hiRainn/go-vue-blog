@@ -104,7 +104,8 @@ var (
 	LikeRepeat = &ERRCODE{code: 90204,msg: "like repeat"}
 	DislikeRepeat = &ERRCODE{code: 90205,msg: "dislike repeat"}
 	ReportRepeat = &ERRCODE{code: 90206,msg: "repoet repeat"}
-	CancleFail = &ERRCODE{code: 90207,msg: "canle fail"}
+	UnlikeError = &ERRCODE{code: 90207,msg: "like fail"}
+	ReportError = &ERRCODE{code: 90208,msg: "like fail"}
 )
 
 

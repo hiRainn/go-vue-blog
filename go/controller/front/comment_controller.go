@@ -104,11 +104,22 @@ func PostComment(ctx *gin.Context){
 		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"status":c.Status,"msg":msg,"submit":submit}))
 		return
 	}
+	tx := model.DB().Begin()
 
-	if err := c.AddComment();err!= nil {
+	if err := c.AddComment(tx);err!= nil {
+		tx.Rollback()
 		ctx.JSON(http.StatusOK,err.GetH())
 	} else {
-
+		if c.ArticleId != 0 && c.Status != status.CommentCheck.GetCode() {
+			var a model.BlogArticle
+			a.Id = c.ArticleId
+			if a.AddCommentNumber(tx) == false {
+				tx.Rollback()
+				ctx.JSON(http.StatusOK,errcode.CommentError.GetH())
+				return
+			}
+		}
+		tx.Commit()
 		ctx.JSON(http.StatusOK,errcode.Ok.SetData(map[string]interface{}{"status":c.Status,"id":c.Id,"submit":submit}))
 	}
 }

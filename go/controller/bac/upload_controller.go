@@ -30,6 +30,28 @@ func UploadArticleImg(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 }
 
+func UploadAvatarImg(ctx *gin.Context) {
+	upload_key := "image"
+	file , err := ctx.FormFile(upload_key)
+	if err != nil {
+		ctx.JSON(http.StatusOK,errcode.UploadFileError.GetH())
+		return
+	}
+	savename := "avatar" + path.Ext(file.Filename)
+	savepath := "/static/images/"+ savename
+
+	if ctx.SaveUploadedFile(file,"." + savepath) != nil {
+		ctx.JSON(http.StatusOK,errcode.UploadFileSaveError.GetH())
+		return
+	}
+
+	host := "http://" + ctx.Request.Host
+	res := map[string]interface {}{"url": host + savepath,"filename":savename}
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
+}
+
+
+
 func getUniqueName() string {
 	timestr := strconv.Itoa(int(time.Now().Unix()))
 	shuffled := utils.GetShuffledStr(10)

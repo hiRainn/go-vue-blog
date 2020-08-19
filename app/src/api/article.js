@@ -45,4 +45,14 @@ export function likeArticle(data) {
 	})
 }
 
+export function indexArticle() {
+	return request({
+		url : '/index_article',
+		method:'get',
+		
+	})
+}
+
+
+
 

@@ -35,7 +35,7 @@
 			},
 		},
 		mounted(){
-			var language = localStorage.getItem('locate')?localStorage.getItem('locate'):'en_US';
+			var language = localStorage.getItem('locate')?localStorage.getItem('locate'):'zh_CN';
 			if( language == 'en_US') {
 				this.locale = enUS;
 			} else if (language == 'zh_CN') {

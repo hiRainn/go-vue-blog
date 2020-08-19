@@ -59,5 +59,29 @@ func getToken(l int) string {
 
 
 func ChangePass(ctx *gin.Context)  {
+	var params map[string] interface{}
+	if err := ctx.BindJSON(&params); err != nil {
+		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
+		return
+	}
+	newpass1 , _:= params["newpass1"].(string)
+	newpass2 , _:= params["newpass2"].(string)
+	password ,_ := params["password"].(string)
+	if newpass1 == "" || password == "" || newpass1 != newpass2 {
+		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
+		return
+	}
 
+	encry := utils.PassEncry(password)
+	auth := model.BlogAuth{Password: encry}
+
+	//if auth fail ,return error
+	if err := auth.CheckAuth();err != nil {
+		ctx.JSON(http.StatusOK,err.GetH())
+		return
+	}
+
+	newpass := utils.PassEncry(newpass1)
+	auth.ChangePass(newpass)
+	ctx.JSON(http.StatusOK,errcode.Ok.GetH())
 }

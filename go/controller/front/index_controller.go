@@ -38,6 +38,12 @@ func Index(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 }
 
+func GetIndexArticle(ctx *gin.Context) {
+	var a model.BlogArticle
+	list,_ := a.GetAppHomeArticle()
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(list))
+}
+
 
 func GetStat(ctx *gin.Context) {
 	res := make(map[string]interface{},0)
@@ -136,5 +142,10 @@ func ViewRecord(module, ip string, article_id int,token string) {
 		view.Id=0
 		view.CreatedAt = time.Now().Unix()
 		view.AddRecord()
+		if view.ArticleId != 0 {
+			var a model.BlogArticle
+			a.Id = view.ArticleId
+			a.AddView()
+		}
 	}
 }

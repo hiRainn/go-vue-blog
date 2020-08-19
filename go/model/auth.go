@@ -21,6 +21,7 @@ type BlogAuth struct{
 	Twitter string `json:"twitter";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
 	Facebook string `json:"facebook";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
 	Weibo string `json:"weibo";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
+	Avatar string `json:"avatar";gorm:"type:varchar(500);NOT NULL;DEFAULT:''"`
 }
 
 type Info struct{
@@ -33,6 +34,7 @@ type Info struct{
 	Twitter string `json:"twitter"`
 	Facebook string `json:"facebook"`
 	Weibo string `json:"weibo"`
+	Avatar string `json:"avatar"`
 }
 
 type About struct {
@@ -53,6 +55,18 @@ func (auth *BlogAuth) CheckAuth() *errcode.ERRCODE {
 		result = nil
 	}
 	return result
+}
+
+func (auth *BlogAuth) ChangePass(pass string) {
+	db.Table("blog_auth").Where("password = ?",auth.Password).Update("password",pass)
+}
+
+func (auth *BlogAuth) GetAllInfo() {
+	db.First(auth)
+}
+
+func (auth *BlogAuth) SetInfo(info map[string]interface{}) {
+	db.Model(auth).Where("id = ?",info["id"]).Update(info)
 }
 
 func (auth *BlogAuth) InsertAuth() (uint, error)  {

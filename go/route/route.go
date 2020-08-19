@@ -51,6 +51,7 @@ func Initroute() *gin.Engine {
 	r.DELETE("report",f.CancleReport)
 	r.POST("like_article",f.Like)
 	r.GET("about",f.AboutMe)
+	r.GET("index_article",f.GetIndexArticle)
 
 
 

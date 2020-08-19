@@ -3,6 +3,7 @@ package model
 import (
 	"blog/pkg/errcode"
 	"blog/pkg/status"
+	"github.com/jinzhu/gorm"
 )
 
 type BlogComment struct {
@@ -82,8 +83,8 @@ func (c *BlogComment) GetFloorIdByPid(pid int) (int,*errcode.ERRCODE) {
 	return comment.Id,nil
 }
 
-func (c *BlogComment) AddComment() *errcode.ERRCODE {
-	if db.Create(c).Error != nil {
+func (c *BlogComment) AddComment(tx *gorm.DB) *errcode.ERRCODE {
+	if tx.Create(c).Error != nil {
 		return errcode.CommentError
 	}
 	return nil
@@ -108,4 +109,25 @@ func (c *BlogComment) GetCommentNumber() (int,error) {
 func (c *BlogComment) GetMsgNumber() (int,error) {
 	var res int
 	return res,db.Table("blog_comment").Where("status <> ? and article_id = 0",status.CommentCheck.GetCode()).Count(&res).Error
+}
+
+func (c *BlogComment) AddLikeNumber(tx *gorm.DB) bool {
+	if err := tx.Table("blog_comment").Where("id = ?", c.Id).UpdateColumn("like_number",gorm.Expr("like_number + ?",1)).Error; err !=nil {
+		return false
+	}
+	return true
+}
+
+func (c *BlogComment) AddUnlikeNumber(tx *gorm.DB) bool {
+	if err := tx.Table("blog_comment").Where("id = ?", c.Id).UpdateColumn("unlike_number",gorm.Expr("unlike_number + ?",1)).Error; err !=nil {
+		return false
+	}
+	return true
+}
+
+func (c *BlogComment) AddReportNumber(tx *gorm.DB) bool {
+	if err := tx.Table("blog_comment").Where("id = ?", c.Id).UpdateColumn("report_number",gorm.Expr("report_number + ?",1)).Error; err !=nil {
+		return false
+	}
+	return true
 }

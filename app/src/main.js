@@ -10,7 +10,7 @@ import 'ant-design-vue/dist/antd.css';
 
 Vue.use(Antd);
 
-var language = localStorage.getItem('locate')?localStorage.getItem('locate'):'en'
+var language = localStorage.getItem('locate')?localStorage.getItem('locate'):'zh'
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
@@ -32,6 +32,22 @@ router.beforeEach((to, from, next) => {
 //select language
 
 i18n.locale = language
+
+//弹出框禁止滑动
+Vue.prototype.noScroll = function () {
+  var mo = function (e) { e.preventDefault() }
+  document.body.style.overflow = 'hidden'
+  document.addEventListener('touchmove', mo, false)// 禁止页面滑动
+}
+ 
+//弹出框可以滑动
+Vue.prototype.canScroll = function () {
+  var mo = function (e) {
+    e.preventDefault()
+  }
+  document.body.style.overflow = ''// 出现滚动条
+  document.removeEventListener('touchmove', mo, false)
+}
 
 new Vue({
 	i18n,

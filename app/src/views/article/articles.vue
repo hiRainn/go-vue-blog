@@ -10,15 +10,16 @@
 			<a-row class="item">
 				<a-skeleton active />
 			</a-row>
-			
+
 		</a-row>
 		<a-row v-if="!articleHide">
 			<ArticleItem :list="list" />
 		</a-row>
 
 		<a-row>
-			<a-button v-if="!noMore && !articleHide" :loading="loading" @click="nextPage()">{{C_load_text}}</a-button>
-			<a-button disabled v-if="noMore  && !articleHide">{{nomore_text}}</a-button>
+			<a-pagination :total="page.total" :page-size="page.page_size" :default-current="page.p" @change="nextPage" />
+			<!-- <a-button v-if="!noMore && !articleHide" :loading="loading" @click="nextPage()">{{C_load_text}}</a-button>
+			<a-button disabled v-if="noMore  && !articleHide">{{nomore_text}}</a-button> -->
 		</a-row>
 
 	</div>
@@ -26,6 +27,7 @@
 
 <script>
 	import ArticleItem from '@/components/ArticleItem'
+	import $ from 'jquery'
 	import {
 		getArticles
 	} from '@/api/article.js'
@@ -35,14 +37,14 @@
 		},
 		data() {
 			return {
-				articleHide:true,
+				articleHide: true,
 				loading_text: this.$i18n.t('article.load_text'),
 				nomore_text: this.$i18n.t('article.nomore_text'),
 				count: 10,
 				loading: false,
 				page: {
 					p: 1,
-					page_size: 5,
+					page_size: 8,
 					total: 0
 				},
 				list: []
@@ -66,9 +68,7 @@
 						console.log(r)
 					} else {
 						var data = r.data
-						for (var p in data.list) {
-							this.list.push(data.list[p])
-						}
+						this.list = data.list
 						this.page.p = data.p
 						this.page.total = data.total
 						this.articleHide = false
@@ -78,12 +78,18 @@
 					this.loading = false;
 				})
 			},
-			nextPage() {
-				this.page.p++
+			nextPage(page) {
+				this.page.p = page
 				var params = this.$route.params
 				this.loading_text = this.$i18n.t('article.loading_text')
 				this.loading = true
 				this.getArticles(params)
+				var target_offset = $("#container").offset();
+				var target_top = target_offset.top;
+				//goto that anchor by setting the body scroll top to anchor top
+				$('html, body').animate({
+					scrollTop: target_top
+				}, 500);
 			}
 		},
 		computed: {
@@ -97,13 +103,13 @@
 		mounted() {
 			var data = this.$route.params
 			this.getArticles(data)
-			
+
 		},
 	}
 </script>
 
 <style>
-	.item{
+	.item {
 		background: #fff;
 		border: 1px solid #eee;
 		text-align: left;

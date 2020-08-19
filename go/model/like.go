@@ -3,6 +3,7 @@ package model
 import (
 	"blog/pkg/errcode"
 	"blog/pkg/status"
+	"github.com/jinzhu/gorm"
 )
 
 type BlogLike struct {
@@ -31,8 +32,8 @@ func (l *BlogLike) GetUserOperate() bool {
 	return true
 }
 
-func (l *BlogLike) Add() (int,*errcode.ERRCODE) {
-	res := db.Create(l)
+func (l *BlogLike) Add(tx *gorm.DB) (int,*errcode.ERRCODE) {
+	res := tx.Create(l)
 	if res.Error != nil {
 		return 0,errcode.LikeError
 	}

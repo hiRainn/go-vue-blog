@@ -46,6 +46,28 @@ const Routes = [
 		]
 	},
 	{
+		path: '/setting',
+		component: Layout,
+		hidden: false,
+		children: [
+			{
+			path: 'me',
+			component: () => import('@/views/setting/me'),
+			hidden: false
+			}, 
+			{
+			path: 'changepass',
+			component: () => import('@/views/setting/changepass'),
+			hidden: false
+			},
+			{
+			path: '/',
+			component: () => import('@/views/setting/blog'),
+			hidden: false
+			},
+		]
+	},
+	{
 		path: '/',
 		component: Layout,
 		hidden: false,

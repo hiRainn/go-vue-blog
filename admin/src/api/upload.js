@@ -12,6 +12,19 @@ export function uploadArticleImage(data) {
   })
 }
 
+export function uploadAvatar(data) {
+  return request({
+    url: 'user/avatar',
+    method: 'post',
+    data: data,
+    headers: {
+    	'Content-Type': 'multipart/form-data'
+    },
+  })
+}
+
+
+
 
 
 

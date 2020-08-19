@@ -11,19 +11,26 @@ module.exports = {
 		'edit':'edit',
 		'delete':'delete',
 		'tip':'tip',
-		
+		'male':'male',
+		'female':'female',
+		'secret':'secret'
 	},
 	menu :{
 		'index':'index',
 		'article_manage':'articles',
 		'drafts':'drafts',
 		'list':'list',
+		'setting':'setting',
+		'blog':'blog',
+		'me':'me',
+		'changepass':'password'
 	},
     login:{
         'title' : 'blog name',
 		'subtitle' : 'subtitle',
         'username' : 'username',
         'password' : 'password',
+		'new_pass' : 'new password',
 		'repeat':'repeat',
         'login' : 'Login',
         'language' : 'language',
@@ -67,7 +74,24 @@ module.exports = {
 		'create_desc':'if you move article form other place,i think you need this function..',
 		'post':'Post',
 		'save':'Save',
-		'confirm_delete':'are you confirm to delete this article?'
+		'confirm_delete':'are you confirm to delete this article?',
+		'like':'like'
+	},
+	user:{
+		'username':'username',
+		'nickname':'nickname',
+		'sign':'sign',
+		'intro':'about me',
+		'birthday':'birthday',
+		'city':'city',
+		'gender':'gender',
+		'avatar':'avatar',
+		'upload':'upload'
+	},
+	blog:{
+		'title':'title',
+		'subtitle':'subtitle',
+		'language':'language'
 	},
 	select:{
 		'select':'select'

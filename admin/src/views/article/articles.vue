@@ -31,14 +31,16 @@
 			</el-table-column>
 			<el-table-column prop="tags" :label="$t('article.tags')" width="150px">
 			</el-table-column>
-			<el-table-column prop="views" :label="$t('article.view')" width="150px">
+			<el-table-column prop="views" :label="$t('article.view')" width="85px">
 			</el-table-column>
-			<el-table-column prop="comments" :label="$t('article.comment')" width="150px">
+			<el-table-column prop="comments" :label="$t('article.comment')" width="90px">
+			</el-table-column>
+			<el-table-column prop="like_number" :label="$t('article.like')" width="85px">
 			</el-table-column>
 			<el-table-column prop="post_at" :label="$t('article.create_at')" width="150px">
 			</el-table-column>
 
-			<el-table-column :label="$t('os.operate')" width="250px">
+			<el-table-column :label="$t('os.operate')" width="220px">
 				<template slot-scope="scope">
 					<el-button v-if="!scope.row.edit" type="primary" size="small" icon="el-icon-edit">
 						<router-link :to="{path:'/article/add',query:{id:scope.row.id}}">{{$t('os.edit')}}</router-link>

@@ -48,6 +48,14 @@ func InitrouteBac() *gin.Engine {
 		bac_group.GET("tags_for_select",bac.TagsForSelect)
 
 
+		//-------------setting-------------------------
+		bac_group.GET("blog",bac.GetBlogSetting)
+		bac_group.POST("blog",bac.SetBlogSetting)
+		bac_group.GET("user",bac.GetUserSetting)
+		bac_group.POST("user",bac.SetUserSetting)
+		bac_group.POST("user/avatar",bac.UploadAvatarImg)
+
+
 
 		//-----------comment ---------------
 		//get bac comment list

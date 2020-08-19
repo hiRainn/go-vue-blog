@@ -371,7 +371,7 @@ func determineArt(art *model.BlogArticle,params map[string] interface{}) *errcod
 	if the_time == "" {
 		art.CreatedAt = time.Now().Unix()
 	} else {
-		art.CreatedAt = utils.YmdTotimestamp(the_time)
+		art.CreatedAt = utils.YmdhmTotimestamp(the_time)
 	}
 	return nil
 }

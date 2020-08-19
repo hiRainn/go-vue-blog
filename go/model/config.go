@@ -7,7 +7,7 @@ type BlogConfig struct {
 }
 
 func (conf *BlogConfig) Add() uint8 {
-	 var key uint8 = 0
+	var key uint8 = 0
 	if db.Create(conf).Error == nil {
 		key = conf.Id
 	}
@@ -18,6 +18,10 @@ func (conf *BlogConfig) Find() ([]BlogConfig, error ) {
 	var config []BlogConfig
 	res := db.Find(&config)
 	return config, res.Error
+}
+
+func (conf *BlogConfig) Update() {
+	db.Table("blog_config").Where("`key` = ?",conf.Key).Update("value",conf.Value)
 }
 
 //determine if there is date in table
