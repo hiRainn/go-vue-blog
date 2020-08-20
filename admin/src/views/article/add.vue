@@ -359,7 +359,7 @@
 						this.$alert(response.msg)
 					} else {
 						var data = response.data
-						md.$img2Url(pos,data.url );
+						md.$img2Url(pos,  'http://sorahei.com/static/upload/' + data.filename );
 						
 					}
 					

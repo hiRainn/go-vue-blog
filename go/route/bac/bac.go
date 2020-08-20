@@ -10,7 +10,7 @@ import (
 func InitrouteBac() *gin.Engine {
 	r := gin.Default()
 	//all route in bac group
-	bac_group := r.Group("bac").Use(middleware.CheckLogin())
+	bac_group := r.Group("api/bac").Use(middleware.CheckLogin())
 	{
 		//change pass
 		bac_group.POST("change_pass",bac.ChangePass)

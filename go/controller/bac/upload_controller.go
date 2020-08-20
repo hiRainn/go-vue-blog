@@ -18,9 +18,11 @@ func UploadArticleImg(ctx *gin.Context) {
 		return
 	}
 	savename := getUniqueName() + path.Ext(file.Filename)
-	savepath := "/static/upload/"+ savename
+	savepath := "/home/wwwroot/www.sorahei.com/static/upload/"+ savename
+	path := ""
+	//savepath := "/static/upload/" + savename
 
-	if ctx.SaveUploadedFile(file,"." + savepath) != nil {
+	if ctx.SaveUploadedFile(file,path + savepath) != nil {
 		ctx.JSON(http.StatusOK,errcode.UploadFileSaveError.GetH())
 		return
 	}
@@ -38,9 +40,12 @@ func UploadAvatarImg(ctx *gin.Context) {
 		return
 	}
 	savename := "avatar" + path.Ext(file.Filename)
-	savepath := "/static/images/"+ savename
+	savepath := "/home/wwwroot/www.sorahei.com/static/upload/"+ savename
 
-	if ctx.SaveUploadedFile(file,"." + savepath) != nil {
+	path := ""
+	//savepath := "/static/images/" + savename
+
+	if ctx.SaveUploadedFile(file,path + savepath) != nil {
 		ctx.JSON(http.StatusOK,errcode.UploadFileSaveError.GetH())
 		return
 	}

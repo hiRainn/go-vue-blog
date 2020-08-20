@@ -1,6 +1,8 @@
 package config
 
-import "time"
+import (
+	"time"
+)
 
 type Conf struct {
 	//database config
@@ -13,6 +15,8 @@ type Conf struct {
 	CacheExpireTime time.Duration
 	CacheFlashTime time.Duration
 	Debug bool
+	UploadFilePath string
+	AvatarPath string
 }
 
 var conf Conf
@@ -26,7 +30,8 @@ func init() {
 	conf.Salt = "@9d*1md103"
 	conf.CacheExpireTime = 72*time.Hour
 	conf.CacheFlashTime = 10*time.Minute
-	conf.Debug = true
+	conf.Debug = false
+
 }
 
 func SetConf(key string,val string) Conf {
@@ -43,6 +48,7 @@ func SetConf(key string,val string) Conf {
 }
 
 func GetConf() Conf {
+
 	return conf
 }
 

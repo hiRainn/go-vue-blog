@@ -137,7 +137,7 @@
 		},
 		methods: {
 			avatatSucc(r,file,list) {
-				this.form.avatar = r.data.url
+				this.form.avatar ='http://sorahei.com/static/upload/' + r.data.filename
 			},
 			getUserSetting() {
 				getUserSetting().then(response => {
@@ -183,7 +183,7 @@
 						this.$alert(response.msg)
 					} else {
 						var data = response.data
-						md.$img2Url(pos, data.url);
+						md.$img2Url(pos, 'http://sorahei.com/static/upload/'+data.filename);
 
 					}
 

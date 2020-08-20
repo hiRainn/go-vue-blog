@@ -4,7 +4,8 @@ import store from '@/store'
 import { getToken } from '@/utils/auth'
 import i18n from '../i18n/i18n.js'
 
-axios.defaults.baseURL = "http://localhost:8080/bac"
+// axios.defaults.baseURL = "http://localhost:8080/bac"
+axios.defaults.baseURL = "https://sorahei.com/api/bac"
 
 // create an axios instance
 const service = axios.create({

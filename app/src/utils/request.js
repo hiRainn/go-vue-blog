@@ -4,8 +4,8 @@ import {
 } from '@/utils/auth'
 import md5 from 'js-md5';
 import Message from 'ant-design-vue'
-
-axios.defaults.baseURL = "http://localhost:8080"
+// axios.defaults.baseURL = "http://localhost:8080"
+axios.defaults.baseURL = "https://sorahei.com/api/"
 
 // create an axios instance
 const service = axios.create({
