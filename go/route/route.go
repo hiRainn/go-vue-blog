@@ -1,58 +1,55 @@
 package route
 
 import (
-	"blog/route/bac"
-	"github.com/gin-gonic/gin"
 	b "blog/controller/bac"
 	f "blog/controller/front"
-
+	"blog/route/bac"
+	"github.com/gin-gonic/gin"
 )
 
 var r *gin.Engine
 func Initroute() *gin.Engine {
 	r = bac.InitrouteBac()
-
 	r.Static("/static","static")
 	//------------- init ------------------------
 	//check init
-	r.GET("api/bac/check_init",b.CheckInit)
+	r.GET("/bac/check_init",b.CheckInit)
 	//init
-	r.POST("api/bac/init",b.BacInit)
+	r.POST("/bac/init",b.BacInit)
 	//------------auth && password ----------------
 	//log in
-	r.POST("api/bac/auth",b.Auth)
+	r.POST("/bac/auth",b.Auth)
 
 	//---------------route for app ----------------
 	//get base info
-	r.GET("api/info",f.Index)
+	r.GET("info",f.Index)
 	//get cate_article
-	r.GET("api/cate_article",f.GetCateMenu)
-	r.GET("api/article", f.GetArticleList)
-	r.GET("api/article/:id",f.GetArticle)
-	r.GET("api/comment/:id",f.GetArticleComment)
-	r.POST("api/comment",f.PostComment)
-	r.GET("api/message",f.GetMessage)
-	r.POST("api/message",f.PostComment)
+	r.GET("cate_article",f.GetCateMenu)
+	r.GET("article", f.GetArticleList)
+	r.GET("article/:id",f.GetArticle)
+	r.GET("comment/:id",f.GetArticleComment)
+	r.POST("comment",f.PostComment)
+	r.GET("message",f.GetMessage)
+	r.POST("message",f.PostComment)
 
 	//right_info
-	r.GET("api/friends",f.GetFriendsLink)
-	r.GET("api/latest_comments",f.GetLatestComments)
-	r.GET("api/tags",f.GetTagsNum)
-	r.GET("api/most",f.GetClickMostArticle)
-	r.GET("api/stat",f.GetStat)
-	r.GET("api/filing",f.GetFiling)
+	r.GET("friends",f.GetFriendsLink)
+	r.GET("latest_comments",f.GetLatestComments)
+	r.GET("tags",f.GetTagsNum)
+	r.GET("most",f.GetClickMostArticle)
+	r.GET("stat",f.GetStat)
+	r.GET("filing",f.GetFiling)
 
 	//like/dislike/report
-	r.POST("api/like",f.Like)
-	r.POST("api/dislike",f.DisLike)
-	r.POST("api/report",f.Report)
-	r.DELETE("api/like",f.CancleLike)
-	r.DELETE("api/dislike",f.CancleDislile)
-	r.DELETE("api/report",f.CancleReport)
-	r.POST("api/like_article",f.Like)
-	r.GET("api/about",f.AboutMe)
-	r.GET("api/index_article",f.GetIndexArticle)
-
+	r.POST("like",f.Like)
+	r.POST("dislike",f.DisLike)
+	r.POST("report",f.Report)
+	r.DELETE("like",f.CancleLike)
+	r.DELETE("dislike",f.CancleDislile)
+	r.DELETE("report",f.CancleReport)
+	r.POST("like_article",f.Like)
+	r.GET("about",f.AboutMe)
+	r.GET("index_article",f.GetIndexArticle)
 
 
 	return r

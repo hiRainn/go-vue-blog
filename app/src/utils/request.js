@@ -3,9 +3,9 @@ import {
 	getToken
 } from '@/utils/auth'
 import md5 from 'js-md5';
-import Message from 'ant-design-vue'
+import qs from 'qs';
 // axios.defaults.baseURL = "http://localhost:8080"
-axios.defaults.baseURL = "https://sorahei.com/api/"
+axios.defaults.baseURL = process.env.VUE_APP_URL
 
 // create an axios instance
 const service = axios.create({
@@ -18,6 +18,9 @@ const service = axios.create({
 service.interceptors.request.use(
 	config => {
 		// do something before request is sent
+		// if (config.method === 'post') {
+		// 	config.data = qs.stringify(config.data)
+		// }
 		var name = localStorage.getItem("comment_name")
 		var email = localStorage.getItem("comment_email")
 		if (name != null && email != null && email != '' && name != '') {

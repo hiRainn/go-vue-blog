@@ -57,7 +57,7 @@
 					.then(() => {
 						localStorage.setItem("user",true)
 						this.$router.push({
-							path: 'index'
+							path: '/article'
 						})
 						this.loading = false
 					})

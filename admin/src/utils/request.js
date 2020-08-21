@@ -3,9 +3,10 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import i18n from '../i18n/i18n.js'
+import qs from 'qs'
 
 // axios.defaults.baseURL = "http://localhost:8080/bac"
-axios.defaults.baseURL = "https://sorahei.com/api/bac"
+axios.defaults.baseURL = process.env.VUE_APP_URL
 
 // create an axios instance
 const service = axios.create({
@@ -18,9 +19,11 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
+	// if (config.method === 'post') {
+	// 	config.data = qs.stringify(config.data)
+	// }
 
     if (store.getters.token) {
-      
       config.headers['X-Token'] = getToken()
     }
     return config

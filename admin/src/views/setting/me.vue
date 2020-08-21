@@ -7,7 +7,7 @@
 				  :on-success="(resopnse,file,fileList) => {avatatSucc(resopnse,file,fileList)}"
 				  :headers="{'X-Token':token}"
 				  name="image"
-				  action="http://localhost:8080/bac/user/avatar"
+				  :action="url + 'user/avatar'"
 				  class="upload-demo"
 				  :limit="1"
 				  >
@@ -89,6 +89,7 @@
 		},
 		data() {
 			return {
+				url: process.env.VUE_APP_URL,
 				token:'',
 				addDsiabled: false,
 				gender_list: [{
@@ -137,7 +138,8 @@
 		},
 		methods: {
 			avatatSucc(r,file,list) {
-				this.form.avatar ='http://sorahei.com/static/upload/' + r.data.filename
+				this.form.avatar =r.data.url
+				this.$set(this.form,'avatar',r.data.url)
 			},
 			getUserSetting() {
 				getUserSetting().then(response => {
@@ -183,7 +185,7 @@
 						this.$alert(response.msg)
 					} else {
 						var data = response.data
-						md.$img2Url(pos, 'http://sorahei.com/static/upload/'+data.filename);
+						md.$img2Url(pos, data.url);
 
 					}
 
@@ -201,6 +203,7 @@
 			}
 			this.language = language
 			this.token = this.$store.getters.token;
+		
 		}
 
 	}

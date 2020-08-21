@@ -5,12 +5,11 @@ import (
 	"blog/pkg/errcode"
 	"blog/pkg/status"
 	"blog/service/SensitiveWords/tool"
-
 	"github.com/gin-gonic/gin"
+	"html"
 	"net/http"
 	"strconv"
 	"time"
-	"html"
 )
 
 func GetMessage(ctx *gin.Context) {

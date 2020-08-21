@@ -15,6 +15,7 @@ type Conf struct {
 	CacheExpireTime time.Duration
 	CacheFlashTime time.Duration
 	Debug bool
+	UploadDomain string
 	UploadFilePath string
 	AvatarPath string
 }
@@ -30,6 +31,8 @@ func init() {
 	conf.Salt = "@9d*1md103"
 	conf.CacheExpireTime = 72*time.Hour
 	conf.CacheFlashTime = 10*time.Minute
+	conf.UploadDomain = "https://sorahei.com/static/upload/"
+	conf.UploadFilePath = "/home/wwwroot/www.sorahei.com/static/upload/"
 	conf.Debug = false
 
 }

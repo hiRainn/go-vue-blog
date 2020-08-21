@@ -17,6 +17,7 @@
     "js-md5": "^0.7.3",
     "less-loader": "^6.2.0",
     "mavon-editor": "^2.9.0",
+    "qs": "^6.9.4",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.1",
     "scss-loader": "0.0.1",

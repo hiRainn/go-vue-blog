@@ -4,6 +4,7 @@ import (
 	"blog/model"
 	"blog/pkg/errcode"
 	"blog/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -36,9 +37,11 @@ func CheckInit(ctx *gin.Context) {
 func BacInit(ctx *gin.Context) {
 
 	var auth model.BlogAuth
+	fmt.Println("debug")
 
 	var params map[string] interface{}
-	if err := ctx.BindJSON(&params); err != nil {
+	if err := ctx.ShouldBindJSON(&params); err != nil {
+		fmt.Println(params)
 		ctx.JSON(http.StatusOK,errcode.ParamError.GetH())
 		return
 	}

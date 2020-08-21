@@ -1,8 +1,10 @@
 package bac
 
 import (
+	"blog/config"
 	"blog/pkg/errcode"
 	"blog/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"path"
@@ -17,18 +19,18 @@ func UploadArticleImg(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK,errcode.UploadFileError.GetH())
 		return
 	}
+	conf := config.GetConf()
 	savename := getUniqueName() + path.Ext(file.Filename)
-	savepath := "/home/wwwroot/www.sorahei.com/static/upload/"+ savename
-	path := ""
+	savepath := conf.UploadFilePath + savename
+	getUrl := conf.UploadDomain + savename
 	//savepath := "/static/upload/" + savename
-
-	if ctx.SaveUploadedFile(file,path + savepath) != nil {
+	fmt.Println(savepath,savename)
+	if ctx.SaveUploadedFile(file,savepath) != nil {
 		ctx.JSON(http.StatusOK,errcode.UploadFileSaveError.GetH())
 		return
 	}
 
-	host := "http://" + ctx.Request.Host
-	res := map[string]interface {}{"url": host + savepath,"filename":savename}
+	res := map[string]interface {}{"url": getUrl,"filename":savename}
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 }
 
@@ -39,19 +41,17 @@ func UploadAvatarImg(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK,errcode.UploadFileError.GetH())
 		return
 	}
+	conf := config.GetConf()
 	savename := "avatar" + path.Ext(file.Filename)
-	savepath := "/home/wwwroot/www.sorahei.com/static/upload/"+ savename
+	savepath := conf.UploadFilePath + savename
+	getUrl := conf.UploadDomain + savename
 
-	path := ""
-	//savepath := "/static/images/" + savename
-
-	if ctx.SaveUploadedFile(file,path + savepath) != nil {
+	if ctx.SaveUploadedFile(file, savepath) != nil {
 		ctx.JSON(http.StatusOK,errcode.UploadFileSaveError.GetH())
 		return
 	}
 
-	host := "http://" + ctx.Request.Host
-	res := map[string]interface {}{"url": host + savepath,"filename":savename}
+	res := map[string]interface {}{"url": getUrl,"filename":savename}
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 }
 
