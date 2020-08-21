@@ -11,7 +11,7 @@ type BlogArticle struct {
 	Title string `json:"title";gorm:"type:varchar(100);DEFAULT:'';NOT NULL"`
 	ModifyAt int64 `json:"modify_at";gorm:"type:int(10);default:0;not null"`
 	CateId int `json:"cate_id";gorm:"type:int;not null;default:0"`
-	Content string `json:"content";gorm:"type:varchar(20000);not null;default:''"`
+	Content string `json:"content";gorm:"type:text;not null;default:''"`
 	IsTop uint8 `json:"is_top";gorm:"type:tinyint;unsigned;not null;default:0"`
 	IsOriginal uint8 `json:"is_original";gorm:"type:tinyint;unsigned;not null;default:0"`
 	ReprintFrom string `json:"reprint_from";gorm:"type varchar(200);not null;default:''"`
@@ -209,7 +209,7 @@ func (art *BlogArticle) GetAppArticle(token string) (*AppArticleList,*errcode.ER
 func (art *BlogArticle) GetClickMost() ([]ClickMost,error) {
 	most := make([]ClickMost,0)
 	res := db.Table("blog_article a ").Select("a.id,a.title,count(v.id) as num")
-	res = res.Joins("left join blog_view v on a.id = v.article_id")
+	res = res.Joins("left join blog_view v on a.id = v.article_id").Where("a.is_self = 0")
 	res = res.Order("num desc").Limit(10).Group("a.id").Find(&most)
 	return most,res.Error
 }

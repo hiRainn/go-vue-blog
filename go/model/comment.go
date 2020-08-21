@@ -95,7 +95,7 @@ func (c * BlogComment) GetLastComment() ([]LatestComment,error) {
 	res := db.Table("blog_comment c")
 	res = res.Select("c.id,a.id as article_id,a.title as article_title,c.name,left(c.content,70) as content")
 	res = res.Joins("left join blog_article a on c.article_id = a.id")
-	res = res.Where("c.status = 0 and a.status = 0")
+	res = res.Where("c.status = 0 and a.status = 0 and a.is_self = 0")
 	res = res.Limit(10)
 	res = res.Order("c.id desc").Find(&latest)
 	return latest,res.Error
@@ -103,7 +103,7 @@ func (c * BlogComment) GetLastComment() ([]LatestComment,error) {
 
 func (c *BlogComment) GetCommentNumber() (int,error) {
 	var res int
-	return res,db.Table("blog_comment").Where("status <> ? and article_id <> 0",status.CommentCheck.GetCode()).Count(&res).Error
+	return res,db.Table("blog_comment c").Joins("left join blog_article a on c.article_id = a.id").Where("c.status <> ? and article_id <> 0 and a.is_self = 0",status.CommentCheck.GetCode()).Count(&res).Error
 }
 
 func (c *BlogComment) GetMsgNumber() (int,error) {
