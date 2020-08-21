@@ -16,7 +16,7 @@
 								<span> {{getReplayName(item.data.pid)}}</span>
 								<span v-if="getAdminTag(item.data.pid)" :style="{color:AdminTagColor}">&nbsp;({{AdminText}})</span>
 							</a-col>
-							<a-col :span="4">
+							<a-col :span="4" style="text-align: right;">
 								<span class="time">{{item.data.created_at || ''}}</span>
 							</a-col>
 						</a-row>

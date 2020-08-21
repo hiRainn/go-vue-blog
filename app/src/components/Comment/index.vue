@@ -8,7 +8,7 @@
 				 @cancleReport="cancleReport" @cancleLike="cancleLike" @cancleUnlike="cancleUnlike" @clickLike="clickLike"
 				 :comments="list" :showLike="showLike" :showUnlike="showUnlike" :showReplay="showReplay && allowComment"
 				 :showReport="showReport" :showEmail="showEmail" :showName="showName" :AnonymousText="AnonymousText" :likeColor="likeColor"
-				 :unlikeColor="unlikeColor" :repeatType="repeatType" :AnimateOn="AnimateOn" :replayText="replayText" :reportText="reportText"
+				 :unlikeColor="unlikeColor" :HideText="HideText" :ShowText="ShowText" :repeatType="repeatType" :AnimateOn="AnimateOn" :replayText="replayText" :reportText="reportText"
 				 :AdminText="AdminText" :AdminTagColor="AdminTagColor"  :hideNumber="hideNumber" :PhoneAnchor="PhoneAnchor" />
 			</a-col>
 			<a-col :xs="24" :md="0">

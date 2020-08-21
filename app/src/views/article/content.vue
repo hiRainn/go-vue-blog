@@ -33,11 +33,11 @@
 
 			</a-row>
 			<a-row>
-				<comment @submit="comment" @clickUnlike="clickUnlike" @clickLike="clickLike" @clickReport="clickReport"
+				<comment @submit="comment" @clickUnlike="clickUnlike" @clickLike="clickLike" @clickReport="clickReport" :AnonymousText="'匿名用户'"
 				 @cancleReport="cancleReport" @cancleLike="cancleLike" @cancleUnlike="cancleUnlike" :hideNumber="1" repeatType="cancle"
 				 :title="comment_number?('当前共 ' + comment_number + ' 条评论'):'当前还没有评论，快来评论第一条吧~'" :allowComment="Boolean(article.allow_comment)"
 				 :showReport="true" :reportText="'举报'" :showName="true" :showEmail="true" :replayText="'回复'" :list="comment_list"
-				 :content="form.content" ref="comment" />
+				 :content="form.content" ref="comment" :ShowText="'点击查看所有{Number}条评论'" />
 			</a-row>
 		</div>
 	</div>
@@ -168,6 +168,7 @@
 							id: r.data.id,
 							name: this.form.name,
 							content: this.htmlEscape(this.form.content),
+							created_at:'刚刚'
 						}
 
 						if (r.data.status == 0) {

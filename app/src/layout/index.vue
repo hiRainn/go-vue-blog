@@ -86,9 +86,9 @@
 					</a-col>
 					<a-col :md="1" :lg="0" :xs="0"></a-col>
 					<a-col :md="0" :lg="{offset:2,span:4}" :xs="0">
-						<video id="video" src="../static/audios/yhys.mp3" muted="true" onpagehide="auto" controls="controls" autoplay="autoplay"
+					<!-- 	<video id="video" src="../static/audios/yhys.mp3" muted="true" onpagehide="auto" controls="controls" autoplay="autoplay"
 						 loop="loop" style="display: inline-block;height: 46px;width: 100%;margin:2px;line-height: 50px;">
-						</video>
+						</video> -->
 					</a-col>
 				</a-col>
 				<!-- </a-affix> -->
