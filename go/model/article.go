@@ -252,3 +252,14 @@ func (art *BlogArticle) AddCommentNumber(tx *gorm.DB) bool {
 	}
 	return true
 }
+
+type Self struct {
+	Id int `json:"id"`
+	CateId int `json:"cate_id"`
+}
+
+func (art *BlogArticle) GetSelfArticle() []Self {
+	self := make([]Self,0)
+	db.Table("blog_article").Where("is_self = 1").Find(&self)
+	return self
+}

@@ -83,6 +83,18 @@ func GetCateMenu(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK,errcode.SystemError.GetH())
 		return
 	} else {
+		//get is_self = 1 article
+		var a model.BlogArticle
+		if list := a.GetSelfArticle();list != nil {
+			for _,v := range list {
+				for k,_ := range res {
+					if res[k].Id == v.CateId {
+						res[k].Num --
+						break
+					}
+				}
+			}
+		}
 		ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 	}
 }

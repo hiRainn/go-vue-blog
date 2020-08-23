@@ -76,6 +76,7 @@ func (c *BlogCate) AddCate() int {
 	return res
 }
 
+//for admin
 func (c *BlogCate) MenuCate() ([]BlogCate ,error) {
 	var mc []BlogCate
 	if err := db.Table("blog_cate").Where("num <> 0").Find(&mc).Error; err != nil {
@@ -83,3 +84,6 @@ func (c *BlogCate) MenuCate() ([]BlogCate ,error) {
 	}
 	return mc ,nil
 }
+
+
+

@@ -454,11 +454,15 @@
 						}
 						var total = 0
 						for (var p in data) {
-							this.menu_list.push({
-								key: '/article/cate_id/' + data[p]['id'],
-								name: data[p]['cate_name'] + '(' + data[p]['num'] + ')'
-							})
-							total = total + parseInt(data[p]['num'])
+							if(data[p]['num'] != 0) {
+								this.menu_list.push({
+									key: '/article/cate_id/' + data[p]['id'],
+									name: data[p]['cate_name'] + '(' + data[p]['num'] + ')'
+								})
+								total = total + parseInt(data[p]['num'])
+							} else {
+								delete(data[p])
+							}
 						}
 						all_menu.name = this.$i18n.t('menu.all_article') + '(' + total + ')'
 						this.menu_list.unshift(all_menu)
