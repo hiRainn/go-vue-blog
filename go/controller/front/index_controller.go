@@ -5,6 +5,8 @@ import (
 	"blog/pkg/errcode"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -114,9 +116,27 @@ func GetFriendsLink(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(link))
 }
 
+//remove the is_self = 1's articles
 func GetTagsNum(ctx *gin.Context) {
 	var t model.BlogTags
 	tags,_ := t.GetSelectList()
+
+	var a model.BlogArticle
+	if list := a.GetSelfArticle();list != nil {
+		for _,v := range list {
+			if v.TagsIds != "" {
+				arr := strings.Split(v.TagsIds,",")
+				for _,v1 := range arr {
+					for k,_ := range tags {
+						if tmp,_:= strconv.Atoi(v1); tmp == tags[k].Id {
+							tags[k].Num --
+						}
+					}
+				}
+			}
+		}
+	}
+
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(tags))
 }
 

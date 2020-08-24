@@ -1,28 +1,24 @@
 package main
 
-import "fmt"
-
-
+import (
+	"fmt"
+	"strings"
+)
 
 type tt struct {
 	name string
 	age int
 }
 
-type Test int
-
-func (t Test) Write() int{
-	return 1
-}
-
-func (t *tt) test() {
-
-}
 
 func main() {
-	var res3 []int
+	var a = "1,2,4,5"
 
-	fmt.Println(res3 == nil)
+	arr := strings.Split(a,",")
+
+	for _,v := range  arr {
+		fmt.Println(v)
+	}
 
 
 

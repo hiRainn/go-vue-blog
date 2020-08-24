@@ -256,6 +256,7 @@ func (art *BlogArticle) AddCommentNumber(tx *gorm.DB) bool {
 type Self struct {
 	Id int `json:"id"`
 	CateId int `json:"cate_id"`
+	TagsIds string `json:"tags_ids"`
 }
 
 func (art *BlogArticle) GetSelfArticle() []Self {
