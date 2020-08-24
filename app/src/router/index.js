@@ -95,7 +95,7 @@ const Routes = [
 		}, ]
 	},
 	{
-		path: '/',
+		path: '/home',
 		component: Layout,
 		hidden: false,
 		children: [{

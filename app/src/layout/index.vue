@@ -17,7 +17,7 @@
 						<a-drawer :maskClosable="true" :bodyStyle="{padding:'24px 0px'}" width="200" placement="left" :closable="false"
 						 :visible.async="drawer" @close="ondrawerClose">
 							<a-menu mode="vertical" @click="menuClick" :selectable="false">
-								<a-menu-item key="/" :disabled="($route.path == '' || $route.path == '/')">
+								<a-menu-item key="/home" :disabled="$route.path == '/home'">
 									<a-icon type="home" />
 									{{$t('menu.index')}}
 								</a-menu-item>
@@ -57,7 +57,7 @@
 				<a-col class="pp-menu" :xs="0" :md="24">
 					<a-col :md="{offset:1,span:22}" :lg="{offset:3,span:14}" :xs="0">
 						<a-menu @click="menuClick" :selectable="false" class="pp-menu" mode="horizontal">
-							<a-menu-item key="/" :disabled="($route.path == '' || $route.path == '/')">
+							<a-menu-item key="/home" :disabled=" $route.path == '/home'">
 								<a-icon type="home" />
 								{{$t('menu.index')}}
 							</a-menu-item>
@@ -104,7 +104,7 @@
 		</a-row> -->
 
 		<!-- phone header -->
-		<a-row v-if="this.$route.path == '/'">
+		<a-row v-if="this.$route.path == '/home'">
 			<a-col :xs="24" :md="0">
 				<a-row>
 					<a-col :offset="5" :span="14">
@@ -404,7 +404,7 @@
 				}, 500);
 			},
 			menuClick(item) {
-				if (item.key == '/') {
+				if (item.key == '/home') {
 					this.show_breadcumb = false
 				} else {
 					this.show_breadcumb = true
