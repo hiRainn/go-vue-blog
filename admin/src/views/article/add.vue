@@ -213,6 +213,10 @@
 						} else {
 							data.allow_comment = false
 						}
+						
+						if(data.tags_ids == "") {
+							data.tags_ids = []
+						}
 						data.sort_num = data['sort']
 						if(data.tags_ids != false) {
 							var tags = data.tags_ids.split(',')
@@ -220,6 +224,8 @@
 							for (var p in tags) {
 								data.tags.push(parseInt(tags[p]))
 							}
+						} else {
+							data.tags = []
 						}
 						data.create_at = Format(parseInt(data.created_at) * 1000, 'yyyy-MM-dd hh:mm')
 						if (data.status == 1) {
@@ -266,6 +272,9 @@
 					this.form['sort'] = 0
 				} else {
 					this.form['sort'] = parseInt(this.form['sort_num'])
+				}
+				if(this.form['tags'] == false) {
+					this.form['tags'] = []
 				}
 				this.addDsiabled = true
 				console.log(this.form.id)
@@ -329,6 +338,9 @@
 					this.form['sort'] = 0
 				} else {
 					this.form['sort'] = parseInt(this.form['sort_num'])
+				}
+				if(this.form['tags'] == false) {
+					this.form['tags'] = []
 				}
 				this.addDsiabled = true
 				saveArticle(this.form).then(response => {
