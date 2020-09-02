@@ -40,5 +40,28 @@ export function changPass(data) {
   })
 }
 
+export function getFriendsLink() {
+	return request({
+	  url: 'friends',
+	  method: 'get',
+	})
+}
+
+export function addFriend(data) {
+  return request({
+    url: '/friend',
+    method: 'post',
+	data : data
+  })
+}
+
+export function delFriend(data) {
+  return request({
+    url: '/friend/' + data.id,
+    method: 'delete',
+    data: data
+  })
+}
+
 
 

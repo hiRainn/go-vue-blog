@@ -13,7 +13,8 @@ module.exports = {
 		'tip':'tip',
 		'male':'male',
 		'female':'female',
-		'secret':'secret'
+		'secret':'secret',
+		'add':'add'
 	},
 	menu :{
 		'index':'index',
@@ -23,7 +24,8 @@ module.exports = {
 		'setting':'setting',
 		'blog':'blog',
 		'me':'me',
-		'changepass':'password'
+		'changepass':'password',
+		'friends':'friends link'
 	},
     login:{
         'title' : 'blog name',

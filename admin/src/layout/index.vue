@@ -28,6 +28,7 @@
 							<el-menu-item index="/setting" class="menu-span sub-menu-item">{{$t('menu.blog')}}</el-menu-item>
 							<el-menu-item index="/setting/me" class="menu-span sub-menu-item">{{$t('menu.me')}}</el-menu-item>
 							<el-menu-item index="/setting/changepass" class="menu-span sub-menu-item">{{$t('menu.changepass')}}</el-menu-item>
+							<el-menu-item index="/setting/friends" class="menu-span sub-menu-item">{{$t('menu.friends')}}</el-menu-item>
 						</el-menu-item-group>
 					</el-submenu>
 				</el-menu>

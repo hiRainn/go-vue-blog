@@ -61,6 +61,11 @@ const Routes = [
 			hidden: false
 			},
 			{
+			path: 'friends',
+			component: () => import('@/views/setting/friends'),
+			hidden: false
+			},
+			{
 			path: '/',
 			component: () => import('@/views/setting/blog'),
 			hidden: false

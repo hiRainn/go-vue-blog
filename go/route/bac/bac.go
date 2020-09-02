@@ -53,7 +53,11 @@ func InitrouteBac() *gin.Engine {
 		bac_group.POST("blog",bac.SetBlogSetting)
 		bac_group.GET("user",bac.GetUserSetting)
 		bac_group.POST("user",bac.SetUserSetting)
+		bac_group.GET("friends",bac.GetFriendsLink)
+		bac_group.POST("friend",bac.AddFriends)
+		bac_group.DELETE("friend/:id",bac.DelFriend)
 		bac_group.POST("user/avatar",bac.UploadAvatarImg)
+		bac_group.POST("friend/avatar",bac.UploadFriendImg)
 
 
 

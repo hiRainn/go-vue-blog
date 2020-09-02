@@ -55,6 +55,27 @@ func UploadAvatarImg(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
 }
 
+func UploadFriendImg(ctx *gin.Context) {
+	upload_key := "image"
+	file , err := ctx.FormFile(upload_key)
+	if err != nil {
+		ctx.JSON(http.StatusOK,errcode.UploadFileError.GetH())
+		return
+	}
+	conf := config.GetConf()
+	savename := getUniqueName() + path.Ext(file.Filename)
+	savepath := conf.UploadFilePath + savename
+	getUrl := conf.UploadDomain + savename
+
+	if ctx.SaveUploadedFile(file, savepath) != nil {
+		ctx.JSON(http.StatusOK,errcode.UploadFileSaveError.GetH())
+		return
+	}
+
+	res := map[string]interface {}{"url": getUrl,"filename":savename}
+	ctx.JSON(http.StatusOK,errcode.Ok.SetData(res))
+}
+
 
 
 func getUniqueName() string {

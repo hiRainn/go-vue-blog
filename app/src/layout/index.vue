@@ -224,7 +224,7 @@
 							<a-row>
 								<b style="font-size: 19px;">{{$t('menu.click_most')}}</b>
 							</a-row>
-							<a-row v-for="(item,index) in article_list" v-if="item.num > 0">
+							<a-row v-for="(item,index) in article_list" v-if="item.num > 0" :key="index">
 								<router-link style="font-size: 15px;color: #2C3E50;" :to="'/article/' + item.id">{{item.title}}({{item.num}})</router-link>
 							</a-row>
 
@@ -234,7 +234,7 @@
 							<a-row>
 								<b style="font-size: 19px;">{{$t('menu.last_comments')}}</b>
 							</a-row>
-							<a-row v-for="(item,index) in comments">
+							<a-row v-for="(item,index) in comments" :key="index">
 								<a-col>
 									<a-popover placement="left">
 										<template slot="content">
@@ -255,7 +255,7 @@
 								<b style="font-size: 19px;">{{$t('menu.tags')}}</b>
 							</a-row>
 							<a-row>
-								<router-link :to="'/article/tag/' + item.name" v-for="(item,index) in tags">
+								<router-link :to="'/article/tag/' + item.name" v-for="(item,index) in tags" :key="index">
 									<a-tag @click="clickTag" :color="colorArray[Math.round(Math.random()*10)]" v-if="item.num > 0" style="margin-top: 8px;">
 										{{item.name}}({{item.num}})
 									</a-tag>
@@ -270,9 +270,15 @@
 								<b style="font-size: 19px;">{{$t('menu.friends')}}</b>
 							</a-row>
 							<a-row>
-								<span style="font-size: 15px;margin-right: 20px;" class="friend-link" v-for="(item,index) in links">
-									<a style="font-size: 15px;color: #2C3E50;" target="_blank" :href="item.link">{{item.name}}</a>
-								</span>
+								<a-col v-for="(item,index) in links" :key="index" style="margin-top: 7px;">
+									<span style="margin-right: 20px;" class="friend-link" >
+										<a style="font-size: 20px;color: #2C3E50;height: 30px;" target="_blank" :href="item.link">
+											<a-avatar :size="30" :src="item.avatar" style=""></a-avatar>
+											{{item.name}}
+										</a>
+									</span>
+								</a-col>
+								
 
 							</a-row>
 						</a-row>

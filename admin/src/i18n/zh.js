@@ -15,7 +15,8 @@ module.exports = {
 		'tip':'提示',
 		'male':'男',
 		'female':'女',
-		'secret':'保密'
+		'secret':'保密',
+		'add':'新增'
 	},
 	menu :{
 		'index':'主页',
@@ -25,7 +26,8 @@ module.exports = {
 		'setting':'设置',
 		'blog':'博客设置',
 		'me':'博主信息',
-		'changepass':'修改密码'
+		'changepass':'修改密码',
+		'friends':'友链管理'
 	},
     login:{
         'title' : '博客标题',
@@ -33,6 +35,7 @@ module.exports = {
         'username' : '用户名',
         'password' : '密码',
 		'repeat':'输入密码',
+		'new_pass' : '新密码',
         'login' : '登录',
         'language' : '请选择语言',
 		'nickname': '昵称',
