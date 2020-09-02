@@ -8,7 +8,7 @@ import locale1 from 'element-ui/lib/locale/lang/en'
 import locale2 from 'element-ui/lib/locale/lang/zh-CN'
 import store from './store'
 
-var language = localStorage.getItem('locate')?localStorage.getItem('locate'):'en'
+var language = localStorage.getItem('locate')?localStorage.getItem('locate'):'zh'
 var locale;
 if(language == 'en') {
 	locale = locale1
