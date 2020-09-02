@@ -31,13 +31,13 @@ func init() {
 	conf.Salt = "@9d*1md103"
 	conf.CacheExpireTime = 72*time.Hour
 	conf.CacheFlashTime = 10*time.Minute
-	//conf.UploadDomain = "https://sorahei.com/static/upload/"
-	//conf.UploadFilePath = "/home/wwwroot/www.sorahei.com/static/upload/"
+	conf.UploadDomain = "https://sorahei.com/static/upload/"
+	conf.UploadFilePath = "/home/wwwroot/www.sorahei.com/static/upload/"
 
-	conf.UploadDomain = "http://blog-admin.com/static/upload/"
-	conf.UploadFilePath = "/Applications/MAMP/gopath/go-vue-blog/admin/dist/static/upload/"
+	//conf.UploadDomain = "http://blog-admin.com/static/upload/"
+	//conf.UploadFilePath = "/Applications/MAMP/gopath/go-vue-blog/admin/dist/static/upload/"
 
-	conf.Debug = true
+	conf.Debug = false
 
 }
 

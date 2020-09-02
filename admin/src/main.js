@@ -27,30 +27,30 @@ Vue.use(Element, {
   locale
 })
 //determine the page is init or not login
-// router.beforeEach(async(to, from, next) => {
-//   if(to.path !== '/init') {
-// 	  if (to.path === '/logout') {
-// 	    localStorage.removeItem('user');
-// 	  }
-// 	  let user = localStorage.getItem('user');
-// 	  //if user is not exists
-// 	  if(!user) {
-// 	  	  if(to.path !== '/login') {
-// 	  		  next({ path:'/login' })
-// 	  	  } else {
-// 	  		  next()
-// 	  	  }
-// 	  } else {
-// 	  	  if(to.path === '/login') {
-// 	  		  next( {path :"/index"})
-// 	  	  } else {
-// 	  		  next()
-// 	  	  }
-// 	  }
-//   }
-//   next()
+router.beforeEach(async(to, from, next) => {
+  if(to.path !== '/init') {
+	  if (to.path === '/logout') {
+	    localStorage.removeItem('user');
+	  }
+	  let user = localStorage.getItem('user');
+	  //if user is not exists
+	  if(!user) {
+	  	  if(to.path !== '/login') {
+	  		  next({ path:'/login' })
+	  	  } else {
+	  		  next()
+	  	  }
+	  } else {
+	  	  if(to.path === '/login') {
+	  		  next( {path :"/index"})
+	  	  } else {
+	  		  next()
+	  	  }
+	  }
+  }
+  next()
   
-// })
+})
 //select language
 
 i18n.locale = language
