@@ -6,4 +6,4 @@
  
  /go is server src code 
  
- [prewview](https:sorahei.com)
+ [preview](https://sorahei.com)
